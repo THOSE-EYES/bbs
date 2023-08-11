@@ -30,6 +30,8 @@ if (${UNIT_TESTS})
     add_subdirectory(tests)
 else()
 add_executable(${PROJECT_NAME} 
+    src/utils/bufferedlogger.cpp
+    src/utils/logger.cpp
     src/main.cpp
 )
 endif()
