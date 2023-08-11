@@ -23,17 +23,12 @@ set(GCC_COVERAGE_COMPILE_FLAGS "-fprofile-arcs -ftest-coverage")
 set(CMAKE_CXX_FLAGS  "-O0 -fno-inline ${GCC_COVERAGE_COMPILE_FLAGS}")
 
 # Add constants for folder access
-set(UTILS_FOLDER "${PROJECT_SOURCE_DIR}/utils")
-set(FAKES_FOLDER "${UTILS_FOLDER}/fakes")
-set(STUBS_FOLDER "${UTILS_FOLDER}/stubs")
+set(FAKES_FOLDER "${PROJECT_SOURCE_DIR}/fakes")
+set(STUBS_FOLDER "${PROJECT_SOURCE_DIR}/stubs")
 
 # Add some definitions for accessing important folders from the code
 add_compile_definitions(TESTS_FOLDER="${PROJECT_SOURCE_DIR}/")
 add_compile_definitions(FILES_FOLDER="${PROJECT_SOURCE_DIR}/files/")
-
-include_directories(
-    ${UTILS_FOLDER}
-)
 
 link_libraries(
     gtest
@@ -41,4 +36,4 @@ link_libraries(
     gcov
 )
 
-add_subdirectory(unit_tests)
+add_subdirectory(utils)

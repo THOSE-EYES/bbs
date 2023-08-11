@@ -96,6 +96,12 @@ public:
 	 */
 	static Logger GetInstance(std::string component_name);
 
+	/**
+	 * @brief Close the stream, used for the logging
+	 * 
+	 */
+	static void Close();
+
 public:
 	/**
 	 * @brief Put the message into the log file
@@ -111,7 +117,7 @@ protected:
 	 * 
 	 * @param component_name the name of the component to use
 	 */
-	Logger(std::string component_name);
+	explicit Logger(std::string component_name);
 
 protected:
 	/**

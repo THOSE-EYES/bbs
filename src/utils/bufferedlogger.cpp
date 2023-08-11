@@ -19,9 +19,6 @@
 
 #include "utils/bufferedlogger.hpp"
 
-#include <ctime>
-#include <iomanip>
-
 namespace utils
 {
 BufferedLogger BufferedLogger::GetInstance(std::string component_name)
