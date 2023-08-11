@@ -55,10 +55,21 @@ Logger Logger::GetInstance(std::string component_name)
 	return std::move(Logger(component_name));
 }
 
+void Logger::Close()
+{
+	// Don't do anything if the stream is already closed
+	if(!stream_.is_open())
+	{
+		return;
+	}
+
+	stream_.close();
+}
+
 void Logger::Log(LogLevel level, std::string message)
 {
 	// Don't add the entry, if it's level is less than minimum
-	if(level < minimum_log_level_)
+	if(level < minimum_log_level_ || !stream_.is_open())
 	{
 		return;
 	}
