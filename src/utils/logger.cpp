@@ -28,45 +28,41 @@ std::ofstream Logger::stream_{};
 std::mutex Logger::mutex_;
 Logger::LogLevel Logger::minimum_log_level_{LogLevel::kDebug};
 
-void Logger::SetFile(std::string file)
+void Logger::SetFile(std::string_view file)
 {
-	std::lock_guard<std::mutex> lock{mutex_};
+	std::unique_lock<std::mutex> lock{mutex_};
 
-	// If the previous file was opened, close it
-	if(stream_.is_open())
-	{
-		stream_.close();
-	}
+	// Close the previous file, if any
+	Close();
 
-	stream_.open(file);
+	// Open the new file
+	stream_.open(std::string(file));
 	if(!stream_.is_open())
 	{
 		return;
 	}
 }
 
-void Logger::SetMinimumLogLevel(LogLevel level)
+void Logger::SetMinimumLogLevel(LogLevel level) noexcept
 {
 	minimum_log_level_ = level;
 }
 
-Logger Logger::GetInstance(std::string component_name)
+Logger Logger::GetInstance(std::string_view component_name)
 {
 	return std::move(Logger(component_name));
 }
 
 void Logger::Close()
 {
-	// Don't do anything if the stream is already closed
-	if(!stream_.is_open())
+	// If the previous file was opened, close it
+	if(stream_.is_open())
 	{
-		return;
+		stream_.close();
 	}
-
-	stream_.close();
 }
 
-void Logger::Log(LogLevel level, std::string message)
+void Logger::Log(LogLevel level, std::string_view message) const
 {
 	// Don't add the entry, if it's level is less than minimum
 	if(level < minimum_log_level_ || !stream_.is_open())
@@ -74,7 +70,7 @@ void Logger::Log(LogLevel level, std::string message)
 		return;
 	}
 
-	std::lock_guard<std::mutex> lock{mutex_};
+	std::unique_lock<std::mutex> lock{mutex_};
 
 	// Get the current time
 	auto time = std::time(nullptr);
@@ -86,7 +82,7 @@ void Logger::Log(LogLevel level, std::string message)
 			<< std::flush;
 }
 
-Logger::Logger(std::string component_name)
+Logger::Logger(std::string_view component_name)
 	: component_name_{component_name}
 {}
 } // namespace utils

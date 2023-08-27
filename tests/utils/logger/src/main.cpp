@@ -141,7 +141,7 @@ TEST(LoggerTest, TestLogNegativeInvalidStream)
 	// Expect the object to do not throw any exception about the invalid stream
 	const auto log_level = fakes::utils::Logger::LogLevel::kError;
 	const std::string message{"Hello world!"};
-	fakes::utils::Logger object{"test"};
+	auto object = fakes::utils::Logger::GetInstance("test");
 
 	EXPECT_FALSE(fakes::utils::Logger::stream_.is_open());
 	EXPECT_NO_THROW(object.Log(log_level, message));

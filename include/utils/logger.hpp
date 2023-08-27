@@ -22,6 +22,7 @@
 #include <fstream>
 #include <mutex>
 #include <string>
+#include <string_view>
 
 namespace utils
 {
@@ -79,14 +80,14 @@ public:
 	 * 
 	 * @param file the name of the file to use
 	 */
-	static void SetFile(std::string file);
+	static void SetFile(std::string_view file);
 
 	/**
 	 * @brief Set the minimum level for the logs
 	 * 
 	 * @param level the minumum level of the entry to be added to the file
 	 */
-	static void SetMinimumLogLevel(LogLevel level);
+	static void SetMinimumLogLevel(LogLevel level) noexcept;
 
 	/**
 	 * @brief Get the instance of the logger for the specified component
@@ -94,7 +95,7 @@ public:
 	 * @param component_name the name of the component to use
 	 * @return the instance, which was created for the given component
 	 */
-	static Logger GetInstance(std::string component_name);
+	static Logger GetInstance(std::string_view component_name);
 
 	/**
 	 * @brief Close the stream, used for the logging
@@ -109,7 +110,7 @@ public:
 	 * @param level the log level of the message
 	 * @param message the message to log
 	 */
-	void Log(LogLevel level, std::string message);
+	void Log(LogLevel level, std::string_view message) const;
 
 protected:
 	/**
@@ -117,7 +118,7 @@ protected:
 	 * 
 	 * @param component_name the name of the component to use
 	 */
-	explicit Logger(std::string component_name);
+	explicit Logger(std::string_view component_name);
 
 protected:
 	/**

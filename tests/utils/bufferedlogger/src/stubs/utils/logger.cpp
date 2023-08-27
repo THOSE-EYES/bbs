@@ -25,18 +25,18 @@ std::ofstream Logger::stream_{};
 std::mutex Logger::mutex_;
 Logger::LogLevel Logger::minimum_log_level_{};
 
-void Logger::SetFile(std::string file) {}
+void Logger::SetFile(std::string_view file) {}
 
-void Logger::SetMinimumLogLevel(LogLevel level) {}
+void Logger::SetMinimumLogLevel(LogLevel level) noexcept {}
 
-Logger Logger::GetInstance(std::string component_name)
+Logger Logger::GetInstance(std::string_view component_name)
 {
 	return std::move(Logger(component_name));
 }
 
-void Logger::Log(LogLevel level, std::string message) {}
+void Logger::Log(LogLevel level, std::string_view message) const {}
 
-Logger::Logger(std::string component_name)
+Logger::Logger(std::string_view component_name)
 	: component_name_{component_name}
 {}
 } // namespace utils

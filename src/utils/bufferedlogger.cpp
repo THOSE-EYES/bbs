@@ -21,17 +21,17 @@
 
 namespace utils
 {
-BufferedLogger BufferedLogger::GetInstance(std::string component_name)
+BufferedLogger BufferedLogger::GetInstance(std::string_view component_name)
 {
 	return std::move(BufferedLogger(component_name));
 }
 
-void BufferedLogger::SetBufferLogLevel(LogLevel level)
+void BufferedLogger::SetBufferLogLevel(LogLevel level) noexcept
 {
 	buffer_log_level_ = level;
 }
 
-void BufferedLogger::Append(std::string message)
+void BufferedLogger::Append(std::string_view message)
 {
 	// Append the message to the current buffer
 	buffer_ += message;
@@ -46,17 +46,17 @@ void BufferedLogger::Flush()
 	buffer_log_level_ = LogLevel::kInfo;
 }
 
-BufferedLogger::BufferedLogger(std::string component_name)
+BufferedLogger::BufferedLogger(std::string_view component_name)
 	: Logger{component_name}
 {}
 
-BufferedLogger& operator<<(BufferedLogger& logger, BufferedLogger::LogLevel value)
+BufferedLogger& operator<<(BufferedLogger& logger, BufferedLogger::LogLevel value) noexcept
 {
 	logger.SetBufferLogLevel(value);
 	return logger;
 }
 
-BufferedLogger& operator<<(BufferedLogger& logger, std::string value)
+BufferedLogger& operator<<(BufferedLogger& logger, std::string_view value)
 {
 	logger.Append(value);
 	return logger;

@@ -45,6 +45,17 @@ TEST(BufferedLoggerTestStandalone, TestConstructor)
 }
 
 /**
+ * @fn BufferedLoggerTestStandalone.TestGetInstance
+ * @brief Check if the GetInstance() method works OK
+ * 
+ */
+TEST(BufferedLoggerTestStandalone, TestGetInstance)
+{
+	const std::string name{"Test"};
+	EXPECT_NO_THROW(fakes::utils::BufferedLogger::GetInstance(name));
+}
+
+/**
  * @fn BufferedLoggerTest.TestSetBufferLogLevel
  * @brief Check if the method SetBufferLogLevel() sets the buffer's log level
  * 
