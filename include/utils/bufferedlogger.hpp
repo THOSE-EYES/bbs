@@ -38,7 +38,7 @@ public:
 	 * @param component_name the name of the component to use
 	 * @return the instance, which was created for the given component
 	 */
-	static BufferedLogger GetInstance(std::string component_name);
+	static BufferedLogger GetInstance(std::string_view component_name);
 
 public:
 	/**
@@ -46,14 +46,14 @@ public:
 	 * 
 	 * @param level the log level to use for the current message
 	 */
-	void SetBufferLogLevel(LogLevel level);
+	void SetBufferLogLevel(LogLevel level) noexcept;
 
 	/**
 	 * @brief Append the given string to the buffer
 	 * 
 	 * @param message the string to append
 	 */
-	void Append(std::string message);
+	void Append(std::string_view message);
 
 	/**
 	 * @brief Flush the buffer, sending it's value to the log file as an entry
@@ -67,7 +67,7 @@ protected:
 	 * 
 	 * @param component_name the name of the component to use
 	 */
-	BufferedLogger(std::string component_name);
+	explicit BufferedLogger(std::string_view component_name);
 
 protected:
 	/**
@@ -90,7 +90,7 @@ protected:
  * @param value the value of the log level to use
  * @return the logger instance
  */
-BufferedLogger& operator<<(BufferedLogger& logger, BufferedLogger::LogLevel value);
+BufferedLogger& operator<<(BufferedLogger& logger, BufferedLogger::LogLevel value) noexcept;
 
 /**
  * @brief Overloaded operator "<<" for stream operations on the logger for strings
@@ -99,7 +99,7 @@ BufferedLogger& operator<<(BufferedLogger& logger, BufferedLogger::LogLevel valu
  * @param value the value to put into the log entry
  * @return the logger instance
  */
-BufferedLogger& operator<<(BufferedLogger& logger, std::string value);
+BufferedLogger& operator<<(BufferedLogger& logger, std::string_view value);
 
 /**
  * @brief Overloaded operator "<<" for stream operations on the logger for integers
