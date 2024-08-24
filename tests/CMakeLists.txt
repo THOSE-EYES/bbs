@@ -36,4 +36,5 @@ link_libraries(
     gcov
 )
 
+add_subdirectory(parser)
 add_subdirectory(utils)
