@@ -26,12 +26,12 @@ include_directories(${PROJECT_NAME}
 )
 
 # Check if it is desired to build the unit tests
-if (${UNIT_TESTS})
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_subdirectory(tests)
-else()
+endif()
+
 add_executable(${PROJECT_NAME} 
     src/utils/bufferedlogger.cpp
     src/utils/logger.cpp
     src/main.cpp
 )
-endif()
