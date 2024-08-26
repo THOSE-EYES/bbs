@@ -26,18 +26,18 @@
 namespace parser::lexer::exceptions
 {
 /**
- * @brief An exception, used to notify that the given file is not found
+ * @brief An exception, used to notify that the given file is empty
  * 
  */
-class FileNotFoundException : public std::runtime_error
+class FileEmptyException : public std::runtime_error
 {
 public:
 	/**
-	 * @brief Construct a new FileNotFoundException object
+	 * @brief Construct a new FileEmptyException object
 	 * 
 	 * @param path - the path to the file
 	 */
-	explicit FileNotFoundException(const std::filesystem::path& path);
+	explicit FileEmptyException(const std::filesystem::path& path);
 
 protected:
 	/**

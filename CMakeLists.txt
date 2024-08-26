@@ -31,6 +31,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 add_executable(${PROJECT_NAME} 
+    src/parser/lexer/exceptions/fileemptyexception.cpp
     src/parser/lexer/exceptions/filenotfoundexception.cpp
     src/parser/lexer/scanner.cpp
     src/utils/bufferedlogger.cpp

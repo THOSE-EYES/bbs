@@ -17,11 +17,21 @@
  * under the License.
  */
 
-#include "fakes/parser/lexer/scanner.hpp"
+#include <gtest/gtest.h>
 
-namespace fakes::parser::lexer
+#include "fakes/parser/lexer/exceptions/fileemptyexception.hpp"
+
+/**
+ * @brief Check if the exception is constructed with the correct message
+ * 
+ */
+TEST(FileEmptyExceptionTest, TestConstructor)
 {
-Scanner::Scanner(const std::filesystem::path& path)
-	: ::parser::lexer::Scanner{path}
-{}
-} // namespace fakes::parser::lexer
+	namespace exc = fakes::parser::lexer::exceptions;
+	namespace fs = std::filesystem;
+
+	const fs::path path{"path"};
+	const exc::FileEmptyException exception{path};
+	const auto data = exc::FileEmptyException::kMessage + path.string();
+	EXPECT_STREQ(exception.what(), data.c_str());
+}

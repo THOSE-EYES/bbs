@@ -35,10 +35,10 @@ public:
 	/**
 	 * @brief Construct a new FileNotFoundException object
 	 * 
-	 * @param filename - the name of the file
+	 * @param path - the path to the file
 	 */
-	explicit FileNotFoundException(std::string filename)
-		: exc::FileNotFoundException{filename}
+	explicit FileNotFoundException(const std::filesystem::path& path)
+		: exc::FileNotFoundException{path}
 	{}
 
 public:

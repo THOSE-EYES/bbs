@@ -28,9 +28,10 @@
 TEST(FileNotFoundExceptionTest, TestConstructor)
 {
 	namespace exc = fakes::parser::lexer::exceptions;
+	namespace fs = std::filesystem;
 
-	const std::string filename{"file"};
-	const exc::FileNotFoundException exception{filename};
-	const auto data = exc::FileNotFoundException::kMessage + filename;
+	const fs::path path{"path"};
+	const exc::FileNotFoundException exception{path};
+	const auto data = exc::FileNotFoundException::kMessage + path.string();
 	EXPECT_STREQ(exception.what(), data.c_str());
 }

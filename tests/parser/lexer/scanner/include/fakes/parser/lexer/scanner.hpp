@@ -33,9 +33,9 @@ public:
 	/**
      * @brief Construct a new Scanner object
      * 
-     * @param filename - the name of the file to scans
+     * @param path - the path to the file to scan
      */
-	explicit Scanner(const std::string& filename);
+	explicit Scanner(const std::filesystem::path& path);
 
 public:
 	using ::parser::lexer::Scanner::file_;

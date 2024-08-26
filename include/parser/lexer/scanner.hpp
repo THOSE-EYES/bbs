@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include <filesystem>
 #include <fstream>
 #include <optional>
 
@@ -35,9 +36,9 @@ public:
 	/**
      * @brief Construct a new Scanner object
      * 
-     * @param filename - the name of the file to scans
+     * @param path - the path to the file to scan
      */
-	explicit Scanner(const std::string& filename);
+	explicit Scanner(const std::filesystem::path& path);
 
 	/**
      * @brief Destroy the Scanner object

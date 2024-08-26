@@ -23,7 +23,7 @@ namespace parser::lexer::exceptions
 {
 const std::string FileNotFoundException::kMessage{"The given file was not found: "};
 
-FileNotFoundException::FileNotFoundException(std::string filename)
-	: std::runtime_error(kMessage + filename)
+FileNotFoundException::FileNotFoundException(const std::filesystem::path& path)
+	: std::runtime_error(kMessage + path.string())
 {}
 } // namespace parser::lexer::exceptions

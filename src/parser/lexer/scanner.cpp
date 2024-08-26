@@ -19,16 +19,31 @@
 
 #include "parser/lexer/scanner.hpp"
 
+#include "parser/lexer/exceptions/fileemptyexception.hpp"
 #include "parser/lexer/exceptions/filenotfoundexception.hpp"
 
 namespace parser::lexer
 {
-Scanner::Scanner(const std::string& filename)
+Scanner::Scanner(const std::filesystem::path& path)
 {
-	file_.open(filename);
+	namespace fs = std::filesystem;
+
+	// If the file doesn't exist or it is not a regular file, throw an exception
+	if(!fs::exists(path) || !fs::is_regular_file(path))
+	{
+		throw exceptions::FileNotFoundException(path);
+	}
+
+	// Throw an exception if the file is empty
+	if(fs::is_empty(path))
+	{
+		throw exceptions::FileEmptyException(path);
+	}
+
+	file_.open(path);
 	if(!file_.is_open())
 	{
-		throw exceptions::FileNotFoundException(filename);
+		throw exceptions::FileNotFoundException(path);
 	}
 
 	// Get the first line from file and initialize the iterator

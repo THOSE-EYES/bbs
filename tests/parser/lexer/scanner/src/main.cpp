@@ -22,6 +22,7 @@
 #include <gtest/gtest.h>
 
 #include "fakes/parser/lexer/scanner.hpp"
+#include "parser/lexer/exceptions/fileemptyexception.hpp"
 #include "parser/lexer/exceptions/filenotfoundexception.hpp"
 
 namespace original = parser::lexer;
@@ -43,13 +44,13 @@ protected:
 	{
 		if(fs::exists(kFilePath) && !fs::is_regular_file(kFilePath))
 		{
-			FAIL() << "The node " << kFilePath.string() << " is not a regular file.";
+			FAIL() << "The node " << kFilePath << " is not a regular file.";
 		}
 
 		file.open(kFilePath, std::ofstream::trunc);
 		if(!file.is_open())
 		{
-			FAIL() << "Couldn't open the file " << kFilePath.string() << ".";
+			FAIL() << "Couldn't open the file " << kFilePath << ".";
 		}
 	}
 
@@ -89,6 +90,23 @@ TEST(ScannerTestNoFixture, TestConstructorFileNotFound)
 }
 
 /**
+ * @brief Check if the constructor throws an exception if the there is a directory with the same name as the file's to parse
+ * 
+ */
+TEST(ScannerTestNoFixture, TestConstructorDirectory)
+{
+	const std::string name{"folder"};
+
+	// Create a new directory
+	fs::create_directory(name);
+
+	EXPECT_THROW(fake::Scanner instance{name}, original::exceptions::FileNotFoundException);
+
+	// Remove the directory
+	fs::remove(name);
+}
+
+/**
  * @brief Check if the constructor correctly reads the first line of the file
  * 
  */
@@ -99,7 +117,7 @@ TEST_F(ScannerTest, TestConstructorGetLine)
 	// Write some test data to the file
 	file << data << std::endl;
 
-	fake::Scanner instance{kFilePath.string()};
+	fake::Scanner instance{kFilePath};
 	EXPECT_EQ(instance.line_, data);
 	EXPECT_EQ(*instance.position_, data.at(0));
 }
@@ -110,19 +128,7 @@ TEST_F(ScannerTest, TestConstructorGetLine)
  */
 TEST_F(ScannerTest, TestConstructorEmptyFile)
 {
-	fake::Scanner instance{kFilePath.string()};
-	EXPECT_TRUE(instance.line_.empty());
-	EXPECT_TRUE(instance.line_.empty());
-}
-
-/**
- * @brief Check if the parser doesn't throw any exceptions if the file is empty
- * 
- */
-TEST_F(ScannerTest, TestNextEmptyFile)
-{
-	fake::Scanner instance{kFilePath.string()};
-	EXPECT_FALSE(instance.Next());
+	EXPECT_THROW(fake::Scanner instance{kFilePath}, original::exceptions::FileEmptyException);
 }
 
 /**
@@ -136,7 +142,7 @@ TEST_F(ScannerTest, TestNextWhitespacePrefix)
 	// Write some test data to the file with a tab prefix
 	file << std::string(10, ' ') << data << std::endl;
 
-	fake::Scanner instance{kFilePath.string()};
+	fake::Scanner instance{kFilePath};
 	EXPECT_EQ(instance.Next(), data.at(0));
 }
 
@@ -151,7 +157,7 @@ TEST_F(ScannerTest, TestNextTabPrefix)
 	// Write some test data to the file with a whitespace prefix
 	file << std::string(10, '\t') << data << std::endl;
 
-	fake::Scanner instance{kFilePath.string()};
+	fake::Scanner instance{kFilePath};
 	EXPECT_EQ(instance.Next(), data.at(0));
 }
 
@@ -166,7 +172,7 @@ TEST_F(ScannerTest, TestNextNewLine)
 	// Write some test data after an empty line
 	file << std::endl << data << std::endl;
 
-	fake::Scanner instance{kFilePath.string()};
+	fake::Scanner instance{kFilePath};
 	EXPECT_EQ(instance.Next(), data.at(0));
 	EXPECT_EQ(instance.line_, data);
 }
@@ -182,7 +188,7 @@ TEST_F(ScannerTest, TestNextСomment)
 	// Write some test data after an empty line
 	file << "# Goodbye World" << std::endl << data << std::endl;
 
-	fake::Scanner instance{kFilePath.string()};
+	fake::Scanner instance{kFilePath};
 	EXPECT_EQ(instance.Next(), data.at(0));
 	EXPECT_EQ(instance.line_, data);
 }
@@ -194,9 +200,9 @@ TEST_F(ScannerTest, TestNextСomment)
 TEST_F(ScannerTest, TestNextEndOfFileSymbol)
 {
 	// Write some test data after an empty line
-	file << 'a';
+	file << 'a' << std::flush;
 
-	fake::Scanner instance{kFilePath.string()};
+	fake::Scanner instance{kFilePath};
 
 	// Skip the character as it is not important
 	instance.Next();

@@ -17,11 +17,31 @@
  * under the License.
  */
 
-#include "fakes/parser/lexer/scanner.hpp"
+#pragma once
 
-namespace fakes::parser::lexer
+#include "parser/lexer/exceptions/fileemptyexception.hpp"
+
+namespace fakes::parser::lexer::exceptions
 {
-Scanner::Scanner(const std::filesystem::path& path)
-	: ::parser::lexer::Scanner{path}
-{}
-} // namespace fakes::parser::lexer
+namespace exc = ::parser::lexer::exceptions;
+
+/**
+ * @brief An fake for the exception, used to notify that the given lexeme is unexpected
+ * 
+ */
+class FileEmptyException : public exc::FileEmptyException
+{
+public:
+	/**
+	 * @brief Construct a new FileEmptyException object
+	 * 
+	 * @param path - the path to the file
+	 */
+	explicit FileEmptyException(const std::filesystem::path& path)
+		: exc::FileEmptyException{path}
+	{}
+
+public:
+	using exc::FileEmptyException::kMessage;
+};
+} // namespace fakes::parser::lexer::exceptions

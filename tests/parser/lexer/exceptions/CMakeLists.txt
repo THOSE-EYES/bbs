@@ -17,4 +17,5 @@
 # under the License.
 #
 
+add_subdirectory(fileemptyexception)
 add_subdirectory(filenotfoundexception)

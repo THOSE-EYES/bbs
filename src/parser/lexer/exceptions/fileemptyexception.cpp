@@ -17,33 +17,13 @@
  * under the License.
  */
 
-#pragma once
-
-#include <filesystem>
-#include <stdexcept>
-#include <string>
+#include "parser/lexer/exceptions/fileemptyexception.hpp"
 
 namespace parser::lexer::exceptions
 {
-/**
- * @brief An exception, used to notify that the given file is not found
- * 
- */
-class FileNotFoundException : public std::runtime_error
-{
-public:
-	/**
-	 * @brief Construct a new FileNotFoundException object
-	 * 
-	 * @param path - the path to the file
-	 */
-	explicit FileNotFoundException(const std::filesystem::path& path);
+const std::string FileEmptyException::kMessage{"The given file is empty: "};
 
-protected:
-	/**
-	 * @brief The message, seeing on the exception occurence
-	 * 
-	 */
-	static const std::string kMessage;
-};
+FileEmptyException::FileEmptyException(const std::filesystem::path& path)
+	: std::runtime_error(kMessage + path.string())
+{}
 } // namespace parser::lexer::exceptions

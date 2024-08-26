@@ -17,18 +17,15 @@
 # under the License.
 #
 
-project("scanner")
+project("fileemptyexception")
 
 set(SOURCES 
     ${CMAKE_SOURCE_DIR}/src/parser/lexer/exceptions/fileemptyexception.cpp
-    ${CMAKE_SOURCE_DIR}/src/parser/lexer/exceptions/filenotfoundexception.cpp
-    ${CMAKE_SOURCE_DIR}/src/parser/lexer/scanner.cpp
 )
 
 add_executable(${PROJECT_NAME} 
     ${SOURCES}
 
-    src/fakes/parser/lexer/scanner.cpp
     src/main.cpp
 )
 
