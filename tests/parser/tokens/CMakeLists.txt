@@ -17,7 +17,5 @@
 # under the License.
 #
 
-add_subdirectory(exceptions)
-add_subdirectory(handlers)
-add_subdirectory(lexer)
-add_subdirectory(scanner)
+add_subdirectory(punctuator)
+add_subdirectory(token)

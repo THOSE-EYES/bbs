@@ -17,7 +17,18 @@
 # under the License.
 #
 
-add_subdirectory(exceptions)
-add_subdirectory(handlers)
-add_subdirectory(lexer)
-add_subdirectory(scanner)
+project("unexpectedlexemeexception")
+
+set(SOURCES 
+    ${CMAKE_SOURCE_DIR}/src/parser/lexer/exceptions/unexpectedlexemeexception.cpp
+)
+
+add_executable(${PROJECT_NAME} 
+    ${SOURCES}
+
+    src/main.cpp
+)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+    include
+)

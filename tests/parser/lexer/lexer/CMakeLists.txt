@@ -17,7 +17,31 @@
 # under the License.
 #
 
-add_subdirectory(exceptions)
-add_subdirectory(handlers)
-add_subdirectory(lexer)
-add_subdirectory(scanner)
+project("lexer")
+
+set(SOURCES 
+    ${CMAKE_SOURCE_DIR}/src/parser/lexer/lexer.cpp
+)
+
+set(STUBS
+    ${STUBS_FOLDER}/parser/lexer/handlers/handler.cpp
+    ${STUBS_FOLDER}/parser/lexer/handlers/punctuatorhandler.cpp
+    ${STUBS_FOLDER}/parser/lexer/handlers/wordhandler.cpp
+    ${STUBS_FOLDER}/parser/lexer/scanner.cpp
+)
+
+add_executable(${PROJECT_NAME} 
+    ${SOURCES}
+    ${STUBS}
+
+    src/main.cpp
+)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+    include
+)
+
+target_link_libraries(${PROJECT_NAME} 
+    gmock
+    gmock_main
+)

@@ -118,7 +118,7 @@ TEST_F(ScannerTest, TestConstructorGetLine)
 	file << data << std::endl;
 
 	fake::Scanner instance{kFilePath};
-	EXPECT_EQ(instance.line_, data);
+	EXPECT_EQ(instance.line_.value, data);
 	EXPECT_EQ(*instance.position_, data.at(0));
 }
 
@@ -135,7 +135,7 @@ TEST_F(ScannerTest, TestConstructorEmptyFile)
  * @brief Check if the Scanner component skips whitespaces
  * 
  */
-TEST_F(ScannerTest, TestNextWhitespacePrefix)
+TEST_F(ScannerTest, TestGetWhitespacePrefix)
 {
 	const std::string data{"Hello World!"};
 
@@ -143,14 +143,14 @@ TEST_F(ScannerTest, TestNextWhitespacePrefix)
 	file << std::string(10, ' ') << data << std::endl;
 
 	fake::Scanner instance{kFilePath};
-	EXPECT_EQ(instance.Next(), data.at(0));
+	EXPECT_EQ(instance.Get(), data.at(0));
 }
 
 /**
  * @brief Check if the Scanner component skips tabs
  * 
  */
-TEST_F(ScannerTest, TestNextTabPrefix)
+TEST_F(ScannerTest, TestGetTabPrefix)
 {
 	const std::string data{"Hello World!"};
 
@@ -158,14 +158,14 @@ TEST_F(ScannerTest, TestNextTabPrefix)
 	file << std::string(10, '\t') << data << std::endl;
 
 	fake::Scanner instance{kFilePath};
-	EXPECT_EQ(instance.Next(), data.at(0));
+	EXPECT_EQ(instance.Get(), data.at(0));
 }
 
 /**
  * @brief Check if the Scanner component reads the next line if it is the end of the current line
  * 
  */
-TEST_F(ScannerTest, TestNextNewLine)
+TEST_F(ScannerTest, TestGetNewLine)
 {
 	const std::string data{"Hello World!"};
 
@@ -173,15 +173,15 @@ TEST_F(ScannerTest, TestNextNewLine)
 	file << std::endl << data << std::endl;
 
 	fake::Scanner instance{kFilePath};
-	EXPECT_EQ(instance.Next(), data.at(0));
-	EXPECT_EQ(instance.line_, data);
+	EXPECT_EQ(instance.Get(), data.at(0));
+	EXPECT_EQ(instance.line_.value, data);
 }
 
 /**
  * @brief Check if the Scanner component reads the next line if it sees a comment
  * 
  */
-TEST_F(ScannerTest, TestNextСomment)
+TEST_F(ScannerTest, TestGetСomment)
 {
 	const std::string data{"Hello World!"};
 
@@ -189,15 +189,15 @@ TEST_F(ScannerTest, TestNextСomment)
 	file << "# Goodbye World" << std::endl << data << std::endl;
 
 	fake::Scanner instance{kFilePath};
-	EXPECT_EQ(instance.Next(), data.at(0));
-	EXPECT_EQ(instance.line_, data);
+	EXPECT_EQ(instance.Get(), data.at(0));
+	EXPECT_EQ(instance.line_.value, data);
 }
 
 /**
  * @brief Check if the Scanner component exits successfull after trying to read past the end of the file
  * 
  */
-TEST_F(ScannerTest, TestNextEndOfFileSymbol)
+TEST_F(ScannerTest, TestGetEndOfFileSymbol)
 {
 	// Write some test data after an empty line
 	file << 'a' << std::flush;
@@ -205,7 +205,41 @@ TEST_F(ScannerTest, TestNextEndOfFileSymbol)
 	fake::Scanner instance{kFilePath};
 
 	// Skip the character as it is not important
-	instance.Next();
+	instance.Move();
 
-	EXPECT_FALSE(instance.Next());
+	EXPECT_FALSE(instance.Get());
+}
+
+/**
+ * @brief Check if the Scanner component exits successfull after trying to read past the end of the file
+ * 
+ */
+TEST_F(ScannerTest, TestMoveEndOfFileSymbol)
+{
+	// Write some test data after an empty line
+	file << 'a' << std::flush;
+
+	fake::Scanner instance{kFilePath};
+
+	// Skip the character as it is not important
+	instance.Move();
+
+	EXPECT_FALSE(instance.Get());
+}
+
+/**
+ * @brief Check if the Scanner component exits successfull after trying to read past the end of the file
+ * 
+ */
+TEST_F(ScannerTest, TestGetLine)
+{
+	const std::string data{"Hello World!"};
+
+	// Write some test data after an empty line
+	file << "# Goodbye World" << std::endl << data << std::endl;
+
+	fake::Scanner instance{kFilePath};
+	const auto line = instance.GetLine();
+	EXPECT_EQ(line.value, data);
+	EXPECT_EQ(line.index, 2);
 }

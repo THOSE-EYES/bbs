@@ -19,27 +19,12 @@
 
 #include "parser/lexer/scanner.hpp"
 
-#include "parser/lexer/exceptions/fileemptyexception.hpp"
 #include "parser/lexer/exceptions/filenotfoundexception.hpp"
 
 namespace parser::lexer
 {
 Scanner::Scanner(const std::filesystem::path& path)
 {
-	namespace fs = std::filesystem;
-
-	// If the file doesn't exist or it is not a regular file, throw an exception
-	if(!fs::exists(path) || !fs::is_regular_file(path))
-	{
-		throw exceptions::FileNotFoundException(path);
-	}
-
-	// Throw an exception if the file is empty
-	if(fs::is_empty(path))
-	{
-		throw exceptions::FileEmptyException(path);
-	}
-
 	file_.open(path);
 	if(!file_.is_open())
 	{
@@ -49,9 +34,6 @@ Scanner::Scanner(const std::filesystem::path& path)
 	// Get the first line from file and initialize the iterator
 	std::getline(file_, line_.value);
 	position_ = line_.value.begin();
-
-	// Skip empty lines, spaces and comments
-	Skip();
 }
 
 Scanner::~Scanner()
@@ -65,27 +47,16 @@ Scanner::~Scanner()
 
 std::optional<char> Scanner::Get()
 {
-	// Don't return anything if the file is closed
-	if(!file_.is_open() || position_ == line_.value.end())
+	if(line_.value.empty())
 	{
 		return {};
 	}
-
 	return *position_;
 }
 
 void Scanner::Move()
 {
-	// Don't return anything if the file is closed
-	if(!file_.is_open())
-	{
-		return;
-	}
-
-	++position_;
-
-	// Skip empty lines, spaces and comments
-	Skip();
+	// noop
 }
 
 const Scanner::Line& Scanner::GetLine() const
@@ -95,32 +66,6 @@ const Scanner::Line& Scanner::GetLine() const
 
 void Scanner::Skip()
 {
-	// Don't return anything if the file is closed
-	if(!file_.is_open())
-	{
-		return;
-	}
-
-	// Read the next line if scanner finds a new line symbol, a comment or an empty line
-	while(position_ == std::end(line_.value) || *position_ == '#')
-	{
-		std::getline(file_, line_.value);
-		position_ = line_.value.begin();
-
-		// Increment the index of the line
-		++line_.index;
-	}
-
-	// Skip while there is a whitespace or a tab
-	while(*position_ == ' ' || *position_ == '\t')
-	{
-		++position_;
-	}
-
-	// Check if the line still has anything to read
-	if(file_.fail() || *position_ == '\0')
-	{
-		file_.close();
-	}
+	// noop
 }
 } // namespace parser::lexer

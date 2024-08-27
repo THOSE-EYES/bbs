@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <optional>
@@ -32,6 +33,26 @@ namespace parser::lexer
  */
 class Scanner
 {
+public:
+	/**
+      * @brief A struct that holds information about the current line that being processed
+      * 
+      */
+	struct Line
+	{
+		/**
+           * @brief The value of the line
+           * 
+           */
+		std::string value;
+
+		/**
+           * @brief Line's index inside the file
+           * 
+           */
+		uint32_t index{1};
+	};
+
 public:
 	/**
      * @brief Construct a new Scanner object
@@ -48,11 +69,31 @@ public:
 
 public:
 	/**
-     * @brief Get the next available character
+     * @brief Get the available character
      * 
-     * @return std::optional<char> - the next character in the file
+     * @return std::optional<char> - the current character in the file
      */
-	std::optional<char> Next();
+	std::optional<char> Get();
+
+	/**
+     * @brief Move to the next available character
+     * 
+     */
+	void Move();
+
+	/**
+      * @brief Get the current line
+      * 
+      * @return const Line& - a reference to the Line instance
+      */
+	const Line& GetLine() const;
+
+protected:
+	/**
+      * @brief Makes the iterator skip empty lines, spaces and comments
+      * 
+      */
+	void Skip();
 
 protected:
 	/**
@@ -65,7 +106,7 @@ protected:
      * @brief The currently processed line
      * 
      */
-	std::string line_;
+	Line line_;
 
 	/**
      * @brief The iterator to the processed position in the line

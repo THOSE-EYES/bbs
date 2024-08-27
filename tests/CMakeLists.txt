@@ -30,6 +30,10 @@ set(STUBS_FOLDER "${PROJECT_SOURCE_DIR}/stubs")
 add_compile_definitions(TESTS_FOLDER="${PROJECT_SOURCE_DIR}/")
 add_compile_definitions(FILES_FOLDER="${PROJECT_SOURCE_DIR}/files/")
 
+include_directories(
+    ${PROJECT_SOURCE_DIR}
+)
+
 link_libraries(
     gtest
     gtest_main

@@ -17,7 +17,14 @@
 # under the License.
 #
 
-add_subdirectory(exceptions)
-add_subdirectory(handlers)
-add_subdirectory(lexer)
-add_subdirectory(scanner)
+project("token")
+
+set(SOURCES 
+    ${CMAKE_SOURCE_DIR}/src/parser/tokens/token.cpp
+)
+
+add_executable(${PROJECT_NAME} 
+    ${SOURCES}
+
+    src/main.cpp
+)
