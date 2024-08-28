@@ -26,12 +26,22 @@ include_directories(${PROJECT_NAME}
 )
 
 # Check if it is desired to build the unit tests
-if (${UNIT_TESTS})
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_subdirectory(tests)
-else()
+endif()
+
 add_executable(${PROJECT_NAME} 
+    src/parser/lexer/exceptions/fileemptyexception.cpp
+    src/parser/lexer/exceptions/filenotfoundexception.cpp
+    src/parser/lexer/exceptions/unexpectedlexemeexception.cpp
+    src/parser/lexer/handlers/handler.cpp
+    src/parser/lexer/handlers/wordhandler.cpp
+    src/parser/lexer/handlers/punctuatorhandler.cpp
+    src/parser/lexer/lexer.cpp
+    src/parser/lexer/scanner.cpp
+    src/parser/tokens/punctuator.cpp
+    src/parser/tokens/token.cpp
     src/utils/bufferedlogger.cpp
     src/utils/logger.cpp
     src/main.cpp
 )
-endif()

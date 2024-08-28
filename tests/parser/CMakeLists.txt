@@ -17,31 +17,5 @@
 # under the License.
 #
 
-project("tests")
-
-set(GCC_COVERAGE_COMPILE_FLAGS "-fprofile-arcs -ftest-coverage")
-set(CMAKE_CXX_FLAGS  "-O0 -fno-inline ${GCC_COVERAGE_COMPILE_FLAGS}")
-
-# Add constants for folder access
-set(FAKES_FOLDER "${PROJECT_SOURCE_DIR}/fakes")
-set(STUBS_FOLDER "${PROJECT_SOURCE_DIR}/stubs")
-
-# Add some definitions for accessing important folders from the code
-add_compile_definitions(TESTS_FOLDER="${PROJECT_SOURCE_DIR}/")
-add_compile_definitions(FILES_FOLDER="${PROJECT_SOURCE_DIR}/files/")
-
-# Enable unit tests
-enable_testing()
-
-include_directories(
-    ${PROJECT_SOURCE_DIR}
-)
-
-link_libraries(
-    gtest
-    gtest_main
-    gcov
-)
-
-add_subdirectory(parser)
-add_subdirectory(utils)
+add_subdirectory(lexer)
+add_subdirectory(tokens)
