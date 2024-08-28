@@ -38,6 +38,8 @@ add_executable(${PROJECT_NAME}
     src/main.cpp
 )
 
+add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
+
 target_link_libraries(${PROJECT_NAME} 
     gmock
     gmock_main
