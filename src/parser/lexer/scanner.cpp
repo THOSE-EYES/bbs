@@ -102,7 +102,7 @@ void Scanner::Skip()
 	}
 
 	// Read the next line if scanner finds a new line symbol, a comment or an empty line
-	while(position_ == std::end(line_.value) || *position_ == '#')
+	while(position_ == std::end(line_.value) || *position_ == '#' || *position_ == '\r')
 	{
 		std::getline(file_, line_.value);
 		position_ = line_.value.begin();
