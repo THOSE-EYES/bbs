@@ -17,31 +17,37 @@
  * under the License.
  */
 
-#pragma once
+#include "parser/lexer/context.hpp"
 
-#include "parser/lexer/exceptions/unexpectedlexemeexception.hpp"
-
-namespace fakes::parser::lexer::exceptions
+namespace parser::lexer
 {
-namespace exc = ::parser::lexer::exceptions;
-
-/**
- * @brief An fake for the exception, used to notify that the given lexeme is unexpected
- * 
- */
-class UnexpectedLexemeException : public exc::UnexpectedLexemeException
+void Context::Update(std::string&& value)
 {
-public:
-	/**
-	 * @brief Construct a new UnexpectedLexemeException object
-	 * 
-	 * @param context - the context with the line that caused the error
-	 */
-	explicit UnexpectedLexemeException(const ::parser::lexer::Context& context)
-		: exc::UnexpectedLexemeException{context}
-	{}
+	// noop
+}
 
-public:
-	using exc::UnexpectedLexemeException::kMessage;
-};
-} // namespace fakes::parser::lexer::exceptions
+std::string Context::GetLine() const
+{
+	return line_;
+}
+
+std::optional<char> Context::GetCharacter() const
+{
+	return {};
+}
+
+void Context::Next()
+{
+	// noop
+}
+
+std::size_t Context::GetLineIndex() const
+{
+	return {};
+}
+
+std::size_t Context::GetPosition() const
+{
+	return {};
+}
+} // namespace parser::lexer

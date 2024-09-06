@@ -19,10 +19,11 @@
 
 #pragma once
 
-#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <optional>
+
+#include "parser/lexer/context.hpp"
 
 namespace parser::lexer
 {
@@ -33,26 +34,6 @@ namespace parser::lexer
  */
 class Scanner
 {
-public:
-	/**
-      * @brief A struct that holds information about the current line that being processed
-      * 
-      */
-	struct Line
-	{
-		/**
-           * @brief The value of the line
-           * 
-           */
-		std::string value;
-
-		/**
-           * @brief Line's index inside the file
-           * 
-           */
-		uint32_t index{1};
-	};
-
 public:
 	/**
      * @brief Construct a new Scanner object
@@ -82,11 +63,11 @@ public:
 	void Move();
 
 	/**
-      * @brief Get the current line
+      * @brief Get the current context
       * 
-      * @return const Line& - a reference to the Line instance
+      * @return const Context& - a reference to the context instance
       */
-	const Line& GetLine() const;
+	const Context& GetContext() const;
 
 protected:
 	/**
@@ -103,15 +84,9 @@ protected:
 	std::ifstream file_;
 
 	/**
-     * @brief The currently processed line
+     * @brief The current context
      * 
      */
-	Line line_;
-
-	/**
-     * @brief The iterator to the processed position in the line
-     * 
-     */
-	std::string::iterator position_;
+	Context context_;
 };
 } // namespace parser::lexer

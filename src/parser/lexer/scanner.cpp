@@ -22,6 +22,8 @@
 #include "parser/lexer/exceptions/fileemptyexception.hpp"
 #include "parser/lexer/exceptions/filenotfoundexception.hpp"
 
+#include <iostream>
+
 namespace parser::lexer
 {
 Scanner::Scanner(const std::filesystem::path& path)
@@ -47,8 +49,15 @@ Scanner::Scanner(const std::filesystem::path& path)
 	}
 
 	// Get the first line from file and initialize the iterator
-	std::getline(file_, line_.value);
-	position_ = line_.value.begin();
+	std::string line;
+	std::getline(file_, line);
+	if(file_.fail())
+	{
+		file_.close();
+		return;
+	}
+
+	context_.Update(std::move(line));
 
 	// Skip empty lines, spaces and comments
 	Skip();
@@ -66,12 +75,12 @@ Scanner::~Scanner()
 std::optional<char> Scanner::Get()
 {
 	// Don't return anything if the file is closed
-	if(!file_.is_open() || position_ == line_.value.end())
+	if(!file_.is_open())
 	{
 		return {};
 	}
 
-	return *position_;
+	return context_.GetCharacter();
 }
 
 void Scanner::Move()
@@ -82,15 +91,15 @@ void Scanner::Move()
 		return;
 	}
 
-	++position_;
+	context_.Next();
 
 	// Skip empty lines, spaces and comments
 	Skip();
 }
 
-const Scanner::Line& Scanner::GetLine() const
+const lexer::Context& Scanner::GetContext() const
 {
-	return line_;
+	return context_;
 }
 
 void Scanner::Skip()
@@ -102,23 +111,30 @@ void Scanner::Skip()
 	}
 
 	// Read the next line if scanner finds a new line symbol, a comment or an empty line
-	while(position_ == std::end(line_.value) || *position_ == '#' || *position_ == '\r')
+	auto character = context_.GetCharacter();
+	while(!character || character.value() == '#' || character.value() == '\r')
 	{
-		std::getline(file_, line_.value);
-		position_ = line_.value.begin();
+		std::string line;
+		std::getline(file_, line);
+		if(file_.fail())
+		{
+			file_.close();
+			return;
+		}
 
-		// Increment the index of the line
-		++line_.index;
+		context_.Update(std::move(line));
+		character = context_.GetCharacter();
 	}
 
 	// Skip while there is a whitespace or a tab
-	while(*position_ == ' ' || *position_ == '\t')
+	while(character && (character.value() == ' ' || character.value() == '\t'))
 	{
-		++position_;
+		context_.Next();
+		character = context_.GetCharacter();
 	}
 
 	// Check if the line still has anything to read
-	if(file_.fail() || *position_ == '\0')
+	if(!character || character.value() == '\0')
 	{
 		file_.close();
 	}

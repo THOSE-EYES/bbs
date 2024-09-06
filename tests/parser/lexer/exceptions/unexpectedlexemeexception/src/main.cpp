@@ -29,8 +29,10 @@ TEST(UnexpectedLexemeExceptionTest, TestConstructor)
 {
 	namespace exc = fakes::parser::lexer::exceptions;
 
-	const parser::lexer::Scanner::Line line;
-	const exc::UnexpectedLexemeException exception{line};
-	const auto data = exc::UnexpectedLexemeException::kMessage + std::to_string(line.index);
+	const parser::lexer::Context context;
+	const exc::UnexpectedLexemeException exception{context};
+	const auto data = exc::UnexpectedLexemeException::kMessage +
+					  std::to_string(context.GetLineIndex()) + ":" +
+					  std::to_string(context.GetPosition());
 	EXPECT_STREQ(exception.what(), data.c_str());
 }

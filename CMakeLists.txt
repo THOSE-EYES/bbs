@@ -37,6 +37,7 @@ add_executable(${PROJECT_NAME}
     src/parser/lexer/handlers/handler.cpp
     src/parser/lexer/handlers/wordhandler.cpp
     src/parser/lexer/handlers/punctuatorhandler.cpp
+    src/parser/lexer/context.cpp
     src/parser/lexer/lexer.cpp
     src/parser/lexer/scanner.cpp
     src/parser/tokens/punctuator.cpp

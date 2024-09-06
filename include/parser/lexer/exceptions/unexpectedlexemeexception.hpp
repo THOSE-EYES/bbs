@@ -21,12 +21,10 @@
 
 #include <stdexcept>
 
-#include "parser/lexer/scanner.hpp"
+#include "parser/lexer/context.hpp"
 
 namespace parser::lexer::exceptions
 {
-namespace lex = ::parser::lexer;
-
 /**
  * @brief An exception, used to notify that the given lexeme is unexpected
  * 
@@ -37,9 +35,9 @@ public:
 	/**
 	 * @brief Construct a new UnexpectedLexemeException object
 	 * 
-	 * @param line - the line that caused the error
+	 * @param context - the context with the line that caused the error
 	 */
-	explicit UnexpectedLexemeException(const lex::Scanner::Line& line);
+	explicit UnexpectedLexemeException(const lexer::Context& context);
 
 protected:
 	/**

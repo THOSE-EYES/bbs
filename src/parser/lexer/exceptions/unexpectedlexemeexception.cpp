@@ -23,7 +23,8 @@ namespace parser::lexer::exceptions
 {
 const std::string UnexpectedLexemeException::kMessage{"There is a problem with the line "};
 
-UnexpectedLexemeException::UnexpectedLexemeException(const parser::lexer::Scanner::Line& line)
-	: std::runtime_error(kMessage + std::to_string(line.index))
+UnexpectedLexemeException::UnexpectedLexemeException(const lexer::Context& context)
+	: std::runtime_error(kMessage + std::to_string(context.GetLineIndex()) + ":" +
+						 std::to_string(context.GetPosition()))
 {}
 } // namespace parser::lexer::exceptions

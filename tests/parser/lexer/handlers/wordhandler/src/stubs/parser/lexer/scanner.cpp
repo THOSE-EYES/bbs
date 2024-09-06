@@ -32,8 +32,9 @@ Scanner::Scanner(const std::filesystem::path& path)
 	}
 
 	// Get the first line from file and initialize the iterator
-	std::getline(file_, line_.value);
-	position_ = line_.value.begin();
+	std::string line;
+	std::getline(file_, line);
+	context_.Update(std::move(line));
 }
 
 Scanner::~Scanner()
@@ -47,21 +48,23 @@ Scanner::~Scanner()
 
 std::optional<char> Scanner::Get()
 {
-	if(line_.value.empty())
+	// Don't return anything if the file is closed
+	if(!file_.is_open())
 	{
 		return {};
 	}
-	return *position_;
+
+	return context_.GetCharacter();
 }
 
 void Scanner::Move()
 {
-	++position_;
+	context_.Next();
 }
 
-const Scanner::Line& Scanner::GetLine() const
+const lexer::Context& Scanner::GetContext() const
 {
-	return line_;
+	return context_;
 }
 
 void Scanner::Skip()

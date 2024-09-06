@@ -23,7 +23,7 @@ namespace parser::lexer::exceptions
 {
 const std::string UnexpectedLexemeException::kMessage{};
 
-UnexpectedLexemeException::UnexpectedLexemeException(const parser::lexer::Scanner::Line& line)
+UnexpectedLexemeException::UnexpectedLexemeException(const parser::lexer::Context& context)
 	: std::runtime_error("")
 {}
 } // namespace parser::lexer::exceptions

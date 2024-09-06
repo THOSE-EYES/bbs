@@ -118,8 +118,8 @@ TEST_F(ScannerTest, TestConstructorGetLine)
 	file << data << std::endl;
 
 	fake::Scanner instance{kFilePath};
-	EXPECT_EQ(instance.line_.value, data);
-	EXPECT_EQ(*instance.position_, data.at(0));
+	EXPECT_EQ(instance.GetContext().GetLine(), data);
+	EXPECT_EQ(instance.GetContext().GetCharacter().value(), data.at(0));
 }
 
 /**
@@ -174,7 +174,7 @@ TEST_F(ScannerTest, TestGetNewLine)
 
 	fake::Scanner instance{kFilePath};
 	EXPECT_EQ(instance.Get(), data.at(0));
-	EXPECT_EQ(instance.line_.value, data);
+	EXPECT_EQ(instance.GetContext().GetLine(), data);
 }
 
 /**
@@ -190,7 +190,7 @@ TEST_F(ScannerTest, TestGetСomment)
 
 	fake::Scanner instance{kFilePath};
 	EXPECT_EQ(instance.Get(), data.at(0));
-	EXPECT_EQ(instance.line_.value, data);
+	EXPECT_EQ(instance.GetContext().GetLine(), data);
 }
 
 /**
@@ -231,7 +231,7 @@ TEST_F(ScannerTest, TestMoveEndOfFileSymbol)
  * @brief Check if the Scanner component exits successfull after trying to read past the end of the file
  * 
  */
-TEST_F(ScannerTest, TestGetLine)
+TEST_F(ScannerTest, TestGetContext)
 {
 	const std::string data{"Hello World!"};
 
@@ -239,7 +239,7 @@ TEST_F(ScannerTest, TestGetLine)
 	file << "# Goodbye World" << std::endl << data << std::endl;
 
 	fake::Scanner instance{kFilePath};
-	const auto line = instance.GetLine();
-	EXPECT_EQ(line.value, data);
-	EXPECT_EQ(line.index, 2);
+	const auto context = instance.GetContext();
+	EXPECT_EQ(context.GetLine(), data);
+	EXPECT_EQ(context.GetLineIndex(), 2);
 }

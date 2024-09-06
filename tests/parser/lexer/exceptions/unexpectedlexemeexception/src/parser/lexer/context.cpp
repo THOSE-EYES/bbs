@@ -17,31 +17,43 @@
  * under the License.
  */
 
-#pragma once
+#include "parser/lexer/context.hpp"
 
-#include "parser/lexer/exceptions/unexpectedlexemeexception.hpp"
+#include <iterator>
 
-namespace fakes::parser::lexer::exceptions
+namespace parser::lexer
 {
-namespace exc = ::parser::lexer::exceptions;
-
-/**
- * @brief An fake for the exception, used to notify that the given lexeme is unexpected
- * 
- */
-class UnexpectedLexemeException : public exc::UnexpectedLexemeException
+void Context::Update(std::string&& value)
 {
-public:
-	/**
-	 * @brief Construct a new UnexpectedLexemeException object
-	 * 
-	 * @param context - the context with the line that caused the error
-	 */
-	explicit UnexpectedLexemeException(const ::parser::lexer::Context& context)
-		: exc::UnexpectedLexemeException{context}
-	{}
+	line_ = std::move(value);
+	position_ = line_.begin();
 
-public:
-	using exc::UnexpectedLexemeException::kMessage;
-};
-} // namespace fakes::parser::lexer::exceptions
+	// Increment the index of the line
+	++line_index_;
+}
+
+std::string Context::GetLine() const
+{
+	return line_;
+}
+
+std::optional<char> Context::GetCharacter() const
+{
+	return {};
+}
+
+void Context::Next()
+{
+	// noop
+}
+
+std::size_t Context::GetLineIndex() const
+{
+	return line_index_;
+}
+
+std::size_t Context::GetPosition() const
+{
+	return std::distance(line_.begin(), std::string::const_iterator(position_));
+}
+} // namespace parser::lexer

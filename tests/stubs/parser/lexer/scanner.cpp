@@ -41,9 +41,9 @@ void Scanner::Move()
 	// noop
 }
 
-const Scanner::Line& Scanner::GetLine() const
+const lexer::Context& Scanner::GetContext() const
 {
-	return line_;
+	return context_;
 }
 
 void Scanner::Skip()

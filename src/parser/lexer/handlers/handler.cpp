@@ -35,7 +35,7 @@ std::unique_ptr<Handler::Token> Handler::Process(Scanner& scanner) const
 	// If there are no handlers, then the lexeme can't be processed
 	if(!next_)
 	{
-		throw parser::lexer::exceptions::UnexpectedLexemeException(scanner.GetLine());
+		throw parser::lexer::exceptions::UnexpectedLexemeException(scanner.GetContext());
 	}
 
 	return next_->Process(scanner);

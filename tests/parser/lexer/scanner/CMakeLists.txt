@@ -29,6 +29,7 @@ add_executable(${PROJECT_NAME}
     ${SOURCES}
 
     src/fakes/parser/lexer/scanner.cpp
+    src/stubs/parser/lexer/context.cpp
     src/main.cpp
 )
 

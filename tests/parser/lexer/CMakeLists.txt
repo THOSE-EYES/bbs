@@ -20,4 +20,5 @@
 add_subdirectory(exceptions)
 add_subdirectory(handlers)
 add_subdirectory(lexer)
+add_subdirectory(context)
 add_subdirectory(scanner)

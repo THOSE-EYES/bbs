@@ -23,8 +23,13 @@ set(SOURCES
     ${CMAKE_SOURCE_DIR}/src/parser/lexer/exceptions/unexpectedlexemeexception.cpp
 )
 
+set(STUBS
+    ${STUBS_FOLDER}/parser/lexer/context.cpp
+)
+
 add_executable(${PROJECT_NAME} 
     ${SOURCES}
+    ${STUBS}
 
     src/main.cpp
 )

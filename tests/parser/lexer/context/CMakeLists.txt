@@ -17,38 +17,16 @@
 # under the License.
 #
 
-project("punctuatorhandler")
+project("context")
 
-set(SOURCES 
-    ${CMAKE_SOURCE_DIR}/src/parser/lexer/handlers/punctuatorhandler.cpp
-)
-
-set(STUBS
-    ${STUBS_FOLDER}/parser/lexer/exceptions/fileemptyexception.cpp
-    ${STUBS_FOLDER}/parser/lexer/exceptions/filenotfoundexception.cpp
-    ${STUBS_FOLDER}/parser/lexer/exceptions/unexpectedlexemeexception.cpp
-    ${STUBS_FOLDER}/parser/lexer/context.cpp
-
-    src/stubs/parser/lexer/handlers/handler.cpp
-    src/stubs/parser/lexer/scanner.cpp
-    src/stubs/parser/tokens/token.cpp
-    src/stubs/parser/tokens/punctuator.cpp
+set(SOURCES
+    ${CMAKE_SOURCE_DIR}/src/parser/lexer/context.cpp
 )
 
 add_executable(${PROJECT_NAME} 
     ${SOURCES}
-    ${STUBS}
 
     src/main.cpp
-)
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-    include
-)
-
-target_link_libraries(${PROJECT_NAME} 
-    gmock
-    gmock_main
 )
 
 add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})

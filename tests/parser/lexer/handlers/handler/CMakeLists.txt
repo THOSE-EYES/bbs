@@ -28,6 +28,7 @@ set(STUBS
     ${STUBS_FOLDER}/parser/lexer/exceptions/filenotfoundexception.cpp
     ${STUBS_FOLDER}/parser/lexer/exceptions/unexpectedlexemeexception.cpp
 
+    src/stubs/parser/lexer/context.cpp
     src/stubs/parser/lexer/scanner.cpp
 )
 

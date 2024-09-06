@@ -38,8 +38,7 @@ public:
 	explicit Scanner(const std::filesystem::path& path);
 
 public:
+	using ::parser::lexer::Scanner::context_;
 	using ::parser::lexer::Scanner::file_;
-	using ::parser::lexer::Scanner::line_;
-	using ::parser::lexer::Scanner::position_;
 };
 } // namespace fakes::parser::lexer
