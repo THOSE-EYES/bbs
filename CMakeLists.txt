@@ -31,6 +31,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 add_executable(${PROJECT_NAME} 
+    src/parser/exceptions/unexpectedtokenexception.cpp
     src/parser/lexer/exceptions/fileemptyexception.cpp
     src/parser/lexer/exceptions/filenotfoundexception.cpp
     src/parser/lexer/exceptions/unexpectedlexemeexception.cpp
@@ -40,8 +41,15 @@ add_executable(${PROJECT_NAME}
     src/parser/lexer/context.cpp
     src/parser/lexer/lexer.cpp
     src/parser/lexer/scanner.cpp
+    src/parser/states/keywords/files.cpp
+    src/parser/states/keywords/project.cpp
+    src/parser/states/types/array.cpp
+    src/parser/states/types/string.cpp
+    src/parser/states/state.cpp
+    src/parser/states/statement.cpp
     src/parser/tokens/punctuator.cpp
     src/parser/tokens/token.cpp
+    src/parser/parser.cpp
     src/utils/bufferedlogger.cpp
     src/utils/logger.cpp
     src/main.cpp

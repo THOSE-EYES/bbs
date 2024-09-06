@@ -17,5 +17,8 @@
 # under the License.
 #
 
+add_subdirectory(exceptions)
 add_subdirectory(lexer)
+add_subdirectory(parser)
+add_subdirectory(states)
 add_subdirectory(tokens)

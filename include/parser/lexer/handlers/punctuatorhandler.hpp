@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include <map>
 #include <memory>
 
 #include "parser/lexer/handlers/handler.hpp"
@@ -44,12 +43,5 @@ public:
 	 * @return std::unique_ptr<Token> - a pointer to the token or nullptr 
 	 */
 	std::unique_ptr<Token> Process(Scanner& scanner) const override;
-
-protected:
-	/**
-     * @brief Mapping the input to the predefined set of punctuator types
-     * 
-     */
-	static const std::map<char, Punctuator::Type> kPunctuatorType;
 };
 } // namespace parser::lexer::handlers

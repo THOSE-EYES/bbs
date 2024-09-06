@@ -37,6 +37,12 @@ struct Token
 	explicit Token(std::string value_);
 
 	/**
+	 * @brief Destroy the Token object
+	 * 
+	 */
+	virtual ~Token() {}
+
+	/**
 	 * @brief Token's string representation
 	 * 
 	 */

@@ -23,16 +23,6 @@
 
 namespace parser::lexer::handlers
 {
-const std::map<char, PunctuatorHandler::Punctuator::Type> PunctuatorHandler::kPunctuatorType{
-	{'[', PunctuatorHandler::Punctuator::Type::kLeftSquareBracket},
-	{']', PunctuatorHandler::Punctuator::Type::kRightSquareBracket},
-	{'!', PunctuatorHandler::Punctuator::Type::kExclamationMark},
-	{'\"', PunctuatorHandler::Punctuator::Type::kDoubleQuoteMark},
-	{'.', PunctuatorHandler::Punctuator::Type::kDot},
-	{',', PunctuatorHandler::Punctuator::Type::kComma},
-	{'/', PunctuatorHandler::Punctuator::Type::kSlash},
-	{'\\', PunctuatorHandler::Punctuator::Type::kBackslash},
-};
 
 std::unique_ptr<PunctuatorHandler::Token> PunctuatorHandler::Process(Scanner& scanner) const
 {
@@ -44,8 +34,8 @@ std::unique_ptr<PunctuatorHandler::Token> PunctuatorHandler::Process(Scanner& sc
 	}
 
 	// Check if the character is in the map
-	const auto iterator = kPunctuatorType.find(character.value());
-	if(iterator != kPunctuatorType.end())
+	const auto iterator = Punctuator::kPunctuatorToTypeMap.find(character.value());
+	if(iterator != Punctuator::kPunctuatorToTypeMap.end())
 	{
 		scanner.Move();
 		return std::make_unique<Punctuator>(std::string(1, character.value()), iterator->second);

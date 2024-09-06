@@ -22,8 +22,8 @@
 #include <gtest/gtest.h>
 
 #include "parser/lexer/exceptions/unexpectedlexemeexception.hpp"
+#include "parser/lexer/handlers/punctuatorhandler.hpp"
 
-#include "fakes/parser/lexer/handlers/punctuatorhandler.hpp"
 #include "mocks/parser/lexer/handlers/handler.hpp"
 
 namespace fs = std::filesystem;
@@ -81,7 +81,7 @@ protected:
 	 * @brief The instance to test
 	 * 
 	 */
-	fakes::parser::lexer::handlers::PunctuatorHandler instance_;
+	parser::lexer::handlers::PunctuatorHandler instance_;
 };
 
 const fs::path PunctuatorHandlerTest::kFilePath{"build.bbs"};
@@ -136,10 +136,10 @@ TEST_F(PunctuatorHandlerTest, TestProcessNextNullptr)
  */
 TEST_F(PunctuatorHandlerTest, TestProcess)
 {
-	namespace handlers = fakes::parser::lexer::handlers;
+	namespace handlers = parser::lexer::handlers;
 
 	// Add some valid text to the file
-	for(auto [key, value] : handlers::PunctuatorHandler::kPunctuatorType)
+	for(auto [key, value] : parser::tokens::Punctuator::kPunctuatorToTypeMap)
 	{
 		file << key;
 	}
@@ -151,7 +151,7 @@ TEST_F(PunctuatorHandlerTest, TestProcess)
 	while(token = instance_.Process(scanner))
 	{
 		const auto character = token->value.at(0);
-		EXPECT_NE(handlers::PunctuatorHandler::kPunctuatorType.find(character),
-				  handlers::PunctuatorHandler::kPunctuatorType.end());
+		EXPECT_NE(parser::tokens::Punctuator::kPunctuatorToTypeMap.find(character),
+				  parser::tokens::Punctuator::kPunctuatorToTypeMap.end());
 	}
 }

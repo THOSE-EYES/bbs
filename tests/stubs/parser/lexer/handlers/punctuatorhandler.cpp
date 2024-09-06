@@ -23,8 +23,6 @@
 
 namespace parser::lexer::handlers
 {
-const std::map<char, PunctuatorHandler::Punctuator::Type> PunctuatorHandler::kPunctuatorType{};
-
 std::unique_ptr<PunctuatorHandler::Token> PunctuatorHandler::Process(Scanner& scanner) const
 {
 	return {};

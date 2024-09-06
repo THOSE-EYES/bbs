@@ -17,19 +17,14 @@
  * under the License.
  */
 
-#pragma once
+#include "parser/tokens/punctuator.hpp"
 
-#include "parser/lexer/handlers/punctuatorhandler.hpp"
+namespace parser::tokens
+{
+const std::map<char, Punctuator::Type> Punctuator::kPunctuatorToTypeMap{};
 
-namespace fakes::parser::lexer::handlers
-{
-/**
- * @brief A fake for the handler that creates "punctuator" tokens
- * 
- */
-class PunctuatorHandler : public ::parser::lexer::handlers::PunctuatorHandler
-{
-public:
-	using ::parser::lexer::handlers::PunctuatorHandler::kPunctuatorType;
-};
-} // namespace fakes::parser::lexer::handlers
+Punctuator::Punctuator(std::string value_, Type type_)
+	: Token{std::move(value_)}
+	, type{type_}
+{}
+} // namespace parser::tokens

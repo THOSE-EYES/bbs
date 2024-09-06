@@ -21,6 +21,17 @@
 
 namespace parser::tokens
 {
+const std::map<char, Punctuator::Type> Punctuator::kPunctuatorToTypeMap{
+	{'[', Type::kLeftSquareBracket},
+	{']', Type::kRightSquareBracket},
+	{'!', Type::kExclamationMark},
+	{'\"', Type::kDoubleQuoteMark},
+	{'.', Type::kDot},
+	{',', Type::kComma},
+	{'/', Type::kSlash},
+	{'\\', Type::kBackslash},
+};
+
 Punctuator::Punctuator(std::string value_, Type type_)
 	: Token{std::move(value_)}
 	, type{type_}

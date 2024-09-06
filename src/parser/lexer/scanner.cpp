@@ -19,13 +19,19 @@
 
 #include "parser/lexer/scanner.hpp"
 
+#include <cctype>
+
 #include "parser/lexer/exceptions/fileemptyexception.hpp"
 #include "parser/lexer/exceptions/filenotfoundexception.hpp"
 
-#include <iostream>
-
 namespace parser::lexer
 {
+namespace constants
+{
+constexpr char kComment = '#';
+constexpr char kEndOfFile = '\0';
+} // namespace constants
+
 Scanner::Scanner(const std::filesystem::path& path)
 {
 	namespace fs = std::filesystem;
@@ -104,15 +110,9 @@ const lexer::Context& Scanner::GetContext() const
 
 void Scanner::Skip()
 {
-	// Don't return anything if the file is closed
-	if(!file_.is_open())
-	{
-		return;
-	}
-
 	// Read the next line if scanner finds a new line symbol, a comment or an empty line
 	auto character = context_.GetCharacter();
-	while(!character || character.value() == '#' || character.value() == '\r')
+	while(!character || character.value() == constants::kComment)
 	{
 		std::string line;
 		std::getline(file_, line);
@@ -127,7 +127,7 @@ void Scanner::Skip()
 	}
 
 	// Skip while there is a whitespace or a tab
-	while(character && (character.value() == ' ' || character.value() == '\t'))
+	while(character && std::isspace(character.value()))
 	{
 		context_.Next();
 		character = context_.GetCharacter();

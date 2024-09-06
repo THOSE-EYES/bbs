@@ -20,6 +20,7 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
 
 #include "parser/tokens/token.hpp"
 
@@ -60,5 +61,11 @@ struct Punctuator : public Token
 	 * 
 	 */
 	const Type type;
+
+	/**
+     * @brief Mapping the input to the predefined set of punctuator types
+     * 
+     */
+	static const std::map<char, Type> kPunctuatorToTypeMap;
 };
 } // namespace parser::tokens
