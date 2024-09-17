@@ -22,7 +22,7 @@
 #include <memory>
 #include <vector>
 
-#include "parser/lexer/handlers/handler.hpp"
+#include "lexer/handlers/handler.hpp"
 #include "parser/tokens/token.hpp"
 
 namespace handlers
@@ -31,7 +31,7 @@ namespace handlers
  * @brief A dummy handler that returns the next token from the given vector
  * 
  */
-class DummyHandler : public ::parser::lexer::handlers::Handler
+class DummyHandler : public ::lexer::handlers::Handler
 {
 	using Token = parser::tokens::Token;
 	using Tokens = std::vector<std::unique_ptr<Token>>;
@@ -54,7 +54,7 @@ public:
 	 * @param scanner - the source of characters to process
 	 * @return std::unique_ptr<Token> - a pointer to the token or nullptr 
 	 */
-	std::unique_ptr<Token> Process(::parser::lexer::Scanner& scanner) const override
+	std::unique_ptr<Token> Process(::lexer::Scanner& scanner) const override
 	{
 		if(iterator_ == tokens_.end())
 		{

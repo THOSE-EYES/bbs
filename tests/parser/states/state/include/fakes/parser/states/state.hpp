@@ -45,7 +45,7 @@ public:
      * 
      * @param lexer - the lexer which handles tokenization of the input file
      */
-	void Process(::parser::lexer::Lexer& lexer) override
+	void Process(::lexer::Lexer& lexer) override
 	{
 		// noop
 	}

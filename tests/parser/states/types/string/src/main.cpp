@@ -26,7 +26,7 @@
 #include "parser/states/types/string.hpp"
 
 #include "aux/handlers/dummyhandler.hpp"
-#include "fakes/parser/lexer/lexer.hpp"
+#include "fakes/lexer/lexer.hpp"
 
 namespace fs = std::filesystem;
 
@@ -64,7 +64,7 @@ TEST_F(StringTest, TestProcessLeadingQuoteMarkAbscence)
 	tokens.emplace_back(std::make_unique<Token>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
-	fakes::parser::lexer::Lexer lexer{kFilePath, std::move(handler)};
+	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
 	EXPECT_THROW(instance_.Process(lexer), parser::exceptions::UnexpectedTokenException);
 }
@@ -83,7 +83,7 @@ TEST_F(StringTest, TestProcessClosingQuoteMarkAbscence)
 	tokens.emplace_back(std::make_unique<Token>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
-	fakes::parser::lexer::Lexer lexer{kFilePath, std::move(handler)};
+	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
 	EXPECT_THROW(instance_.Process(lexer), parser::exceptions::UnexpectedTokenException);
 }
@@ -103,7 +103,7 @@ TEST_F(StringTest, TestProcess)
 	tokens.emplace_back(std::make_unique<Punctuator>("\"", Punctuator::Type::kDoubleQuoteMark));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
-	fakes::parser::lexer::Lexer lexer{kFilePath, std::move(handler)};
+	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
 	EXPECT_NO_THROW(instance_.Process(lexer));
 	EXPECT_EQ(instance_.GetValue(), "A");

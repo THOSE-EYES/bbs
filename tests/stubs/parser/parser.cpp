@@ -28,6 +28,11 @@ Parser::Parser(const std::filesystem::path& path)
 	, state_{nullptr}
 {}
 
+const lexer::Context& Parser::GetContext() const
+{
+	return lexer_.GetContext();
+}
+
 void Parser::SetState(std::unique_ptr<states::State> state) {}
 
 void Parser::Process() {}

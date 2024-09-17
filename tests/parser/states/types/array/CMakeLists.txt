@@ -24,14 +24,15 @@ set(SOURCES
 )
 
 set(STUBS
-    ${STUBS_FOLDER}/parser/lexer/handlers/handler.cpp
-    ${STUBS_FOLDER}/parser/lexer/scanner.cpp
+    ${STUBS_FOLDER}/lexer/handlers/handler.cpp
+    ${STUBS_FOLDER}/lexer/scanner.cpp
+    ${STUBS_FOLDER}/parser/exceptions/unexpectedendoffileexception.cpp
     ${STUBS_FOLDER}/parser/exceptions/unexpectedtokenexception.cpp
     ${STUBS_FOLDER}/parser/tokens/punctuator.cpp
     ${STUBS_FOLDER}/parser/tokens/token.cpp
     ${STUBS_FOLDER}/parser/parser.cpp
 
-    src/stubs/parser/lexer/lexer.cpp
+    src/stubs/lexer/lexer.cpp
     src/stubs/parser/states/types/string.cpp
     src/stubs/parser/states/state.cpp
 )
@@ -41,6 +42,10 @@ add_executable(${PROJECT_NAME}
     ${STUBS}
 
     src/main.cpp
+)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+    include
 )
 
 add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})

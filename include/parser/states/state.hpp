@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "parser/lexer/lexer.hpp"
+#include "lexer/lexer.hpp"
 #include "parser/tokens/punctuator.hpp"
 
 namespace parser

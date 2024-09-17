@@ -21,7 +21,7 @@
 
 #include <filesystem>
 
-#include "parser/lexer/lexer.hpp"
+#include "lexer/lexer.hpp"
 #include "parser/states/keywords/files.hpp"
 
 namespace fs = std::filesystem;
@@ -54,6 +54,6 @@ const fs::path FilesTest::kFilePath{""};
  */
 TEST_F(FilesTest, TestProcess)
 {
-	parser::lexer::Lexer lexer{kFilePath};
+	lexer::Lexer lexer{kFilePath};
 	EXPECT_NO_THROW(instance_.Process(lexer));
 }

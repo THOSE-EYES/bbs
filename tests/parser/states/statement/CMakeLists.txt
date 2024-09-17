@@ -24,8 +24,8 @@ set(SOURCES
 )
 
 set(STUBS
-    ${STUBS_FOLDER}/parser/lexer/handlers/handler.cpp
-    ${STUBS_FOLDER}/parser/lexer/scanner.cpp
+    ${STUBS_FOLDER}/lexer/handlers/handler.cpp
+    ${STUBS_FOLDER}/lexer/scanner.cpp
     ${STUBS_FOLDER}/parser/exceptions/unexpectedtokenexception.cpp
     ${STUBS_FOLDER}/parser/states/keywords/files.cpp
     ${STUBS_FOLDER}/parser/states/keywords/project.cpp
@@ -34,7 +34,7 @@ set(STUBS
     ${STUBS_FOLDER}/parser/tokens/punctuator.cpp
     ${STUBS_FOLDER}/parser/tokens/token.cpp
     
-    src/stubs/parser/lexer/lexer.cpp
+    src/stubs/lexer/lexer.cpp
     src/stubs/parser/states/state.cpp
     src/stubs/parser/parser.cpp
 )

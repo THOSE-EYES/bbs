@@ -26,9 +26,15 @@
 #include "parser/states/types/array.hpp"
 
 #include "aux/handlers/dummyhandler.hpp"
-#include "fakes/parser/lexer/lexer.hpp"
+#include "fakes/lexer/lexer.hpp"
 
 namespace fs = std::filesystem;
+
+/**
+ * @brief The default file path, used by the test suite
+ * 
+ */
+const fs::path kFilePath{""};
 
 /**
  * @brief A text fixture to test parser::states::types::String component
@@ -38,19 +44,29 @@ class ArrayTest : public ::testing::Test
 {
 protected:
 	/**
-	 * @brief The default file path, used by the test suite
+	 * @brief An instance of parser
 	 * 
 	 */
-	static const fs::path kFilePath;
+	parser::Parser parser_{kFilePath};
 
 	/**
 	 * @brief The instance to test
 	 * 
 	 */
-	parser::states::types::Array instance_{nullptr};
+	parser::states::types::Array instance_{&parser_};
 };
 
-const fs::path ArrayTest::kFilePath{""};
+/**
+ * @brief Check if the Process() method correctly handles parser nullptr
+ * 
+ */
+TEST(ArrayTestNoFixture, TestProcessParserNullptr)
+{
+	parser::states::types::Array instance_{nullptr};
+	fakes::lexer::Lexer lexer{kFilePath, nullptr};
+
+	EXPECT_THROW(instance_.Process(lexer), std::runtime_error);
+}
 
 /**
  * @brief Check if the Process() method correctly handles abscence of the leading bracket
@@ -64,7 +80,7 @@ TEST_F(ArrayTest, TestProcessLeadingBracketAbscence)
 	tokens.emplace_back(std::make_unique<Token>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
-	fakes::parser::lexer::Lexer lexer{kFilePath, std::move(handler)};
+	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
 	EXPECT_THROW(instance_.Process(lexer), parser::exceptions::UnexpectedTokenException);
 }
@@ -85,7 +101,7 @@ TEST_F(ArrayTest, TestProcessClosingBracketAbscence)
 	tokens.emplace_back(std::make_unique<Token>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
-	fakes::parser::lexer::Lexer lexer{kFilePath, std::move(handler)};
+	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
 	EXPECT_THROW(instance_.Process(lexer), parser::exceptions::UnexpectedTokenException);
 }
@@ -106,7 +122,7 @@ TEST_F(ArrayTest, TestProcessCommaAbscence)
 	tokens.emplace_back(std::make_unique<Token>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
-	fakes::parser::lexer::Lexer lexer{kFilePath, std::move(handler)};
+	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
 	EXPECT_THROW(instance_.Process(lexer), parser::exceptions::UnexpectedTokenException);
 }
@@ -127,7 +143,7 @@ TEST_F(ArrayTest, TestProcess)
 	tokens.emplace_back(std::make_unique<Punctuator>("]", Punctuator::Type::kRightSquareBracket));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
-	fakes::parser::lexer::Lexer lexer{kFilePath, std::move(handler)};
+	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
 	EXPECT_NO_THROW(instance_.Process(lexer));
 	EXPECT_EQ(instance_.GetValue().size(), 1);

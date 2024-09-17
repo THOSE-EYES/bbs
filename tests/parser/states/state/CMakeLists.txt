@@ -25,8 +25,8 @@ set(SOURCES
 
 set(STUBS
     ${STUBS_FOLDER}/parser/exceptions/unexpectedtokenexception.cpp
-    ${STUBS_FOLDER}/parser/lexer/lexer.cpp
-    ${STUBS_FOLDER}/parser/lexer/scanner.cpp
+    ${STUBS_FOLDER}/lexer/lexer.cpp
+    ${STUBS_FOLDER}/lexer/scanner.cpp
     ${STUBS_FOLDER}/parser/tokens/punctuator.cpp
     ${STUBS_FOLDER}/parser/tokens/token.cpp
     ${STUBS_FOLDER}/parser/parser.cpp

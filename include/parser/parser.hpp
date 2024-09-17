@@ -21,7 +21,7 @@
 
 #include <memory>
 
-#include "parser/lexer/lexer.hpp"
+#include "lexer/lexer.hpp"
 #include "parser/states/state.hpp"
 
 namespace parser

@@ -24,9 +24,9 @@ set(SOURCES
 )
 
 set(STUBS
-    ${STUBS_FOLDER}/parser/lexer/handlers/handler.cpp
-    ${STUBS_FOLDER}/parser/lexer/lexer.cpp
-    ${STUBS_FOLDER}/parser/lexer/scanner.cpp
+    ${STUBS_FOLDER}/lexer/handlers/handler.cpp
+    ${STUBS_FOLDER}/lexer/lexer.cpp
+    ${STUBS_FOLDER}/lexer/scanner.cpp
     ${STUBS_FOLDER}/parser/states/statement.cpp
     ${STUBS_FOLDER}/parser/states/state.cpp
 )
