@@ -17,32 +17,33 @@
  * under the License.
  */
 
-#include "parser/parser.hpp"
+#pragma once
 
-#include "parser/states/statement.hpp"
+#include <stdexcept>
 
-namespace parser
+#include "lexer/context.hpp"
+
+namespace parser::exceptions
 {
-Parser::Parser(const std::filesystem::path& path)
-	: lexer_{path}
-	, state_{std::make_unique<states::Statement>(this)}
-{}
-
-const lexer::Context& Parser::GetContext() const
+/**
+ * @brief An exception, used to notify that the parser found an unexpected EOF
+ * 
+ */
+class UnexpectedEndOfFileException : public std::runtime_error
 {
-	return lexer_.GetContext();
-}
+public:
+	/**
+	 * @brief Construct a new UnexpectedEndOfFileException object
+	 * 
+	 * @param context - the context with the line that caused the error
+	 */
+	explicit UnexpectedEndOfFileException(const lexer::Context& context);
 
-void Parser::SetState(std::unique_ptr<states::State> state)
-{
-	state_ = std::move(state);
-}
-
-void Parser::Process()
-{
-	while(state_)
-	{
-		state_->Process(lexer_);
-	}
-}
-} // namespace parser
+protected:
+	/**
+	 * @brief The message, seeing on the exception occurence
+	 * 
+	 */
+	static const std::string kMessage;
+};
+} // namespace parser::exceptions

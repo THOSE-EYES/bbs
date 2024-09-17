@@ -51,6 +51,13 @@ public:
      */
 	std::unique_ptr<Token> Next();
 
+	/**
+      * @brief Get the current context
+      * 
+      * @return const Context& - a reference to the context instance
+      */
+	const Context& GetContext() const;
+
 protected:
 	/**
      * @brief An abstraction used to strip the lexer of I/O operations and comment/empty line handling

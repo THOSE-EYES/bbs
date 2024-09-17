@@ -40,6 +40,7 @@ add_executable(${PROJECT_NAME}
     src/lexer/context.cpp
     src/lexer/lexer.cpp
     src/lexer/scanner.cpp
+    src/parser/exceptions/unexpectedendoffileexception.cpp
     src/parser/exceptions/unexpectedtokenexception.cpp
     src/parser/states/keywords/files.cpp
     src/parser/states/keywords/project.cpp

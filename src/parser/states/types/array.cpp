@@ -19,6 +19,7 @@
 
 #include "parser/states/types/array.hpp"
 
+#include "parser/exceptions/unexpectedendoffileexception.hpp"
 #include "parser/exceptions/unexpectedtokenexception.hpp"
 #include "parser/parser.hpp"
 
@@ -30,6 +31,11 @@ Array::Array(Parser* parser)
 
 void Array::Process(lexer::Lexer& lexer)
 {
+	if(!parser_)
+	{
+		throw std::runtime_error("Array::Process(): Parser is nullptr");
+	}
+
 	Match(lexer.Next(), tokens::Punctuator::Type::kLeftSquareBracket);
 
 	tokens::Punctuator::Type type;
@@ -43,6 +49,10 @@ void Array::Process(lexer::Lexer& lexer)
 
 		// Get the terminator token
 		terminator = lexer.Next();
+		if(!terminator)
+		{
+			throw exceptions::UnexpectedEndOfFileException(parser_->GetContext());
+		}
 
 		// Get the type of the terminator
 		auto ptr = dynamic_cast<tokens::Punctuator*>(terminator.get());

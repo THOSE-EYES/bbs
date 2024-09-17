@@ -31,6 +31,11 @@ Lexer::Lexer(const std::filesystem::path& path)
 	handler_->SetNext(std::make_unique<handlers::WordHandler>());
 }
 
+const Context& Lexer::GetContext() const
+{
+	return scanner_.GetContext();
+}
+
 std::unique_ptr<Lexer::Token> Lexer::Next()
 {
 	return handler_->Process(scanner_);

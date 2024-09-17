@@ -21,6 +21,7 @@
 
 #include <memory>
 
+#include "lexer/context.hpp"
 #include "lexer/lexer.hpp"
 #include "parser/states/state.hpp"
 
@@ -41,6 +42,13 @@ public:
 	explicit Parser(const std::filesystem::path& path);
 
 public:
+	/**
+      * @brief Get the current context
+      * 
+      * @return const Context& - a reference to the context instance
+      */
+	const lexer::Context& GetContext() const;
+
 	/**
      * @brief Set the new state
      * 
