@@ -58,6 +58,6 @@ std::size_t Context::GetLineIndex() const
 
 std::size_t Context::GetPosition() const
 {
-	return std::distance(line_.begin(), std::string::const_iterator(position_)) + 1;
+	return std::distance(line_.begin(), std::string::const_iterator(position_));
 }
 } // namespace lexer

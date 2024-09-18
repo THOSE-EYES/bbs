@@ -107,5 +107,5 @@ TEST_F(ContextTest, TestGetPosition)
 	instance_.Update(std::move(data));
 	instance_.Next();
 
-	EXPECT_EQ(instance_.GetPosition(), 2);
+	EXPECT_EQ(instance_.GetPosition(), 1);
 }
