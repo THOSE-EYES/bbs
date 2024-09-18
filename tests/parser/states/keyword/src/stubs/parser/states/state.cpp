@@ -17,36 +17,29 @@
  * under the License.
  */
 
-#include "parser/states/statement.hpp"
+#include "parser/states/state.hpp"
 
+#include "parser/exceptions/unexpectedtokenexception.hpp"
 #include "parser/parser.hpp"
-#include "parser/states/keyword.hpp"
 
 namespace parser::states
 {
-Statement::Statement(Parser* parser)
-	: State{parser}
+State::State(Parser* parser)
+	: parser_{parser}
 {}
 
-void Statement::Process(lexer::Lexer& lexer)
+void State::Match(std::unique_ptr<tokens::Token> token, tokens::Punctuator::Type value)
 {
-	if(!parser_)
-	{
-		throw std::runtime_error("Statement::Process(): Parser is nullptr.");
-	}
-
-	// Check if the token to process is present
-	auto token = lexer.Next();
+	// Token might be nullptr, handle this case
 	if(!token)
 	{
-		parser_->SetState({});
-		return;
+		throw std::runtime_error("State::Match() was called with nullptr.");
 	}
 
-	// Every statement begins with the exclamation mark
-	Match(std::move(token), tokens::Punctuator::Type::kExclamationMark);
-
-	// By default, statements start with keywords
-	parser_->SetState(std::make_unique<Keyword>(parser_));
+	const auto ptr = dynamic_cast<tokens::Punctuator*>(token.get());
+	if(!ptr || ptr->type != value)
+	{
+		throw exceptions::UnexpectedTokenException(std::move(token->value));
+	}
 }
 } // namespace parser::states

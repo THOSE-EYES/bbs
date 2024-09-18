@@ -17,36 +17,33 @@
  * under the License.
  */
 
-#include "parser/states/statement.hpp"
+#pragma once
 
-#include "parser/parser.hpp"
-#include "parser/states/keyword.hpp"
+#include <string>
 
-namespace parser::states
+#include "lexer/handlers/handler.hpp"
+#include "lexer/lexer.hpp"
+
+namespace fakes::lexer
 {
-Statement::Statement(Parser* parser)
-	: State{parser}
-{}
-
-void Statement::Process(lexer::Lexer& lexer)
+/**
+ * @brief A fake for conversion of a text into meaningful lexical tokens
+ * 
+ */
+class Lexer : public ::lexer::Lexer
 {
-	if(!parser_)
+public:
+	/**
+     * @brief Construct a new Lexer object
+     * 
+     * @param path - the path to the file to scan
+     * @param handler - the handler to use
+     */
+	explicit Lexer(const std::filesystem::path& path,
+				   std::unique_ptr<::lexer::handlers::Handler> handler)
+		: ::lexer::Lexer{path}
 	{
-		throw std::runtime_error("Statement::Process(): Parser is nullptr.");
+		handler_ = std::move(handler);
 	}
-
-	// Check if the token to process is present
-	auto token = lexer.Next();
-	if(!token)
-	{
-		parser_->SetState({});
-		return;
-	}
-
-	// Every statement begins with the exclamation mark
-	Match(std::move(token), tokens::Punctuator::Type::kExclamationMark);
-
-	// By default, statements start with keywords
-	parser_->SetState(std::make_unique<Keyword>(parser_));
-}
-} // namespace parser::states
+};
+} // namespace fakes::lexer

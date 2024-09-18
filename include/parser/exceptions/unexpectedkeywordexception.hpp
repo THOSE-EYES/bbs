@@ -17,36 +17,33 @@
  * under the License.
  */
 
-#include "parser/states/statement.hpp"
+#pragma once
 
-#include "parser/parser.hpp"
-#include "parser/states/keyword.hpp"
+#include <stdexcept>
 
-namespace parser::states
+#include "lexer/context.hpp"
+
+namespace parser::exceptions
 {
-Statement::Statement(Parser* parser)
-	: State{parser}
-{}
-
-void Statement::Process(lexer::Lexer& lexer)
+/**
+ * @brief An exception, used to notify that the parser found an unknown keyword
+ * 
+ */
+class UnexpectedKeywordException : public std::runtime_error
 {
-	if(!parser_)
-	{
-		throw std::runtime_error("Statement::Process(): Parser is nullptr.");
-	}
+public:
+	/**
+	 * @brief Construct a new UnexpectedKeywordException object
+	 * 
+	 * @param context - the context with the line that caused the error
+	 */
+	explicit UnexpectedKeywordException(const lexer::Context& context, std::string keyword);
 
-	// Check if the token to process is present
-	auto token = lexer.Next();
-	if(!token)
-	{
-		parser_->SetState({});
-		return;
-	}
-
-	// Every statement begins with the exclamation mark
-	Match(std::move(token), tokens::Punctuator::Type::kExclamationMark);
-
-	// By default, statements start with keywords
-	parser_->SetState(std::make_unique<Keyword>(parser_));
-}
-} // namespace parser::states
+protected:
+	/**
+	 * @brief The message, seeing on the exception occurence
+	 * 
+	 */
+	static const std::string kMessage;
+};
+} // namespace parser::exceptions

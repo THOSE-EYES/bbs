@@ -17,36 +17,32 @@
  * under the License.
  */
 
-#include "parser/states/statement.hpp"
+#pragma once
 
-#include "parser/parser.hpp"
-#include "parser/states/keyword.hpp"
+#include "parser/states/state.hpp"
 
 namespace parser::states
 {
-Statement::Statement(Parser* parser)
-	: State{parser}
-{}
-
-void Statement::Process(lexer::Lexer& lexer)
+/**
+ * @brief A "Keyword" state of the parser, used to parse keywords
+ * 
+ */
+class Keyword : public State
 {
-	if(!parser_)
-	{
-		throw std::runtime_error("Statement::Process(): Parser is nullptr.");
-	}
+public:
+	/**
+     * @brief Construct a new Keyword object
+     * 
+     * @param parser - the associated parser
+     */
+	explicit Keyword(Parser* parser);
 
-	// Check if the token to process is present
-	auto token = lexer.Next();
-	if(!token)
-	{
-		parser_->SetState({});
-		return;
-	}
-
-	// Every statement begins with the exclamation mark
-	Match(std::move(token), tokens::Punctuator::Type::kExclamationMark);
-
-	// By default, statements start with keywords
-	parser_->SetState(std::make_unique<Keyword>(parser_));
-}
+public:
+	/**
+     * @brief Process the input from the lexer
+     * 
+     * @param lexer - the lexer which handles tokenization of the input file
+     */
+	void Process(lexer::Lexer& lexer) override;
+};
 } // namespace parser::states

@@ -17,17 +17,23 @@
 # under the License.
 #
 
-project("statement")
+project("keyword")
 
 set(SOURCES 
-    ${CMAKE_SOURCE_DIR}/src/parser/states/statement.cpp
+    ${CMAKE_SOURCE_DIR}/src/parser/states/keyword.cpp
 )
 
 set(STUBS
     ${STUBS_FOLDER}/lexer/handlers/handler.cpp
     ${STUBS_FOLDER}/lexer/scanner.cpp
+    ${STUBS_FOLDER}/parser/exceptions/unexpectedendoffileexception.cpp
+    ${STUBS_FOLDER}/parser/exceptions/unexpectedkeywordexception.cpp
     ${STUBS_FOLDER}/parser/exceptions/unexpectedtokenexception.cpp
-    ${STUBS_FOLDER}/parser/states/keyword.cpp
+    ${STUBS_FOLDER}/parser/states/keywords/files.cpp
+    ${STUBS_FOLDER}/parser/states/keywords/project.cpp
+    ${STUBS_FOLDER}/parser/states/types/array.cpp
+    ${STUBS_FOLDER}/parser/states/types/string.cpp
+    ${STUBS_FOLDER}/parser/states/statement.cpp
     ${STUBS_FOLDER}/parser/tokens/punctuator.cpp
     ${STUBS_FOLDER}/parser/tokens/token.cpp
     

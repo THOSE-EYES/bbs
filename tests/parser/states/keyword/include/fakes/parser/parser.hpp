@@ -17,36 +17,30 @@
  * under the License.
  */
 
-#include "parser/states/statement.hpp"
+#pragma once
 
 #include "parser/parser.hpp"
-#include "parser/states/keyword.hpp"
 
-namespace parser::states
+namespace fakes::parser
 {
-Statement::Statement(Parser* parser)
-	: State{parser}
-{}
-
-void Statement::Process(lexer::Lexer& lexer)
+/**
+ * @brief The class is used to process the tokens, found by lexer
+ * 
+ */
+class Parser : public ::parser::Parser
 {
-	if(!parser_)
-	{
-		throw std::runtime_error("Statement::Process(): Parser is nullptr.");
-	}
+public:
+	/**
+     * @brief Construct a new Parser object
+     * 
+     * @param path - the path to the file to scan
+     */
+	explicit Parser(const std::filesystem::path& path)
+		: ::parser::Parser{path}
+	{}
 
-	// Check if the token to process is present
-	auto token = lexer.Next();
-	if(!token)
-	{
-		parser_->SetState({});
-		return;
-	}
-
-	// Every statement begins with the exclamation mark
-	Match(std::move(token), tokens::Punctuator::Type::kExclamationMark);
-
-	// By default, statements start with keywords
-	parser_->SetState(std::make_unique<Keyword>(parser_));
-}
-} // namespace parser::states
+public:
+	using ::parser::Parser::lexer_;
+	using ::parser::Parser::state_;
+};
+} // namespace fakes::parser

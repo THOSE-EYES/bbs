@@ -41,11 +41,13 @@ add_executable(${PROJECT_NAME}
     src/lexer/lexer.cpp
     src/lexer/scanner.cpp
     src/parser/exceptions/unexpectedendoffileexception.cpp
+    src/parser/exceptions/unexpectedkeywordexception.cpp
     src/parser/exceptions/unexpectedtokenexception.cpp
     src/parser/states/keywords/files.cpp
     src/parser/states/keywords/project.cpp
     src/parser/states/types/array.cpp
     src/parser/states/types/string.cpp
+    src/parser/states/keyword.cpp
     src/parser/states/state.cpp
     src/parser/states/statement.cpp
     src/parser/tokens/punctuator.cpp

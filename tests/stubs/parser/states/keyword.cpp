@@ -17,36 +17,18 @@
  * under the License.
  */
 
-#include "parser/states/statement.hpp"
+#include "parser/states/keyword.hpp"
 
 #include "parser/parser.hpp"
-#include "parser/states/keyword.hpp"
 
 namespace parser::states
 {
-Statement::Statement(Parser* parser)
+Keyword::Keyword(Parser* parser)
 	: State{parser}
 {}
 
-void Statement::Process(lexer::Lexer& lexer)
+void Keyword::Process(lexer::Lexer& lexer)
 {
-	if(!parser_)
-	{
-		throw std::runtime_error("Statement::Process(): Parser is nullptr.");
-	}
-
-	// Check if the token to process is present
-	auto token = lexer.Next();
-	if(!token)
-	{
-		parser_->SetState({});
-		return;
-	}
-
-	// Every statement begins with the exclamation mark
-	Match(std::move(token), tokens::Punctuator::Type::kExclamationMark);
-
-	// By default, statements start with keywords
-	parser_->SetState(std::make_unique<Keyword>(parser_));
+	// noop
 }
 } // namespace parser::states

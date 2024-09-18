@@ -21,10 +21,12 @@
 
 #include <filesystem>
 
-#include "parser/exceptions/unexpectedtokenexception.hpp"
+#include "parser/exceptions/unexpectedendoffileexception.hpp"
+#include "parser/exceptions/unexpectedkeywordexception.hpp"
 #include "parser/parser.hpp"
 #include "parser/states/keyword.hpp"
-#include "parser/states/statement.hpp"
+#include "parser/states/keywords/files.hpp"
+#include "parser/states/keywords/project.hpp"
 
 #include "aux/handlers/dummyhandler.hpp"
 #include "fakes/lexer/lexer.hpp"
@@ -33,7 +35,6 @@
 namespace fs = std::filesystem;
 
 using Token = parser::tokens::Token;
-using Punctuator = parser::tokens::Punctuator;
 
 /**
  * @brief The default file path
@@ -42,10 +43,10 @@ using Punctuator = parser::tokens::Punctuator;
 const fs::path kFilePath{""};
 
 /**
- * @brief A text fixture to test parser::states::Statement component
+ * @brief A text fixture to test parser::states::Keyword component
  * 
  */
-class StatementTest : public ::testing::Test
+class KeywordTest : public ::testing::Test
 {
 protected:
 	/**
@@ -58,7 +59,7 @@ protected:
 	 * @brief The instance to test
 	 * 
 	 */
-	parser::states::Statement instance_{&parser_};
+	parser::states::Keyword instance_{&parser_};
 };
 
 /**
@@ -66,9 +67,9 @@ protected:
  *        to the parser.
  * 
  */
-TEST(StatementTestNoFixture, TestProcessParserNullptr)
+TEST(KeywordTestNoFixture, TestProcessParserNullptr)
 {
-	parser::states::Statement instance{nullptr};
+	parser::states::Keyword instance{nullptr};
 	fakes::lexer::Lexer lexer{kFilePath, nullptr};
 
 	EXPECT_THROW(instance.Process(lexer), std::runtime_error);
@@ -79,22 +80,21 @@ TEST(StatementTestNoFixture, TestProcessParserNullptr)
  *        symbol, meaning there is no other things to process.
  * 
  */
-TEST_F(StatementTest, TestProcessNoToken)
+TEST_F(KeywordTest, TestProcessNoToken)
 {
 	std::vector<std::unique_ptr<Token>> tokens{};
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
-	EXPECT_NO_THROW(instance_.Process(lexer));
+	EXPECT_THROW(instance_.Process(lexer), parser::exceptions::UnexpectedEndOfFileException);
 }
 
 /**
- * @brief Check if the Process() method correctly handles abscence of the
- *        leading exclamation mark
+ * @brief Check if the Process() method correctly handles unknown keywords
  * 
  */
-TEST_F(StatementTest, TestProcessLeadingExclamationMarkAbscence)
+TEST_F(KeywordTest, TestProcessUnknownKeyword)
 {
 	std::vector<std::unique_ptr<Token>> tokens{};
 	tokens.emplace_back(std::make_unique<Token>("A"));
@@ -102,22 +102,37 @@ TEST_F(StatementTest, TestProcessLeadingExclamationMarkAbscence)
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
-	EXPECT_THROW(instance_.Process(lexer), parser::exceptions::UnexpectedTokenException);
+	EXPECT_THROW(instance_.Process(lexer), parser::exceptions::UnexpectedKeywordException);
 }
 
 /**
- * @brief Check if the Process() method correctly handles the transition to the
- *        "keyword" state
+ * @brief Check if the Process() method correctly handles the "Project" keyword
  * 
  */
-TEST_F(StatementTest, TestProcessProjectKeyword)
+TEST_F(KeywordTest, TestProcessProjectKeyword)
 {
 	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Punctuator>("!", Punctuator::Type::kExclamationMark));
+	tokens.emplace_back(std::make_unique<Token>("prj"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
 	EXPECT_NO_THROW(instance_.Process(lexer));
-	EXPECT_TRUE(dynamic_cast<parser::states::Keyword*>(parser_.state_.get()));
+	EXPECT_TRUE(dynamic_cast<parser::states::keywords::Project*>(parser_.state_.get()));
+}
+
+/**
+ * @brief Check if the Process() method correctly handles the "Files" keyword
+ * 
+ */
+TEST_F(KeywordTest, TestProcessFilesKeyword)
+{
+	std::vector<std::unique_ptr<Token>> tokens{};
+	tokens.emplace_back(std::make_unique<Token>("files"));
+
+	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
+	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
+
+	EXPECT_NO_THROW(instance_.Process(lexer));
+	EXPECT_TRUE(dynamic_cast<parser::states::keywords::Files*>(parser_.state_.get()));
 }

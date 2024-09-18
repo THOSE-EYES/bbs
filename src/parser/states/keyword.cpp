@@ -17,36 +17,46 @@
  * under the License.
  */
 
-#include "parser/states/statement.hpp"
-
-#include "parser/parser.hpp"
 #include "parser/states/keyword.hpp"
+
+#include "parser/exceptions/unexpectedendoffileexception.hpp"
+#include "parser/exceptions/unexpectedkeywordexception.hpp"
+#include "parser/parser.hpp"
+#include "parser/states/keywords/files.hpp"
+#include "parser/states/keywords/project.hpp"
 
 namespace parser::states
 {
-Statement::Statement(Parser* parser)
+Keyword::Keyword(Parser* parser)
 	: State{parser}
 {}
 
-void Statement::Process(lexer::Lexer& lexer)
+void Keyword::Process(lexer::Lexer& lexer)
 {
 	if(!parser_)
 	{
-		throw std::runtime_error("Statement::Process(): Parser is nullptr.");
+		throw std::runtime_error("Keyword::Process(): Parser is nullptr.");
 	}
 
-	// Check if the token to process is present
-	auto token = lexer.Next();
+	// Check if the next token exists
+	const auto token = lexer.Next();
 	if(!token)
 	{
-		parser_->SetState({});
+		throw exceptions::UnexpectedEndOfFileException(parser_->GetContext());
+	}
+
+	// Process the correct keyword
+	if(token->value == "prj")
+	{
+		parser_->SetState(std::make_unique<keywords::Project>(parser_));
+		return;
+	}
+	else if(token->value == "files")
+	{
+		parser_->SetState(std::make_unique<keywords::Files>(parser_));
 		return;
 	}
 
-	// Every statement begins with the exclamation mark
-	Match(std::move(token), tokens::Punctuator::Type::kExclamationMark);
-
-	// By default, statements start with keywords
-	parser_->SetState(std::make_unique<Keyword>(parser_));
+	throw exceptions::UnexpectedKeywordException(parser_->GetContext(), token->value);
 }
 } // namespace parser::states
