@@ -45,4 +45,5 @@ link_libraries(
 
 add_subdirectory(lexer)
 add_subdirectory(parser)
+add_subdirectory(sys)
 add_subdirectory(utils)
