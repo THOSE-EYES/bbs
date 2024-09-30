@@ -17,4 +17,6 @@
 # under the License.
 #
 
+add_subdirectory(existingprojectexception)
+add_subdirectory(nonexistentprojectexception)
 add_subdirectory(unexpectedtokenexception)
