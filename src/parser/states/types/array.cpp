@@ -21,21 +21,15 @@
 
 #include "parser/exceptions/unexpectedendoffileexception.hpp"
 #include "parser/exceptions/unexpectedtokenexception.hpp"
-#include "parser/parser.hpp"
 
 namespace parser::states::types
 {
-Array::Array(Parser* parser)
-	: String{parser}
+Array::Array(Mediator& mediator)
+	: String{mediator}
 {}
 
 void Array::Process(lexer::Lexer& lexer)
 {
-	if(!parser_)
-	{
-		throw std::runtime_error("Array::Process(): Parser is nullptr");
-	}
-
 	Match(lexer.Next(), tokens::Punctuator::Type::kLeftSquareBracket);
 
 	tokens::Punctuator::Type type;
@@ -51,7 +45,7 @@ void Array::Process(lexer::Lexer& lexer)
 		terminator = lexer.Next();
 		if(!terminator)
 		{
-			throw exceptions::UnexpectedEndOfFileException(parser_->GetContext());
+			throw exceptions::UnexpectedEndOfFileException(lexer.GetContext());
 		}
 
 		// Get the type of the terminator

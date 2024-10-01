@@ -20,12 +20,11 @@
 #include "parser/states/state.hpp"
 
 #include "parser/exceptions/unexpectedtokenexception.hpp"
-#include "parser/parser.hpp"
 
 namespace parser::states
 {
-State::State(Parser* parser)
-	: parser_{parser}
+State::State(Mediator& mediator)
+	: mediator_{mediator}
 {}
 
 void State::Match(std::unique_ptr<tokens::Token> token, tokens::Punctuator::Type value)

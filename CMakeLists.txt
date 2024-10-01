@@ -40,6 +40,8 @@ add_executable(${PROJECT_NAME}
     src/lexer/context.cpp
     src/lexer/lexer.cpp
     src/lexer/scanner.cpp
+    src/parser/exceptions/existingprojectexception.cpp
+    src/parser/exceptions/nonexistentprojectexception.cpp
     src/parser/exceptions/unexpectedendoffileexception.cpp
     src/parser/exceptions/unexpectedkeywordexception.cpp
     src/parser/exceptions/unexpectedtokenexception.cpp
@@ -52,7 +54,14 @@ add_executable(${PROJECT_NAME}
     src/parser/states/statement.cpp
     src/parser/tokens/punctuator.cpp
     src/parser/tokens/token.cpp
+    src/parser/mediator.cpp
     src/parser/parser.cpp
+    src/scheduler/exceptions/compilationerrorexception.cpp
+    src/scheduler/exceptions/linkerrorexception.cpp
+    src/scheduler/pipeline/job.cpp
+    src/scheduler/pipeline/pipeline.cpp
+    src/scheduler/executor.cpp
+    src/sys/nix/command.cpp
     src/utils/bufferedlogger.cpp
     src/utils/logger.cpp
     src/main.cpp

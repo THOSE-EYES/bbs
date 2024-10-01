@@ -23,8 +23,8 @@
 
 namespace parser::states
 {
-State::State(Parser* parser)
-	: parser_{parser}
+State::State(Mediator& mediator)
+	: mediator_{mediator}
 {}
 
 void State::Match(std::unique_ptr<tokens::Token> token, tokens::Punctuator::Type value)

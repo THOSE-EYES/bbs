@@ -33,9 +33,9 @@ public:
 	/**
      * @brief Construct a new Keyword object
      * 
-     * @param parser - the associated parser
+     * @param mediator - the associated parser's mediator
      */
-	explicit Keyword(Parser* parser);
+	explicit Keyword(Mediator& mediator);
 
 public:
 	/**

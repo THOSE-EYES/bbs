@@ -23,6 +23,7 @@
 
 #include "lexer/context.hpp"
 #include "lexer/lexer.hpp"
+#include "parser/mediator.hpp"
 #include "parser/states/state.hpp"
 
 namespace parser
@@ -50,17 +51,11 @@ public:
 	const lexer::Context& GetContext() const;
 
 	/**
-     * @brief Set the new state
-     * 
-     * @param state - the state to set
-     */
-	void SetState(std::unique_ptr<states::State> state);
-
-	/**
      * @brief Process the given script
-     * 
+     *
+     * @return A filled job instance
      */
-	void Process();
+	scheduler::pipeline::Job Process();
 
 protected:
 	/**
@@ -70,9 +65,9 @@ protected:
 	lexer::Lexer lexer_;
 
 	/**
-     * @brief The current Parser's state
-     * 
-     */
-	std::unique_ptr<states::State> state_;
+      * @brief The object used to reduce dependencies between the parser and it's states
+      * 
+      */
+	Mediator mediator_;
 };
 } // namespace parser

@@ -19,27 +19,21 @@
 
 #include "parser/states/statement.hpp"
 
-#include "parser/parser.hpp"
 #include "parser/states/keyword.hpp"
 
 namespace parser::states
 {
-Statement::Statement(Parser* parser)
-	: State{parser}
+Statement::Statement(Mediator& mediator)
+	: State{mediator}
 {}
 
 void Statement::Process(lexer::Lexer& lexer)
 {
-	if(!parser_)
-	{
-		throw std::runtime_error("Statement::Process(): Parser is nullptr.");
-	}
-
 	// Check if the token to process is present
 	auto token = lexer.Next();
 	if(!token)
 	{
-		parser_->SetState({});
+		mediator_.SetState({});
 		return;
 	}
 
@@ -47,6 +41,6 @@ void Statement::Process(lexer::Lexer& lexer)
 	Match(std::move(token), tokens::Punctuator::Type::kExclamationMark);
 
 	// By default, statements start with keywords
-	parser_->SetState(std::make_unique<Keyword>(parser_));
+	mediator_.SetState(std::make_unique<Keyword>(mediator_));
 }
 } // namespace parser::states

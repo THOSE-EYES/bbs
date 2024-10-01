@@ -23,8 +23,8 @@
 
 namespace parser::states::keywords
 {
-Files::Files(Parser* parser)
-	: Array{parser}
+Files::Files(Mediator& mediator)
+	: Array{mediator}
 {}
 
 void Files::Process(lexer::Lexer& lexer)

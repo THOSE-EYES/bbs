@@ -23,8 +23,8 @@
 
 namespace parser::states
 {
-Statement::Statement(Parser* parser)
-	: State{parser}
+Statement::Statement(Mediator& mediator)
+	: State{mediator}
 {}
 
 void Statement::Process(lexer::Lexer& lexer)

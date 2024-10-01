@@ -19,20 +19,26 @@
 
 #include "parser/states/keywords/files.hpp"
 
-#include "parser/parser.hpp"
 #include "parser/states/statement.hpp"
 
 namespace parser::states::keywords
 {
-Files::Files(Parser* parser)
-	: Array{parser}
+Files::Files(Mediator& mediator)
+	: Array{mediator}
 {}
 
 void Files::Process(lexer::Lexer& lexer)
 {
 	Array::Process(lexer);
 
+	// Set the job's files
+	auto& job = mediator_.BorrowJob();
+	for(auto& name : Array::GetValue())
+	{
+		job.AddFile(std::filesystem::path{name});
+	}
+
 	// Return to the Statement state
-	parser_->SetState(std::make_unique<Statement>(parser_));
+	mediator_.SetState(std::make_unique<Statement>(mediator_));
 }
 } // namespace parser::states::keywords

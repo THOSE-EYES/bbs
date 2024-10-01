@@ -24,8 +24,8 @@
 
 namespace parser::states::types
 {
-String::String(Parser* parser)
-	: State{parser}
+String::String(Mediator& mediator)
+	: State{mediator}
 {}
 
 void String::Process(lexer::Lexer& lexer)

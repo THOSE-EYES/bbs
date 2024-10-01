@@ -33,9 +33,9 @@ public:
 	/**
      * @brief Construct a new Files object
      * 
-     * @param parser - the associated parser
+     * @param mediator - the associated parser's mediator
      */
-	explicit Files(Parser* parser);
+	explicit Files(Mediator& mediator);
 
 public:
 	/**

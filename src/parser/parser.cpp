@@ -19,13 +19,12 @@
 
 #include "parser/parser.hpp"
 
-#include "parser/states/statement.hpp"
+#include "parser/states/state.hpp"
 
 namespace parser
 {
 Parser::Parser(const std::filesystem::path& path)
 	: lexer_{path}
-	, state_{std::make_unique<states::Statement>(this)}
 {}
 
 const lexer::Context& Parser::GetContext() const
@@ -33,16 +32,17 @@ const lexer::Context& Parser::GetContext() const
 	return lexer_.GetContext();
 }
 
-void Parser::SetState(std::unique_ptr<states::State> state)
+scheduler::pipeline::Job Parser::Process()
 {
-	state_ = std::move(state);
-}
-
-void Parser::Process()
-{
-	while(state_)
+	auto state = mediator_.GetState();
+	while(state)
 	{
-		state_->Process(lexer_);
+		state->Process(lexer_);
+
+		// Get the next state
+		state = mediator_.GetState();
 	}
+
+	return mediator_.GetJob();
 }
 } // namespace parser

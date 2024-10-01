@@ -33,9 +33,9 @@ public:
 	/**
      * @brief Construct a new Statement object
      * 
-     * @param parser - the associated parser
+     * @param mediator - the associated parser's mediator
      */
-	explicit Statement(Parser* parser);
+	explicit Statement(Mediator& mediator);
 
 public:
 	/**

@@ -17,7 +17,8 @@
 # under the License.
 #
 
-add_subdirectory(exceptions)
-add_subdirectory(parser)
-add_subdirectory(states)
-add_subdirectory(tokens)
+#add_subdirectory(exceptions)
+add_subdirectory(mediator)
+#add_subdirectory(parser)
+#add_subdirectory(states)
+#add_subdirectory(tokens)

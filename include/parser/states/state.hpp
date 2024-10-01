@@ -20,12 +20,8 @@
 #pragma once
 
 #include "lexer/lexer.hpp"
+#include "parser/mediator.hpp"
 #include "parser/tokens/punctuator.hpp"
-
-namespace parser
-{
-class Parser;
-}
 
 namespace parser::states
 {
@@ -39,9 +35,9 @@ public:
 	/**
      * @brief Construct a new State object
      * 
-     * @param parser - the associated parser
+     * @param mediator - the associated parser's mediator
      */
-	explicit State(Parser* parser);
+	explicit State(Mediator& mediator);
 
 public:
 	/**
@@ -65,7 +61,7 @@ protected:
      * @brief The associated parser
      * 
      */
-	Parser* parser_;
+	Mediator& mediator_;
 };
 
 } // namespace parser::states
