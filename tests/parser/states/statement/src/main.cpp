@@ -24,11 +24,11 @@
 #include "parser/exceptions/unexpectedtokenexception.hpp"
 #include "parser/parser.hpp"
 #include "parser/states/keyword.hpp"
-#include "parser/states/statement.hpp"
 
 #include "aux/handlers/dummyhandler.hpp"
 #include "fakes/lexer/lexer.hpp"
 #include "fakes/parser/parser.hpp"
+#include "fakes/parser/states/statement.hpp"
 
 namespace fs = std::filesystem;
 
@@ -49,30 +49,17 @@ class StatementTest : public ::testing::Test
 {
 protected:
 	/**
-	 * @brief 
+	 * @brief A mediator instance
 	 * 
 	 */
-	fakes::parser::Parser parser_{kFilePath};
+	parser::Mediator mediator_;
 
 	/**
 	 * @brief The instance to test
 	 * 
 	 */
-	parser::states::Statement instance_{&parser_};
+	fakes::parser::states::Statement instance_{mediator_};
 };
-
-/**
- * @brief Check if the Process() method correctly handles nullptr as a pointer
- *        to the parser.
- * 
- */
-TEST(StatementTestNoFixture, TestProcessParserNullptr)
-{
-	parser::states::Statement instance{nullptr};
-	fakes::lexer::Lexer lexer{kFilePath, nullptr};
-
-	EXPECT_THROW(instance.Process(lexer), std::runtime_error);
-}
 
 /**
  * @brief Check if the Process() method correctly handles abscence any
@@ -119,5 +106,5 @@ TEST_F(StatementTest, TestProcessProjectKeyword)
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
 	EXPECT_NO_THROW(instance_.Process(lexer));
-	EXPECT_TRUE(dynamic_cast<parser::states::Keyword*>(parser_.state_.get()));
+	EXPECT_TRUE(dynamic_cast<parser::states::Keyword*>(instance_.mediator_.GetState().get()));
 }

@@ -32,10 +32,16 @@ class StateTest : public ::testing::Test
 {
 protected:
 	/**
+	 * @brief A mediator instance
+	 * 
+	 */
+	parser::Mediator mediator_;
+
+	/**
 	 * @brief The instance to test
 	 * 
 	 */
-	fakes::parser::states::State instance_{nullptr};
+	fakes::parser::states::State instance_{mediator_};
 };
 
 /**

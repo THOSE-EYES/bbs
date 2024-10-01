@@ -50,23 +50,17 @@ protected:
 	parser::Parser parser_{kFilePath};
 
 	/**
+	 * @brief An instance of mediator
+	 * 
+	 */
+	parser::Mediator mediator_;
+
+	/**
 	 * @brief The instance to test
 	 * 
 	 */
-	parser::states::types::Array instance_{&parser_};
+	parser::states::types::Array instance_{mediator_};
 };
-
-/**
- * @brief Check if the Process() method correctly handles parser nullptr
- * 
- */
-TEST(ArrayTestNoFixture, TestProcessParserNullptr)
-{
-	parser::states::types::Array instance_{nullptr};
-	fakes::lexer::Lexer lexer{kFilePath, nullptr};
-
-	EXPECT_THROW(instance_.Process(lexer), std::runtime_error);
-}
 
 /**
  * @brief Check if the Process() method correctly handles abscence of the leading bracket

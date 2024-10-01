@@ -41,6 +41,6 @@ public:
 
 public:
 	using ::parser::Parser::lexer_;
-	using ::parser::Parser::state_;
+	using ::parser::Parser::mediator_;
 };
 } // namespace fakes::parser

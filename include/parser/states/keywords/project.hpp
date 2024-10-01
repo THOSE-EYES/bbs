@@ -33,9 +33,9 @@ public:
 	/**
      * @brief Construct a new Project object
      * 
-     * @param parser - the associated parser
+     * @param mediator - the associated parser's mediator
      */
-	explicit Project(Parser* parser);
+	explicit Project(Mediator& mediator);
 
 public:
 	/**

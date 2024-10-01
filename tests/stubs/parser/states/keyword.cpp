@@ -23,8 +23,8 @@
 
 namespace parser::states
 {
-Keyword::Keyword(Parser* parser)
-	: State{parser}
+Keyword::Keyword(Mediator& mediator)
+	: State{mediator}
 {}
 
 void Keyword::Process(lexer::Lexer& lexer)

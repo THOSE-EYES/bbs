@@ -35,8 +35,8 @@ public:
      * 
      * @param parser - the associated parser
      */
-	explicit State(::parser::Parser* parser)
-		: ::parser::states::State{parser}
+	explicit State(::parser::Mediator& mediator)
+		: ::parser::states::State{mediator}
 	{}
 
 public:
@@ -52,7 +52,7 @@ public:
 
 public:
 	using ::parser::states::State::Match;
-	using ::parser::states::State::parser_;
+	using ::parser::states::State::mediator_;
 };
 
 } // namespace fakes::parser::states

@@ -50,17 +50,6 @@ protected:
 const fs::path ParserTest::kFilePath{""};
 
 /**
- * @brief Check if the SetState() method actually changes the state of the parser
- * 
- */
-TEST_F(ParserTest, TestSetState)
-{
-	EXPECT_TRUE(instance_.state_);
-	instance_.SetState({});
-	EXPECT_FALSE(instance_.state_);
-}
-
-/**
  * @brief Check if the nullptr state make the parser end file processing job
  * 
  * @note It is very important to use stubs of the Statement component for this
@@ -72,7 +61,7 @@ TEST_F(ParserTest, TestProcess)
 	const auto handle = std::async(std::launch::async, [&] { instance_.Process(); });
 
 	// Make the state switch to "nullptr"
-	instance_.SetState({});
+	instance_.mediator_.SetState({});
 
 	// Expect the processing to be stopped
 	const auto status = handle.wait_for(std::chrono::seconds(1));

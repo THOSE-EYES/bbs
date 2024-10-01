@@ -25,7 +25,6 @@ namespace parser
 {
 Parser::Parser(const std::filesystem::path& path)
 	: lexer_{path}
-	, state_{nullptr}
 {}
 
 const lexer::Context& Parser::GetContext() const
@@ -33,7 +32,8 @@ const lexer::Context& Parser::GetContext() const
 	return lexer_.GetContext();
 }
 
-void Parser::SetState(std::unique_ptr<states::State> state) {}
-
-void Parser::Process() {}
+scheduler::pipeline::Job Parser::Process()
+{
+	return {""};
+}
 } // namespace parser

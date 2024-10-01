@@ -30,7 +30,9 @@ set(STUBS
     ${STUBS_FOLDER}/parser/exceptions/unexpectedtokenexception.cpp
     ${STUBS_FOLDER}/parser/tokens/punctuator.cpp
     ${STUBS_FOLDER}/parser/tokens/token.cpp
+    ${STUBS_FOLDER}/parser/mediator.cpp
     ${STUBS_FOLDER}/parser/parser.cpp
+    ${STUBS_FOLDER}/scheduler/pipeline/job.cpp
 
     src/stubs/lexer/lexer.cpp
     src/stubs/parser/states/types/string.cpp

@@ -21,42 +21,36 @@
 
 #include "parser/exceptions/unexpectedendoffileexception.hpp"
 #include "parser/exceptions/unexpectedkeywordexception.hpp"
-#include "parser/parser.hpp"
 #include "parser/states/keywords/files.hpp"
 #include "parser/states/keywords/project.hpp"
 
 namespace parser::states
 {
-Keyword::Keyword(Parser* parser)
-	: State{parser}
+Keyword::Keyword(Mediator& mediator)
+	: State{mediator}
 {}
 
 void Keyword::Process(lexer::Lexer& lexer)
 {
-	if(!parser_)
-	{
-		throw std::runtime_error("Keyword::Process(): Parser is nullptr.");
-	}
-
 	// Check if the next token exists
 	const auto token = lexer.Next();
 	if(!token)
 	{
-		throw exceptions::UnexpectedEndOfFileException(parser_->GetContext());
+		throw exceptions::UnexpectedEndOfFileException(lexer.GetContext());
 	}
 
 	// Process the correct keyword
 	if(token->value == "prj")
 	{
-		parser_->SetState(std::make_unique<keywords::Project>(parser_));
+		mediator_.SetState(std::make_unique<keywords::Project>(mediator_));
 		return;
 	}
 	else if(token->value == "files")
 	{
-		parser_->SetState(std::make_unique<keywords::Files>(parser_));
+		mediator_.SetState(std::make_unique<keywords::Files>(mediator_));
 		return;
 	}
 
-	throw exceptions::UnexpectedKeywordException(parser_->GetContext(), token->value);
+	throw exceptions::UnexpectedKeywordException(lexer.GetContext(), token->value);
 }
 } // namespace parser::states

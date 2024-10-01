@@ -35,9 +35,9 @@ public:
 	/**
      * @brief Construct a new String object
      * 
-     * @param parser - the associated parser
+     * @param mediator - the associated parser's mediator
      */
-	explicit String(Parser* parser);
+	explicit String(Mediator& mediator);
 
 public:
 	/**

@@ -44,10 +44,16 @@ protected:
 	static const fs::path kFilePath;
 
 	/**
+	 * @brief A mediator instance
+	 * 
+	 */
+	parser::Mediator mediator_;
+
+	/**
 	 * @brief The instance to test
 	 * 
 	 */
-	parser::states::types::String instance_{nullptr};
+	parser::states::types::String instance_{mediator_};
 };
 
 const fs::path StringTest::kFilePath{""};

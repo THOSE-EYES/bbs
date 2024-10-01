@@ -19,20 +19,22 @@
 
 #include "parser/states/keywords/project.hpp"
 
-#include "parser/parser.hpp"
 #include "parser/states/statement.hpp"
 
 namespace parser::states::keywords
 {
-Project::Project(Parser* parser)
-	: String{parser}
+Project::Project(Mediator& mediator)
+	: String{mediator}
 {}
 
 void Project::Process(lexer::Lexer& lexer)
 {
 	String::Process(lexer);
 
+	// Create a new job
+	mediator_.SetJob(std::make_unique<scheduler::pipeline::Job>(std::move(GetValue())));
+
 	// Return to the Statement state
-	parser_->SetState(std::make_unique<Statement>(parser_));
+	mediator_.SetState(std::make_unique<Statement>(mediator_));
 }
 } // namespace parser::states::keywords

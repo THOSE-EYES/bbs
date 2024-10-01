@@ -27,8 +27,13 @@ set(STUBS
     ${STUBS_FOLDER}/lexer/handlers/handler.cpp
     ${STUBS_FOLDER}/lexer/lexer.cpp
     ${STUBS_FOLDER}/lexer/scanner.cpp
+    ${STUBS_FOLDER}/parser/exceptions/existingprojectexception.cpp
+    ${STUBS_FOLDER}/parser/exceptions/nonexistentprojectexception.cpp
     ${STUBS_FOLDER}/parser/states/statement.cpp
     ${STUBS_FOLDER}/parser/states/state.cpp
+    ${STUBS_FOLDER}/scheduler/pipeline/job.cpp
+
+    src/stubs/parser/mediator.cpp
 )
 
 add_executable(${PROJECT_NAME} 

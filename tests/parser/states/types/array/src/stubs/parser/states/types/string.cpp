@@ -20,12 +20,12 @@
 #include "parser/states/types/string.hpp"
 
 #include "parser/exceptions/unexpectedtokenexception.hpp"
-#include "parser/parser.hpp"
+#include "parser/mediator.hpp"
 
 namespace parser::states::types
 {
-String::String(Parser* parser)
-	: State{parser}
+String::String(Mediator& mediator)
+	: State{mediator}
 {}
 
 void String::Process(lexer::Lexer& lexer)

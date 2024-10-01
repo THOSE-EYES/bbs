@@ -40,10 +40,16 @@ protected:
 	static const fs::path kFilePath;
 
 	/**
+	 * @brief A mediator instance
+	 * 
+	 */
+	parser::Mediator mediator_;
+
+	/**
 	 * @brief The instance to test
 	 * 
 	 */
-	parser::states::keywords::Project instance_{nullptr};
+	parser::states::keywords::Project instance_{mediator_};
 };
 
 const fs::path ProjectTest::kFilePath{""};

@@ -43,6 +43,7 @@ link_libraries(
     gcov
 )
 
+add_subdirectory(application)
 add_subdirectory(lexer)
 add_subdirectory(parser)
 add_subdirectory(scheduler)

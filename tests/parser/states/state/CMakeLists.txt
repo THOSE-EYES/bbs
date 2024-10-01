@@ -25,11 +25,14 @@ set(SOURCES
 
 set(STUBS
     ${STUBS_FOLDER}/parser/exceptions/unexpectedtokenexception.cpp
+    ${STUBS_FOLDER}/lexer/handlers/handler.cpp
     ${STUBS_FOLDER}/lexer/lexer.cpp
     ${STUBS_FOLDER}/lexer/scanner.cpp
     ${STUBS_FOLDER}/parser/tokens/punctuator.cpp
     ${STUBS_FOLDER}/parser/tokens/token.cpp
+    ${STUBS_FOLDER}/parser/mediator.cpp
     ${STUBS_FOLDER}/parser/parser.cpp
+    ${STUBS_FOLDER}/scheduler/pipeline/job.cpp
 )
 
 add_executable(${PROJECT_NAME} 
