@@ -18,4 +18,5 @@
 #
 
 add_subdirectory(exceptions)
+add_subdirectory(executor)
 add_subdirectory(pipeline)
