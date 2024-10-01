@@ -17,5 +17,4 @@
 # under the License.
 #
 
-add_subdirectory(exceptions)
-add_subdirectory(pipeline)
+add_subdirectory(job)
