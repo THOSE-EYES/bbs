@@ -18,3 +18,4 @@
 #
 
 add_subdirectory(job)
+add_subdirectory(pipeline)
