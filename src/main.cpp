@@ -17,7 +17,35 @@
  * under the License.
  */
 
-int main()
+#include <filesystem>
+#include <iostream>
+
+#include "application.hpp"
+
+static const std::string help{"Usage: bbs [FILE]\n"
+							  "Builds the project, specified by the FILE\n"};
+
+int main(int argc, char** argv)
 {
+	if(argc != 2)
+	{
+		std::cout << help << std::endl;
+		return 1;
+	}
+
+	if(argv[1] == "--help")
+	{
+		std::cout << help << std::endl;
+		return 0;
+	}
+
+	// Get the path to the main build file
+	std::filesystem::path path{argv[1]};
+
+	// Process the files and build the project
+	Application application;
+	application.Process(path);
+	application.Build();
+
 	return 0;
 }
