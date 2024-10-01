@@ -32,7 +32,7 @@ const lexer::Context& Parser::GetContext() const
 	return lexer_.GetContext();
 }
 
-scheduler::pipeline::Job Process()
+scheduler::pipeline::Job Parser::Process()
 {
 	return {""};
 }

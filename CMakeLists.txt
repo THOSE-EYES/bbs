@@ -64,5 +64,6 @@ add_executable(${PROJECT_NAME}
     src/sys/nix/command.cpp
     src/utils/bufferedlogger.cpp
     src/utils/logger.cpp
+    src/application.cpp
     src/main.cpp
 )
