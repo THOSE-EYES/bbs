@@ -17,5 +17,7 @@
 # under the License.
 #
 
+add_subdirectory(cflags)
+add_subdirectory(deps)
 add_subdirectory(files)
 add_subdirectory(project)

@@ -27,21 +27,27 @@
 extern bool result;
 
 /**
- * @brief 
+ * @brief Check if the Run() method works correctly
  * 
  */
 TEST(PipelineTest, TestRun)
 {
-	scheduler::pipeline::Job job{""};
+	scheduler::pipeline::Job job{"test"};
+	job.SetProjectPath(std::filesystem::path{"test"});
 	job.AddFile(std::filesystem::path{"main.cpp"});
 
 	scheduler::pipeline::Pipeline pipeline{std::move(job)};
 	EXPECT_NO_THROW(pipeline.Run());
 }
 
+/**
+ * @brief Check if the Run() method throws an exception when the compilation fails
+ * 
+ */
 TEST(PipelineTest, TestCompileFail)
 {
-	scheduler::pipeline::Job job{""};
+	scheduler::pipeline::Job job{"test"};
+	job.SetProjectPath(std::filesystem::path{"test"});
 	job.AddFile(std::filesystem::path{"main.cpp"});
 
 	result = false;
@@ -49,9 +55,14 @@ TEST(PipelineTest, TestCompileFail)
 	EXPECT_THROW(pipeline.Run(), scheduler::exceptions::CompilationErrorException);
 }
 
+/**
+ * @brief Check if the Run() method throws an exception when the linking fails
+ * 
+ */
 TEST(PipelineTest, TestLinkFail)
 {
-	scheduler::pipeline::Job job{""};
+	scheduler::pipeline::Job job{"test"};
+	job.SetProjectPath(std::filesystem::path{"test"});
 
 	result = false;
 	scheduler::pipeline::Pipeline pipeline{std::move(job)};

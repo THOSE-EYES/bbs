@@ -68,9 +68,23 @@ public:
 	const std::string& GetProjectName() const;
 
 	/**
+	 * @brief Set the project path
+	 * 
+	 * @param value - the path to the project
+	 */
+	void SetProjectPath(std::filesystem::path value);
+
+	/**
+	 * @brief Get the project's path
+	 * 
+	 * @return std::filesystem::path& - the path to the project
+	 */
+	const std::filesystem::path& GetProjectPath() const;
+
+	/**
 	 * @brief Add a new file to the job
 	 * 
-	 * @param value 
+	 * @param value - add the file
 	 */
 	void AddFile(std::filesystem::path value);
 
@@ -81,6 +95,34 @@ public:
 	 */
 	const std::vector<std::filesystem::path>& GetFiles() const;
 
+	/**
+	 * @brief Add a new dependency to the job
+	 * 
+	 * @param value - add the dependency
+	 */
+	void AddDependency(std::filesystem::path value);
+
+	/**
+	 * @brief Get the files the job contains
+	 * 
+	 * @return std::vector<std::filesystem::path>& - the files the job contains
+	 */
+	const std::vector<std::filesystem::path>& GetDependencies() const;
+
+	/**
+	 * @brief Set the compilation flags
+	 * 
+	 * @param value - the flags
+	 */
+	void SetCompilationFlags(std::string value);
+
+	/**
+	 * @brief Get the compilation flags
+	 * 
+	 * @return const std::string& - the value of the flags
+	 */
+	const std::string& GetCompilationFlags() const;
+
 protected:
 	/**
 	 * @brief Job's name
@@ -89,9 +131,27 @@ protected:
 	const std::string name_;
 
 	/**
+	 * @brief The project's path
+	 * 
+	 */
+	std::filesystem::path path_;
+
+	/**
 	 * @brief The list of files the job contains
 	 * 
 	 */
 	std::vector<std::filesystem::path> files_;
+
+	/**
+	 * @brief The list of dependencies the job contains
+	 * 
+	 */
+	std::vector<std::filesystem::path> dependencies_;
+
+	/**
+	 * @brief Compilation flags
+	 * 
+	 */
+	std::string cflags_;
 };
 } // namespace scheduler::pipeline

@@ -22,8 +22,8 @@
 
 #include "application.hpp"
 
-static const std::string help{"Usage: bbs [FILE]\n"
-							  "Builds the project, specified by the FILE\n"};
+static const std::string help{"Usage: bbs [PATH]\n"
+							  "Builds the project, specified by the PATH\n"};
 
 int main(int argc, char** argv)
 {

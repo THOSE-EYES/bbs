@@ -43,15 +43,23 @@ Pipeline::Pipeline(Job job)
 
 void Pipeline::Run() const
 {
+	// Create the directory for the output
+	const std::filesystem::path folder{job_.GetProjectName()};
+	std::filesystem::create_directory(folder);
+
 	std::stringstream parameters{};
 	for(const auto& file : job_.GetFiles())
 	{
-		Compile(file);
+		const auto obj = folder / file.filename().replace_extension(".o");
 
 		// Add the object file name to the list of parameters
-		const auto obj = file.filename().replace_extension(".o");
 		parameters << std::move(obj.string()) << " ";
+
+		Compile(file, obj);
 	}
+
+	// Set the name of the executable
+	parameters << "-o" << (folder / job_.GetProjectName()).string();
 
 	// Link all the object files into the executable
 	Command command{kCompiler, parameters.str()};
@@ -61,10 +69,11 @@ void Pipeline::Run() const
 	}
 }
 
-void Pipeline::Compile(const std::filesystem::path& file) const
+void Pipeline::Compile(const std::filesystem::path& file, const std::filesystem::path& out) const
 {
 	std::stringstream parameters;
-	parameters << "-c" << " " << file.string();
+	parameters << job_.GetCompilationFlags() << " -c " << (job_.GetProjectPath() / file).string()
+			   << " -o " << out.string();
 
 	Command command{kCompiler, parameters.str()};
 	if(!command.Execute())

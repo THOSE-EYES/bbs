@@ -17,23 +17,28 @@
  * under the License.
  */
 
-#include "parser/tokens/punctuator.hpp"
+#include "parser/states/keywords/deps.hpp"
 
-namespace parser::tokens
+#include "parser/states/statement.hpp"
+
+namespace parser::states::keywords
 {
-const std::map<char, Punctuator::Type> Punctuator::kPunctuatorToTypeMap{
-	{'[', Type::kLeftSquareBracket},
-	{']', Type::kRightSquareBracket},
-	{'!', Type::kExclamationMark},
-	{'\"', Type::kDoubleQuoteMark},
-	{'.', Type::kDot},
-	{',', Type::kComma},
-	{'/', Type::kSlash},
-	{'\\', Type::kBackslash},
-	{'-', Type::kMinus}};
-
-Punctuator::Punctuator(std::string value_, Type type_)
-	: Token{std::move(value_)}
-	, type{type_}
+Deps::Deps(Mediator& mediator)
+	: Array{mediator}
 {}
-} // namespace parser::tokens
+
+void Deps::Process(lexer::Lexer& lexer)
+{
+	Array::Process(lexer);
+
+	// Set the job's files
+	auto& job = mediator_.BorrowJob();
+	for(auto& name : Array::GetValue())
+	{
+		job.AddDependency(std::filesystem::path{name});
+	}
+
+	// Return to the Statement state
+	mediator_.SetState(std::make_unique<Statement>(mediator_));
+}
+} // namespace parser::states::keywords

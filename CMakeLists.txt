@@ -45,6 +45,8 @@ add_executable(${PROJECT_NAME}
     src/parser/exceptions/unexpectedendoffileexception.cpp
     src/parser/exceptions/unexpectedkeywordexception.cpp
     src/parser/exceptions/unexpectedtokenexception.cpp
+    src/parser/states/keywords/cflags.cpp
+    src/parser/states/keywords/deps.cpp
     src/parser/states/keywords/files.cpp
     src/parser/states/keywords/project.cpp
     src/parser/states/types/array.cpp

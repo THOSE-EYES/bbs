@@ -22,6 +22,7 @@
 namespace scheduler::pipeline
 {
 Job::Job(std::string name)
+	: name_{std::move(name)}
 {
 	//noop
 }
@@ -38,6 +39,16 @@ const std::string& Job::GetProjectName() const
 	return name_;
 }
 
+void Job::SetProjectPath(std::filesystem::path value)
+{
+	path_ = std::move(value);
+}
+
+const std::filesystem::path& Job::GetProjectPath() const
+{
+	return path_;
+}
+
 void Job::AddFile(std::filesystem::path value)
 {
 	files_.push_back(std::move(value));
@@ -46,5 +57,25 @@ void Job::AddFile(std::filesystem::path value)
 const std::vector<std::filesystem::path>& Job::GetFiles() const
 {
 	return files_;
+}
+
+void Job::AddDependency(std::filesystem::path value)
+{
+	// noop
+}
+
+const std::vector<std::filesystem::path>& Job::GetDependencies() const
+{
+	return dependencies_;
+}
+
+void Job::SetCompilationFlags(std::string value)
+{
+	cflags_ = std::move(value);
+}
+
+const std::string& Job::GetCompilationFlags() const
+{
+	return cflags_;
 }
 } // namespace scheduler::pipeline

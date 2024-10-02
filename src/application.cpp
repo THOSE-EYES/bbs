@@ -24,12 +24,21 @@
 #include "parser/parser.hpp"
 #include "scheduler/pipeline/job.hpp"
 
+const static std::string kBuildFile = "build.bbs";
+
 void Application::Process(std::filesystem::path path)
 {
-	parser::Parser parser{path};
+	parser::Parser parser{path / kBuildFile};
 	try
 	{
 		auto job = parser.Process();
+		job.SetProjectPath(path);
+
+		// Process dependencies
+		for(const auto& dependency : job.GetDependencies())
+		{
+			Process(path / dependency);
+		}
 
 		// Create a new pipeline to build the project
 		scheduler::pipeline::Pipeline pipeline{std::move(job)};

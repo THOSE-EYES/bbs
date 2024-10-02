@@ -19,54 +19,30 @@
 
 #pragma once
 
-#include <cstdint>
-#include <map>
+#include "parser/states/types/array.hpp"
 
-#include "parser/tokens/token.hpp"
-
-namespace parser::tokens
+namespace parser::states::keywords
 {
 /**
- * @brief The token that represents a punctuator
+ * @brief A "Deps" state of the parser, used to parse !deps keyword
  * 
  */
-struct Punctuator : public Token
+class Deps : public types::Array
 {
+public:
 	/**
-	 * @brief The punctuator's type
-	 * 
-	 */
-	enum class Type : uint8_t
-	{
-		kLeftSquareBracket,
-		kRightSquareBracket,
-		kExclamationMark,
-		kDoubleQuoteMark,
-		kDot,
-		kComma,
-		kSlash,
-		kBackslash,
-		kMinus
-	};
-
-	/**
-	 * @brief Construct a new Punctuator object
-	 * 
-	 * @param value_ - the string value of the token
-	 * @param type_ - punctuator's type
-	 */
-	explicit Punctuator(std::string value_, Type type_);
-
-	/**
-	 * @brief Current punctuator's type
-	 * 
-	 */
-	const Type type;
-
-	/**
-     * @brief Mapping the input to the predefined set of punctuator types
+     * @brief Construct a new Deps object
      * 
+     * @param mediator - the associated parser's mediator
      */
-	static const std::map<char, Type> kPunctuatorToTypeMap;
+	explicit Deps(Mediator& mediator);
+
+public:
+	/**
+     * @brief Process the input from the lexer
+     * 
+     * @param lexer - the lexer which handles tokenization of the input file
+     */
+	void Process(lexer::Lexer& lexer);
 };
-} // namespace parser::tokens
+} // namespace parser::states::keywords

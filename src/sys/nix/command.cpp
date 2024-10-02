@@ -22,8 +22,6 @@
 #include <cstdlib>
 #include <sstream>
 
-#include <iostream>
-
 namespace sys::nix
 {
 Command::Command(std::string program, std::string parameters)

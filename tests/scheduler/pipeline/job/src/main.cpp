@@ -22,10 +22,24 @@
 #include "scheduler/pipeline/job.hpp"
 
 /**
+ * @brief A text fixture to test scheduler::pipeline::Job component
+ * 
+ */
+class JobTest : public ::testing::Test
+{
+protected:
+	/**
+	 * @brief The instance to test
+	 * 
+	 */
+	scheduler::pipeline::Job instance_{""};
+};
+
+/**
  * @brief Check if the contructor sets project's name
  * 
  */
-TEST(JobTest, TestConstructor)
+TEST(JobTestNoFixture, TestConstructor)
 {
 	std::string name{"name"};
 	scheduler::pipeline::Job job{name};
@@ -33,16 +47,53 @@ TEST(JobTest, TestConstructor)
 }
 
 /**
- * @brief Check if the AddFile() method returns a reference to the correctly filled vector
+ * @brief Check if the GetFiles() method returns a reference to the correctly filled vector
  * 
  */
-TEST(JobTest, TestAddFile)
+TEST_F(JobTest, TestAddFile)
 {
 	const std::filesystem::path file{"some_file.txt"};
-	scheduler::pipeline::Job job{"project"};
-	job.AddFile(file);
+	instance_.AddFile(file);
 
-	const auto& files = job.GetFiles();
+	const auto& files = instance_.GetFiles();
 	EXPECT_EQ(files.size(), 1);
 	EXPECT_EQ(files.at(0), file);
+}
+
+/**
+ * @brief Check if the SetCompilationFlags() method correctly sets the flags
+ * 
+ */
+TEST_F(JobTest, TestSetCompilationFlags)
+{
+	const std::string flags{"flags"};
+	instance_.SetCompilationFlags(flags);
+
+	EXPECT_EQ(instance_.GetCompilationFlags(), flags);
+}
+
+/**
+ * @brief Check if the GetDependencies() method returns a reference to the correctly filled vector
+ * 
+ */
+TEST_F(JobTest, TestAddDependency)
+{
+	const std::filesystem::path path{"some_path"};
+	instance_.AddDependency(path);
+
+	const auto& dependencies = instance_.GetDependencies();
+	EXPECT_EQ(dependencies.size(), 1);
+	EXPECT_EQ(dependencies.at(0), path);
+}
+
+/**
+ * @brief Check if the SetProjectPath() method correctly sets the project's path
+ * 
+ */
+TEST_F(JobTest, TestSetProjectPath)
+{
+	const std::filesystem::path path{"some_path"};
+	instance_.SetProjectPath(path);
+
+	EXPECT_EQ(instance_.GetProjectPath(), path);
 }

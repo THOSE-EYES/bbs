@@ -17,56 +17,49 @@
  * under the License.
  */
 
-#pragma once
+#include <gtest/gtest.h>
 
-#include <cstdint>
-#include <map>
+#include <filesystem>
 
-#include "parser/tokens/token.hpp"
+#include "lexer/lexer.hpp"
+#include "parser/states/keywords/cflags.hpp"
 
-namespace parser::tokens
-{
+namespace fs = std::filesystem;
+
 /**
- * @brief The token that represents a punctuator
+ * @brief A text fixture to test parser::states::keywords::Project component
  * 
  */
-struct Punctuator : public Token
+class CFlagsTest : public ::testing::Test
 {
+protected:
 	/**
-	 * @brief The punctuator's type
+	 * @brief The default file path, used by the test suite
 	 * 
 	 */
-	enum class Type : uint8_t
-	{
-		kLeftSquareBracket,
-		kRightSquareBracket,
-		kExclamationMark,
-		kDoubleQuoteMark,
-		kDot,
-		kComma,
-		kSlash,
-		kBackslash,
-		kMinus
-	};
+	static const fs::path kFilePath;
 
 	/**
-	 * @brief Construct a new Punctuator object
-	 * 
-	 * @param value_ - the string value of the token
-	 * @param type_ - punctuator's type
-	 */
-	explicit Punctuator(std::string value_, Type type_);
-
-	/**
-	 * @brief Current punctuator's type
+	 * @brief A mediator instance
 	 * 
 	 */
-	const Type type;
+	parser::Mediator mediator_;
 
 	/**
-     * @brief Mapping the input to the predefined set of punctuator types
-     * 
-     */
-	static const std::map<char, Type> kPunctuatorToTypeMap;
+	 * @brief The instance to test
+	 * 
+	 */
+	parser::states::keywords::CFlags instance_{mediator_};
 };
-} // namespace parser::tokens
+
+const fs::path CFlagsTest::kFilePath{""};
+
+/**
+ * @brief Check if the Process() method correctly handles abscence of the leading bracket
+ * 
+ */
+TEST_F(CFlagsTest, TestProcess)
+{
+	lexer::Lexer lexer{kFilePath};
+	EXPECT_NO_THROW(instance_.Process(lexer));
+}

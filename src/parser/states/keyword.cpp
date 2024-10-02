@@ -21,6 +21,8 @@
 
 #include "parser/exceptions/unexpectedendoffileexception.hpp"
 #include "parser/exceptions/unexpectedkeywordexception.hpp"
+#include "parser/states/keywords/cflags.hpp"
+#include "parser/states/keywords/deps.hpp"
 #include "parser/states/keywords/files.hpp"
 #include "parser/states/keywords/project.hpp"
 
@@ -40,14 +42,25 @@ void Keyword::Process(lexer::Lexer& lexer)
 	}
 
 	// Process the correct keyword
-	if(token->value == "prj")
+	const auto& keyword = token->value;
+	if(keyword == "cflags")
 	{
-		mediator_.SetState(std::make_unique<keywords::Project>(mediator_));
+		mediator_.SetState(std::make_unique<keywords::CFlags>(mediator_));
 		return;
 	}
-	else if(token->value == "files")
+	else if(keyword == "deps")
+	{
+		mediator_.SetState(std::make_unique<keywords::Deps>(mediator_));
+		return;
+	}
+	else if(keyword == "files")
 	{
 		mediator_.SetState(std::make_unique<keywords::Files>(mediator_));
+		return;
+	}
+	else if(keyword == "prj")
+	{
+		mediator_.SetState(std::make_unique<keywords::Project>(mediator_));
 		return;
 	}
 

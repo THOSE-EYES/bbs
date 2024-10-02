@@ -27,12 +27,25 @@ Job::Job(std::string name)
 
 Job::Job(Job&& other) noexcept
 	: name_{std::move(other.name_)}
+	, path_{std::move(other.path_)}
 	, files_{std::move(other.files_)}
+	, dependencies_{std::move(other.dependencies_)}
+	, cflags_{std::move(other.cflags_)}
 {}
 
 const std::string& Job::GetProjectName() const
 {
 	return name_;
+}
+
+void Job::SetProjectPath(std::filesystem::path value)
+{
+	path_ = std::move(value);
+}
+
+const std::filesystem::path& Job::GetProjectPath() const
+{
+	return path_;
 }
 
 void Job::AddFile(std::filesystem::path value)
@@ -43,5 +56,25 @@ void Job::AddFile(std::filesystem::path value)
 const std::vector<std::filesystem::path>& Job::GetFiles() const
 {
 	return files_;
+}
+
+void Job::AddDependency(std::filesystem::path value)
+{
+	dependencies_.push_back(std::move(value));
+}
+
+const std::vector<std::filesystem::path>& Job::GetDependencies() const
+{
+	return dependencies_;
+}
+
+void Job::SetCompilationFlags(std::string value)
+{
+	cflags_ = std::move(value);
+}
+
+const std::string& Job::GetCompilationFlags() const
+{
+	return cflags_;
 }
 } // namespace scheduler::pipeline

@@ -32,7 +32,7 @@ void Pipeline::Run() const
 	// noop
 }
 
-void Pipeline::Compile(const std::filesystem::path& file) const
+void Pipeline::Compile(const std::filesystem::path& file, const std::filesystem::path& out) const
 {
 	// noop
 }

@@ -36,6 +36,16 @@ const std::string& Job::GetProjectName() const
 	return name_;
 }
 
+void Job::SetProjectPath(std::filesystem::path value)
+{
+	// noop
+}
+
+const std::filesystem::path& Job::GetProjectPath() const
+{
+	return path_;
+}
+
 void Job::AddFile(std::filesystem::path value)
 {
 	// noop
@@ -44,5 +54,25 @@ void Job::AddFile(std::filesystem::path value)
 const std::vector<std::filesystem::path>& Job::GetFiles() const
 {
 	return files_;
+}
+
+void Job::AddDependency(std::filesystem::path value)
+{
+	// noop
+}
+
+const std::vector<std::filesystem::path>& Job::GetDependencies() const
+{
+	return dependencies_;
+}
+
+void Job::SetCompilationFlags(std::string value)
+{
+	// noop
+}
+
+const std::string& Job::GetCompilationFlags() const
+{
+	return cflags_;
 }
 } // namespace scheduler::pipeline
