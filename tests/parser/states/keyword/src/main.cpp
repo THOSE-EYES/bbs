@@ -26,6 +26,7 @@
 #include "parser/parser.hpp"
 #include "parser/states/keywords/deps.hpp"
 #include "parser/states/keywords/files.hpp"
+#include "parser/states/keywords/pre.hpp"
 #include "parser/states/keywords/project.hpp"
 
 #include "aux/handlers/dummyhandler.hpp"
@@ -129,7 +130,7 @@ TEST_F(KeywordTest, TestProcessFilesKeyword)
 }
 
 /**
- * @brief Check if the Process() method correctly handles the "Files" keyword
+ * @brief Check if the Process() method correctly handles the "Deps" keyword
  * 
  */
 TEST_F(KeywordTest, TestProcessDepsKeyword)
@@ -143,4 +144,20 @@ TEST_F(KeywordTest, TestProcessDepsKeyword)
 	EXPECT_NO_THROW(instance_.Process(lexer));
 	EXPECT_TRUE(
 		dynamic_cast<parser::states::keywords::Deps*>(instance_.mediator_.GetState().get()));
+}
+
+/**
+ * @brief Check if the Process() method correctly handles the "Pre" keyword
+ * 
+ */
+TEST_F(KeywordTest, TestProcessPreKeyword)
+{
+	std::vector<std::unique_ptr<Token>> tokens{};
+	tokens.emplace_back(std::make_unique<Token>("pre"));
+
+	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
+	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
+
+	EXPECT_NO_THROW(instance_.Process(lexer));
+	EXPECT_TRUE(dynamic_cast<parser::states::keywords::Pre*>(instance_.mediator_.GetState().get()));
 }

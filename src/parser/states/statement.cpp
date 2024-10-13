@@ -30,7 +30,7 @@ Statement::Statement(Mediator& mediator)
 void Statement::Process(lexer::Lexer& lexer)
 {
 	// Check if the token to process is present
-	auto token = lexer.Next();
+	auto token = State::SkipSeparators(lexer);
 	if(!token)
 	{
 		mediator_.SetState({});

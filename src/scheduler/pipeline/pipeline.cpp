@@ -29,6 +29,8 @@
 
 #include "scheduler/exceptions/compilationerrorexception.hpp"
 #include "scheduler/exceptions/linkerrorexception.hpp"
+#include "scheduler/exceptions/postcompilationcommandexception.hpp"
+#include "scheduler/exceptions/precompilationcommandexception.hpp"
 
 namespace scheduler::pipeline
 {
@@ -46,6 +48,16 @@ void Pipeline::Run() const
 	// Create the directory for the output
 	const std::filesystem::path folder{job_.GetProjectName()};
 	std::filesystem::create_directory(folder);
+
+	// Execute pre-compilation commands
+	for(const auto& line : job_.GetPreCompilationCommands())
+	{
+		Command command{line};
+		if(command.Execute())
+		{
+			throw exceptions::PreCompilationCommandException(line);
+		}
+	}
 
 	std::stringstream parameters{};
 	for(const auto& file : job_.GetFiles())
@@ -66,6 +78,16 @@ void Pipeline::Run() const
 	if(!command.Execute())
 	{
 		throw exceptions::LinkErrorException(job_.GetProjectName());
+	}
+
+	// Execute post-compilation commands
+	for(const auto& line : job_.GetPostCompilationCommands())
+	{
+		Command command{line};
+		if(command.Execute())
+		{
+			throw exceptions::PostCompilationCommandException(line);
+		}
 	}
 }
 

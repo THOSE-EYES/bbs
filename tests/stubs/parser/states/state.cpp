@@ -19,13 +19,18 @@
 
 #include "parser/states/state.hpp"
 
-#include "parser/parser.hpp"
+#include "parser/mediator.hpp"
 
 namespace parser::states
 {
 State::State(Mediator& mediator)
 	: mediator_{mediator}
 {}
+
+std::unique_ptr<tokens::Token> State::SkipSeparators(lexer::Lexer& lexer)
+{
+	return {};
+}
 
 void State::Match(std::unique_ptr<tokens::Token> token, tokens::Punctuator::Type value)
 {

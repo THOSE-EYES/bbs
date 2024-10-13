@@ -132,36 +132,6 @@ TEST_F(ScannerTest, TestConstructorEmptyFile)
 }
 
 /**
- * @brief Check if the Scanner component skips whitespaces
- * 
- */
-TEST_F(ScannerTest, TestGetWhitespacePrefix)
-{
-	const std::string data{"Hello World!"};
-
-	// Write some test data to the file with a tab prefix
-	file << std::string(10, ' ') << data << std::endl;
-
-	fake::Scanner instance{kFilePath};
-	EXPECT_EQ(instance.Get(), data.at(0));
-}
-
-/**
- * @brief Check if the Scanner component skips tabs
- * 
- */
-TEST_F(ScannerTest, TestGetTabPrefix)
-{
-	const std::string data{"Hello World!"};
-
-	// Write some test data to the file with a whitespace prefix
-	file << std::string(10, '\t') << data << std::endl;
-
-	fake::Scanner instance{kFilePath};
-	EXPECT_EQ(instance.Get(), data.at(0));
-}
-
-/**
  * @brief Check if the Scanner component reads the next line if it is the end of the current line
  * 
  */

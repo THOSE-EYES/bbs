@@ -26,6 +26,7 @@ set(SOURCES
 set(STUBS
     ${STUBS_FOLDER}/lexer/handlers/handler.cpp
     ${STUBS_FOLDER}/lexer/handlers/punctuatorhandler.cpp
+    ${STUBS_FOLDER}/lexer/handlers/separatorhandler.cpp
     ${STUBS_FOLDER}/lexer/handlers/wordhandler.cpp
     ${STUBS_FOLDER}/lexer/scanner.cpp
 )

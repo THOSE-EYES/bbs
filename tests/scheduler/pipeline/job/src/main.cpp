@@ -97,3 +97,27 @@ TEST_F(JobTest, TestSetProjectPath)
 
 	EXPECT_EQ(instance_.GetProjectPath(), path);
 }
+
+/**
+ * @brief Check if the GetPreCompilationCommands() method returns a reference to the correctly filled vector
+ * 
+ */
+TEST_F(JobTest, TestSetPreCompilationCommands)
+{
+	const std::vector<std::string> commands{"some_command"};
+	instance_.SetPreCompilationCommands(commands);
+
+	EXPECT_EQ(instance_.GetPreCompilationCommands(), commands);
+}
+
+/**
+ * @brief Check if the GetPostCompilationCommands() method returns a reference to the correctly filled vector
+ * 
+ */
+TEST_F(JobTest, TestSetPostCompilationCommands)
+{
+	const std::vector<std::string> commands{"some_command"};
+	instance_.SetPostCompilationCommands(commands);
+
+	EXPECT_EQ(instance_.GetPostCompilationCommands(), commands);
+}

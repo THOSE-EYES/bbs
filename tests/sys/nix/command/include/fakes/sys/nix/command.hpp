@@ -43,7 +43,6 @@ public:
 	{}
 
 public:
-	using ::sys::nix::Command::parameters_;
-	using ::sys::nix::Command::program_;
+	using ::sys::nix::Command::command_;
 };
 } // namespace fakes::sys::nix

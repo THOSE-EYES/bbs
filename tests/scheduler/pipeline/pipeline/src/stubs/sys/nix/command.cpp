@@ -23,6 +23,11 @@ bool result = true;
 
 namespace sys::nix
 {
+Command::Command(std::string line)
+{
+	// noop
+}
+
 Command::Command(std::string program, std::string parameters)
 {
 	// noop

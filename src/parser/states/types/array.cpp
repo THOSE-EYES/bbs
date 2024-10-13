@@ -30,10 +30,13 @@ Array::Array(Mediator& mediator)
 
 void Array::Process(lexer::Lexer& lexer)
 {
-	Match(lexer.Next(), tokens::Punctuator::Type::kLeftSquareBracket);
+	// Skip separators in between the keyword and the
+	auto token = SkipSeparators(lexer);
+
+	// Expect the bracket at the start of the string
+	Match(std::move(token), tokens::Punctuator::Type::kLeftSquareBracket);
 
 	tokens::Punctuator::Type type;
-	std::unique_ptr<tokens::Token> terminator;
 	do
 	{
 		// Get the next string
@@ -42,23 +45,23 @@ void Array::Process(lexer::Lexer& lexer)
 		String::Clear();
 
 		// Get the terminator token
-		terminator = lexer.Next();
-		if(!terminator)
+		token = lexer.Next();
+		if(!token)
 		{
 			throw exceptions::UnexpectedEndOfFileException(lexer.GetContext());
 		}
 
 		// Get the type of the terminator
-		auto ptr = dynamic_cast<tokens::Punctuator*>(terminator.get());
+		auto ptr = dynamic_cast<tokens::Punctuator*>(token.get());
 		if(!ptr)
 		{
-			throw exceptions::UnexpectedTokenException(std::move(terminator->value));
+			throw exceptions::UnexpectedTokenException(std::move(token->value));
 		}
 		type = ptr->type;
 
 	} while(type == tokens::Punctuator::Type::kComma);
 
-	Match(std::move(terminator), tokens::Punctuator::Type::kRightSquareBracket);
+	Match(std::move(token), tokens::Punctuator::Type::kRightSquareBracket);
 }
 
 std::vector<std::string> Array::GetValue() const

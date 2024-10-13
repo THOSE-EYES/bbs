@@ -20,6 +20,7 @@
 #include "lexer/lexer.hpp"
 
 #include "lexer/handlers/punctuatorhandler.hpp"
+#include "lexer/handlers/separatorhandler.hpp"
 #include "lexer/handlers/wordhandler.hpp"
 
 namespace lexer
@@ -27,8 +28,12 @@ namespace lexer
 Lexer::Lexer(const std::filesystem::path& path)
 	: scanner_{path}
 {
+	auto word_handler = std::make_unique<handlers::WordHandler>();
+	word_handler->SetNext(std::make_unique<handlers::SeparatorHandler>());
+
+	// Set the main handler
 	handler_ = std::make_unique<handlers::PunctuatorHandler>();
-	handler_->SetNext(std::make_unique<handlers::WordHandler>());
+	handler_->SetNext(std::move(word_handler));
 }
 
 const Context& Lexer::GetContext() const

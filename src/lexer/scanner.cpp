@@ -111,7 +111,7 @@ const lexer::Context& Scanner::GetContext() const
 void Scanner::Skip()
 {
 	// Read the next line if scanner finds a new line symbol, a comment or an empty line
-	auto character = SkipWhitespaces(context_.GetCharacter());
+	auto character = context_.GetCharacter();
 	while(!character || character.value() == constants::kComment)
 	{
 		std::string line;
@@ -126,24 +126,10 @@ void Scanner::Skip()
 		character = context_.GetCharacter();
 	}
 
-	// Skip while there is a whitespace or a tab
-	character = SkipWhitespaces(character);
-
 	// Check if the line still has anything to read
 	if(!character || character.value() == '\0')
 	{
 		file_.close();
 	}
-}
-
-std::optional<char> Scanner::SkipWhitespaces(std::optional<char> character)
-{
-	while(character && std::isspace(character.value()))
-	{
-		context_.Next();
-		character = context_.GetCharacter();
-	}
-
-	return character;
 }
 } // namespace lexer

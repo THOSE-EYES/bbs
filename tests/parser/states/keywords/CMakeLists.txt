@@ -20,4 +20,6 @@
 add_subdirectory(cflags)
 add_subdirectory(deps)
 add_subdirectory(files)
+add_subdirectory(post)
+add_subdirectory(pre)
 add_subdirectory(project)

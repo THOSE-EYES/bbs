@@ -35,8 +35,9 @@ add_executable(${PROJECT_NAME}
     src/lexer/exceptions/filenotfoundexception.cpp
     src/lexer/exceptions/unexpectedlexemeexception.cpp
     src/lexer/handlers/handler.cpp
-    src/lexer/handlers/wordhandler.cpp
     src/lexer/handlers/punctuatorhandler.cpp
+    src/lexer/handlers/separatorhandler.cpp
+    src/lexer/handlers/wordhandler.cpp
     src/lexer/context.cpp
     src/lexer/lexer.cpp
     src/lexer/scanner.cpp
@@ -48,6 +49,8 @@ add_executable(${PROJECT_NAME}
     src/parser/states/keywords/cflags.cpp
     src/parser/states/keywords/deps.cpp
     src/parser/states/keywords/files.cpp
+    src/parser/states/keywords/post.cpp
+    src/parser/states/keywords/pre.cpp
     src/parser/states/keywords/project.cpp
     src/parser/states/types/array.cpp
     src/parser/states/types/string.cpp
@@ -55,11 +58,14 @@ add_executable(${PROJECT_NAME}
     src/parser/states/state.cpp
     src/parser/states/statement.cpp
     src/parser/tokens/punctuator.cpp
+    src/parser/tokens/separator.cpp
     src/parser/tokens/token.cpp
     src/parser/mediator.cpp
     src/parser/parser.cpp
     src/scheduler/exceptions/compilationerrorexception.cpp
     src/scheduler/exceptions/linkerrorexception.cpp
+    src/scheduler/exceptions/postcompilationcommandexception.cpp
+    src/scheduler/exceptions/precompilationcommandexception.cpp
     src/scheduler/pipeline/job.cpp
     src/scheduler/pipeline/pipeline.cpp
     src/scheduler/executor.cpp

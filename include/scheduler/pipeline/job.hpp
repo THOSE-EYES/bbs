@@ -123,6 +123,36 @@ public:
 	 */
 	const std::string& GetCompilationFlags() const;
 
+	/**
+	 * @brief Set the pre-compilation command to run
+	 * 
+	 * @param value - the command to run
+	 */
+	void SetPreCompilationCommands(std::vector<std::string> value);
+
+	/**
+	 * @brief Get the pre-compilation command
+	 * 
+	 * @return const std::string& - the value of the flags
+	 */
+
+	const std::vector<std::string>& GetPreCompilationCommands() const;
+
+	/**
+	 * @brief Set the post-compilation command to run
+	 * 
+	 * @param value - the command to run
+	 */
+	void SetPostCompilationCommands(std::vector<std::string> value);
+
+	/**
+	 * @brief Get the post-compilation command
+	 * 
+	 * @return const std::string& - the value of the flags
+	 */
+
+	const std::vector<std::string>& GetPostCompilationCommands() const;
+
 protected:
 	/**
 	 * @brief Job's name
@@ -153,5 +183,17 @@ protected:
 	 * 
 	 */
 	std::string cflags_;
+
+	/**
+	 * @brief Pre-compilation command
+	 * 
+	 */
+	std::vector<std::string> pre_commands_;
+
+	/**
+	 * @brief Post-compilation command
+	 * 
+	 */
+	std::vector<std::string> post_commands_;
 };
 } // namespace scheduler::pipeline

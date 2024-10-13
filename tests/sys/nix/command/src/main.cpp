@@ -31,8 +31,7 @@ TEST(CommandTest, TestConstructor)
 	const std::string parameters{"program"};
 	const fakes::sys::nix::Command command{program, parameters};
 
-	EXPECT_EQ(command.program_, program);
-	EXPECT_EQ(command.parameters_, parameters);
+	EXPECT_EQ(command.command_, program + " " + parameters);
 }
 
 /**

@@ -24,17 +24,16 @@
 
 namespace sys::nix
 {
+Command::Command(std::string line)
+	: command_{line}
+{}
+
 Command::Command(std::string program, std::string parameters)
-	: program_{program}
-	, parameters_{parameters}
+	: command_{std::move(program + " " + parameters)}
 {}
 
 bool Command::Execute()
 {
-	// Prepare the command
-	std::stringstream command;
-	command << program_ << " " << parameters_;
-
-	return std::system(command.str().c_str()) == 0;
+	return std::system(command_.c_str()) == 0;
 }
 } // namespace sys::nix
