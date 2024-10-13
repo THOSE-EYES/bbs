@@ -78,4 +78,14 @@ const std::string& Job::GetCompilationFlags() const
 {
 	return cflags_;
 }
+
+void Job::SetPreCompilationCommands(std::vector<std::string> value)
+{
+	pre_commands_ = std::move(value);
+}
+
+const std::vector<std::string>& Job::GetPreCompilationCommands() const
+{
+	return pre_commands_;
+}
 } // namespace scheduler::pipeline

@@ -123,6 +123,21 @@ public:
 	 */
 	const std::string& GetCompilationFlags() const;
 
+	/**
+	 * @brief Set the pre-compilation command to run
+	 * 
+	 * @param value - the command to run
+	 */
+	void SetPreCompilationCommands(std::vector<std::string> value);
+
+	/**
+	 * @brief Get the pre-compilation command
+	 * 
+	 * @return const std::string& - the value of the flags
+	 */
+
+	const std::vector<std::string>& GetPreCompilationCommands() const;
+
 protected:
 	/**
 	 * @brief Job's name
@@ -153,5 +168,11 @@ protected:
 	 * 
 	 */
 	std::string cflags_;
+
+	/**
+	 * @brief Pre-compilation command
+	 * 
+	 */
+	std::vector<std::string> pre_commands_;
 };
 } // namespace scheduler::pipeline
