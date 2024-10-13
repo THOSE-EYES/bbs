@@ -76,14 +76,6 @@ protected:
       */
 	void Skip();
 
-	/**
-      * @brief Skip whitespaces
-      * 
-      * @param character - the current character
-      * @return std::optional<char> - the character next to whitespaces
-      */
-	std::optional<char> SkipWhitespaces(std::optional<char> character);
-
 protected:
 	/**
      * @brief The file which is processed
