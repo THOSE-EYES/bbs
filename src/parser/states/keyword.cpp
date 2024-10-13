@@ -24,6 +24,7 @@
 #include "parser/states/keywords/cflags.hpp"
 #include "parser/states/keywords/deps.hpp"
 #include "parser/states/keywords/files.hpp"
+#include "parser/states/keywords/post.hpp"
 #include "parser/states/keywords/pre.hpp"
 #include "parser/states/keywords/project.hpp"
 
@@ -67,6 +68,11 @@ void Keyword::Process(lexer::Lexer& lexer)
 	else if(keyword == "pre")
 	{
 		mediator_.SetState(std::make_unique<keywords::Pre>(mediator_));
+		return;
+	}
+	else if(keyword == "post")
+	{
+		mediator_.SetState(std::make_unique<keywords::Post>(mediator_));
 		return;
 	}
 

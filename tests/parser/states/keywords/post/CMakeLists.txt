@@ -17,35 +17,26 @@
 # under the License.
 #
 
-project("keyword")
+project("post")
 
 set(SOURCES 
-    ${CMAKE_SOURCE_DIR}/src/parser/states/keyword.cpp
+    ${CMAKE_SOURCE_DIR}/src/parser/states/keywords/post.cpp
 )
 
 set(STUBS
     ${STUBS_FOLDER}/lexer/handlers/handler.cpp
+    ${STUBS_FOLDER}/lexer/lexer.cpp
     ${STUBS_FOLDER}/lexer/scanner.cpp
-    ${STUBS_FOLDER}/parser/exceptions/unexpectedendoffileexception.cpp
-    ${STUBS_FOLDER}/parser/exceptions/unexpectedkeywordexception.cpp
     ${STUBS_FOLDER}/parser/exceptions/unexpectedtokenexception.cpp
-    ${STUBS_FOLDER}/parser/states/keywords/cflags.cpp
-    ${STUBS_FOLDER}/parser/states/keywords/deps.cpp
-    ${STUBS_FOLDER}/parser/states/keywords/files.cpp
-    ${STUBS_FOLDER}/parser/states/keywords/pre.cpp
-    ${STUBS_FOLDER}/parser/states/keywords/post.cpp
-    ${STUBS_FOLDER}/parser/states/keywords/project.cpp
     ${STUBS_FOLDER}/parser/states/types/array.cpp
     ${STUBS_FOLDER}/parser/states/types/string.cpp
+    ${STUBS_FOLDER}/parser/states/state.cpp
     ${STUBS_FOLDER}/parser/states/statement.cpp
     ${STUBS_FOLDER}/parser/tokens/punctuator.cpp
     ${STUBS_FOLDER}/parser/tokens/token.cpp
+    ${STUBS_FOLDER}/parser/mediator.cpp
+    ${STUBS_FOLDER}/parser/parser.cpp
     ${STUBS_FOLDER}/scheduler/pipeline/job.cpp
-    
-    src/stubs/lexer/lexer.cpp
-    src/stubs/parser/states/state.cpp
-    src/stubs/parser/mediator.cpp
-    src/stubs/parser/parser.cpp
 )
 
 add_executable(${PROJECT_NAME} 
@@ -53,10 +44,6 @@ add_executable(${PROJECT_NAME}
     ${STUBS}
 
     src/main.cpp
-)
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-    include
 )
 
 add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
