@@ -29,6 +29,7 @@
 
 #include "scheduler/exceptions/compilationerrorexception.hpp"
 #include "scheduler/exceptions/linkerrorexception.hpp"
+#include "scheduler/exceptions/postcompilationcommandexception.hpp"
 #include "scheduler/exceptions/precompilationcommandexception.hpp"
 
 namespace scheduler::pipeline
@@ -77,6 +78,16 @@ void Pipeline::Run() const
 	if(!command.Execute())
 	{
 		throw exceptions::LinkErrorException(job_.GetProjectName());
+	}
+
+	// Execute post-compilation commands
+	for(const auto& line : job_.GetPostCompilationCommands())
+	{
+		Command command{line};
+		if(command.Execute())
+		{
+			throw exceptions::PostCompilationCommandException(line);
+		}
 	}
 }
 
