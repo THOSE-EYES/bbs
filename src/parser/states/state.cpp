@@ -20,12 +20,33 @@
 #include "parser/states/state.hpp"
 
 #include "parser/exceptions/unexpectedtokenexception.hpp"
+#include "parser/tokens/separator.hpp"
 
 namespace parser::states
 {
 State::State(Mediator& mediator)
 	: mediator_{mediator}
 {}
+
+std::unique_ptr<tokens::Token> State::SkipSeparators(lexer::Lexer& lexer)
+{
+	std::unique_ptr<tokens::Token> token;
+	while((token = lexer.Next()))
+	{
+		// Token might be nullptr, handle this case
+		if(!token)
+		{
+			throw std::runtime_error("State::SkipSeparators() was called with nullptr.");
+		}
+
+		if(!dynamic_cast<tokens::Separator*>(token.get()))
+		{
+			break;
+		}
+	}
+
+	return token;
+}
 
 void State::Match(std::unique_ptr<tokens::Token> token, tokens::Punctuator::Type value)
 {
