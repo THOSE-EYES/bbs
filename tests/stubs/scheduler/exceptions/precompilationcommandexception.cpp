@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -17,24 +17,13 @@
  * under the License.
  */
 
-#include "sys/nix/command.hpp"
+#include "scheduler/exceptions/precompilationcommandexception.hpp"
 
-bool result = true;
+namespace scheduler::exceptions
+{
+const std::string PreCompilationCommandException::kMessage{};
 
-namespace sys::nix
-{
-Command::Command(std::string line)
-{
-	// noop
-}
-
-Command::Command(std::string program, std::string parameters)
-{
-	// noop
-}
-
-bool Command::Execute()
-{
-	return result;
-}
-} // namespace sys::nix
+PreCompilationCommandException::PreCompilationCommandException(std::string command)
+	: std::runtime_error(kMessage)
+{}
+} // namespace scheduler::exceptions

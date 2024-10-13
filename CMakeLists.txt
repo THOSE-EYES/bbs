@@ -61,6 +61,7 @@ add_executable(${PROJECT_NAME}
     src/parser/parser.cpp
     src/scheduler/exceptions/compilationerrorexception.cpp
     src/scheduler/exceptions/linkerrorexception.cpp
+    src/scheduler/exceptions/precompilationcommandexception.cpp
     src/scheduler/pipeline/job.cpp
     src/scheduler/pipeline/pipeline.cpp
     src/scheduler/executor.cpp

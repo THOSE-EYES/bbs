@@ -19,3 +19,4 @@
 
 add_subdirectory(compilationerrorexception)
 add_subdirectory(linkerrorexception)
+add_subdirectory(precompilationcommandexception)

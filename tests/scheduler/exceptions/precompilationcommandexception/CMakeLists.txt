@@ -17,26 +17,20 @@
 # under the License.
 #
 
-project("pipeline")
+project("precompilationcommandexception")
 
 set(SOURCES 
-    ${CMAKE_SOURCE_DIR}/src/scheduler/pipeline/pipeline.cpp
-)
-
-set(STUBS
-    ${STUBS_FOLDER}/scheduler/exceptions/compilationerrorexception.cpp
-    ${STUBS_FOLDER}/scheduler/exceptions/linkerrorexception.cpp
-    ${STUBS_FOLDER}/scheduler/exceptions/precompilationcommandexception.cpp
-
-    src/stubs/scheduler/pipeline/job.cpp
-    src/stubs/sys/nix/command.cpp
+    ${CMAKE_SOURCE_DIR}/src/scheduler/exceptions/precompilationcommandexception.cpp
 )
 
 add_executable(${PROJECT_NAME} 
     ${SOURCES}
-    ${STUBS}
 
     src/main.cpp
+)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+    include
 )
 
 add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
