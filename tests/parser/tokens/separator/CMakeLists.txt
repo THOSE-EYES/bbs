@@ -17,7 +17,21 @@
 # under the License.
 #
 
-add_subdirectory(handler)
-add_subdirectory(punctuatorhandler)
-add_subdirectory(separatorhandler)
-add_subdirectory(wordhandler)
+project("separator")
+
+set(SOURCES 
+    ${CMAKE_SOURCE_DIR}/src/parser/tokens/separator.cpp
+)
+
+set(STUBS
+    src/stubs/parser/tokens/token.cpp
+)
+
+add_executable(${PROJECT_NAME} 
+    ${SOURCES}
+    ${STUBS}
+
+    src/main.cpp
+)
+
+add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})

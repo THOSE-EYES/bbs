@@ -17,32 +17,23 @@
  * under the License.
  */
 
-#include "lexer/lexer.hpp"
+#include <gtest/gtest.h>
 
-#include "lexer/handlers/punctuatorhandler.hpp"
-#include "lexer/handlers/separatorhandler.hpp"
-#include "lexer/handlers/wordhandler.hpp"
+#include "parser/tokens/separator.hpp"
 
-namespace lexer
+/**
+ * @brief Check if the constructor initializes the fields
+ * 
+ */
+TEST(SeparatorTest, TestConstructor)
 {
-Lexer::Lexer(const std::filesystem::path& path)
-	: scanner_{path}
-{
-	auto word_handler = std::make_unique<handlers::WordHandler>();
-	word_handler->SetNext(std::make_unique<handlers::SeparatorHandler>());
+	using Separator = parser::tokens::Separator;
+	using Type = Separator::Type;
 
-	// Set the main handler
-	handler_ = std::make_unique<handlers::PunctuatorHandler>();
-	handler_->SetNext(std::move(word_handler));
+	const auto type = Type::kSpace;
+	const std::string data{" "};
+
+	Separator token{data, type};
+	EXPECT_EQ(token.value, data);
+	EXPECT_EQ(token.type, type);
 }
-
-const Context& Lexer::GetContext() const
-{
-	return scanner_.GetContext();
-}
-
-std::unique_ptr<Lexer::Token> Lexer::Next()
-{
-	return handler_->Process(scanner_);
-}
-} // namespace lexer

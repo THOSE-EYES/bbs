@@ -17,32 +17,48 @@
  * under the License.
  */
 
-#include "lexer/lexer.hpp"
+#pragma once
 
-#include "lexer/handlers/punctuatorhandler.hpp"
-#include "lexer/handlers/separatorhandler.hpp"
-#include "lexer/handlers/wordhandler.hpp"
+#include <cstdint>
+#include <map>
 
-namespace lexer
+#include "parser/tokens/token.hpp"
+
+namespace parser::tokens
 {
-Lexer::Lexer(const std::filesystem::path& path)
-	: scanner_{path}
+/**
+ * @brief The token that represents a separator
+ * 
+ */
+struct Separator : public Token
 {
-	auto word_handler = std::make_unique<handlers::WordHandler>();
-	word_handler->SetNext(std::make_unique<handlers::SeparatorHandler>());
+	/**
+	 * @brief The punctuator's type
+	 * 
+	 */
+	enum class Type : uint8_t
+	{
+		kSpace
+	};
 
-	// Set the main handler
-	handler_ = std::make_unique<handlers::PunctuatorHandler>();
-	handler_->SetNext(std::move(word_handler));
-}
+	/**
+	 * @brief Construct a new Separator object
+	 * 
+	 * @param value_ - the string value of the token
+	 * @param type_ - punctuator's type
+	 */
+	explicit Separator(std::string value_, Type type_);
 
-const Context& Lexer::GetContext() const
-{
-	return scanner_.GetContext();
-}
+	/**
+	 * @brief Current punctuator's type
+	 * 
+	 */
+	const Type type;
 
-std::unique_ptr<Lexer::Token> Lexer::Next()
-{
-	return handler_->Process(scanner_);
-}
-} // namespace lexer
+	/**
+     * @brief Mapping the input to the predefined set of punctuator types
+     * 
+     */
+	static const std::map<char, Type> kSeparatorToTypeMap;
+};
+} // namespace parser::tokens

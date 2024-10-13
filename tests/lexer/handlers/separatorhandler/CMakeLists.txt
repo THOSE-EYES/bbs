@@ -17,7 +17,38 @@
 # under the License.
 #
 
-add_subdirectory(handler)
-add_subdirectory(punctuatorhandler)
-add_subdirectory(separatorhandler)
-add_subdirectory(wordhandler)
+project("separatorhandler")
+
+set(SOURCES 
+    ${CMAKE_SOURCE_DIR}/src/lexer/handlers/separatorhandler.cpp
+)
+
+set(STUBS
+    ${STUBS_FOLDER}/lexer/exceptions/fileemptyexception.cpp
+    ${STUBS_FOLDER}/lexer/exceptions/filenotfoundexception.cpp
+    ${STUBS_FOLDER}/lexer/exceptions/unexpectedlexemeexception.cpp
+    ${STUBS_FOLDER}/lexer/context.cpp
+
+    src/stubs/lexer/handlers/handler.cpp
+    src/stubs/lexer/scanner.cpp
+    src/stubs/parser/tokens/token.cpp
+    src/stubs/parser/tokens/separator.cpp
+)
+
+add_executable(${PROJECT_NAME} 
+    ${SOURCES}
+    ${STUBS}
+
+    src/main.cpp
+)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+    include
+)
+
+target_link_libraries(${PROJECT_NAME} 
+    gmock
+    gmock_main
+)
+
+add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})

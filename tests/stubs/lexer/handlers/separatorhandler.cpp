@@ -17,32 +17,13 @@
  * under the License.
  */
 
-#include "lexer/lexer.hpp"
-
-#include "lexer/handlers/punctuatorhandler.hpp"
 #include "lexer/handlers/separatorhandler.hpp"
-#include "lexer/handlers/wordhandler.hpp"
 
-namespace lexer
+namespace lexer::handlers
 {
-Lexer::Lexer(const std::filesystem::path& path)
-	: scanner_{path}
-{
-	auto word_handler = std::make_unique<handlers::WordHandler>();
-	word_handler->SetNext(std::make_unique<handlers::SeparatorHandler>());
 
-	// Set the main handler
-	handler_ = std::make_unique<handlers::PunctuatorHandler>();
-	handler_->SetNext(std::move(word_handler));
+std::unique_ptr<SeparatorHandler::Token> SeparatorHandler::Process(Scanner& scanner) const
+{
+	return {};
 }
-
-const Context& Lexer::GetContext() const
-{
-	return scanner_.GetContext();
-}
-
-std::unique_ptr<Lexer::Token> Lexer::Next()
-{
-	return handler_->Process(scanner_);
-}
-} // namespace lexer
+} // namespace lexer::handlers

@@ -17,32 +17,11 @@
  * under the License.
  */
 
-#include "lexer/lexer.hpp"
+#include "parser/tokens/token.hpp"
 
-#include "lexer/handlers/punctuatorhandler.hpp"
-#include "lexer/handlers/separatorhandler.hpp"
-#include "lexer/handlers/wordhandler.hpp"
-
-namespace lexer
+namespace parser::tokens
 {
-Lexer::Lexer(const std::filesystem::path& path)
-	: scanner_{path}
-{
-	auto word_handler = std::make_unique<handlers::WordHandler>();
-	word_handler->SetNext(std::make_unique<handlers::SeparatorHandler>());
-
-	// Set the main handler
-	handler_ = std::make_unique<handlers::PunctuatorHandler>();
-	handler_->SetNext(std::move(word_handler));
-}
-
-const Context& Lexer::GetContext() const
-{
-	return scanner_.GetContext();
-}
-
-std::unique_ptr<Lexer::Token> Lexer::Next()
-{
-	return handler_->Process(scanner_);
-}
-} // namespace lexer
+Token::Token(std::string value_)
+	: value{std::move(value_)}
+{}
+} // namespace parser::tokens

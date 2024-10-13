@@ -17,32 +17,31 @@
  * under the License.
  */
 
-#include "lexer/lexer.hpp"
+#pragma once
 
-#include "lexer/handlers/punctuatorhandler.hpp"
-#include "lexer/handlers/separatorhandler.hpp"
-#include "lexer/handlers/wordhandler.hpp"
+#include <memory>
 
-namespace lexer
+#include "lexer/handlers/handler.hpp"
+#include "parser/tokens/separator.hpp"
+
+namespace lexer::handlers
 {
-Lexer::Lexer(const std::filesystem::path& path)
-	: scanner_{path}
+/**
+ * @brief A handler that creates "separator" tokens
+ * 
+ */
+class SeparatorHandler : public Handler
 {
-	auto word_handler = std::make_unique<handlers::WordHandler>();
-	word_handler->SetNext(std::make_unique<handlers::SeparatorHandler>());
+	using Separator = parser::tokens::Separator;
+	using Token = parser::tokens::Token;
 
-	// Set the main handler
-	handler_ = std::make_unique<handlers::PunctuatorHandler>();
-	handler_->SetNext(std::move(word_handler));
-}
-
-const Context& Lexer::GetContext() const
-{
-	return scanner_.GetContext();
-}
-
-std::unique_ptr<Lexer::Token> Lexer::Next()
-{
-	return handler_->Process(scanner_);
-}
-} // namespace lexer
+public:
+	/**
+	 * @brief Process the input and return the token if possible
+	 * 
+	 * @param scanner - the source of characters to process
+	 * @return std::unique_ptr<Token> - a pointer to the token or nullptr 
+	 */
+	std::unique_ptr<Token> Process(Scanner& scanner) const override;
+};
+} // namespace lexer::handlers

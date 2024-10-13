@@ -17,32 +17,22 @@
  * under the License.
  */
 
-#include "lexer/lexer.hpp"
+#pragma once
 
-#include "lexer/handlers/punctuatorhandler.hpp"
-#include "lexer/handlers/separatorhandler.hpp"
-#include "lexer/handlers/wordhandler.hpp"
+#include <gmock/gmock.h>
 
-namespace lexer
+#include "lexer/handlers/handler.hpp"
+#include "lexer/scanner.hpp"
+#include "parser/tokens/token.hpp"
+
+namespace mocks::lexer::handlers
 {
-Lexer::Lexer(const std::filesystem::path& path)
-	: scanner_{path}
+class Handler : public ::lexer::handlers::Handler
 {
-	auto word_handler = std::make_unique<handlers::WordHandler>();
-	word_handler->SetNext(std::make_unique<handlers::SeparatorHandler>());
-
-	// Set the main handler
-	handler_ = std::make_unique<handlers::PunctuatorHandler>();
-	handler_->SetNext(std::move(word_handler));
-}
-
-const Context& Lexer::GetContext() const
-{
-	return scanner_.GetContext();
-}
-
-std::unique_ptr<Lexer::Token> Lexer::Next()
-{
-	return handler_->Process(scanner_);
-}
-} // namespace lexer
+public:
+	MOCK_METHOD(std::unique_ptr<::parser::tokens::Token>,
+				Process,
+				(::lexer::Scanner&),
+				(const, override));
+};
+} // namespace mocks::lexer::handlers
