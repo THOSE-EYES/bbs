@@ -35,6 +35,13 @@ public:
 	/**
      * @brief Construct a new Command object
      * 
+     * @param line - the line to run
+     */
+	explicit Command(std::string line);
+
+	/**
+     * @brief Construct a new Command object
+     * 
      * @param program - the program to run
      * @param parameters - the parameters to pass to the program
      */
@@ -50,15 +57,9 @@ public:
 
 protected:
 	/**
-     * @brief The program to run
+     * @brief The command
      * 
      */
-	std::string program_;
-
-	/**
-     * @brief The parameters to pass to the program
-     * 
-     */
-	std::string parameters_;
+	const std::string command_;
 };
 } // namespace sys::nix
