@@ -109,3 +109,15 @@ TEST_F(JobTest, TestSetPreCompilationCommands)
 
 	EXPECT_EQ(instance_.GetPreCompilationCommands(), commands);
 }
+
+/**
+ * @brief Check if the GetPostCompilationCommands() method returns a reference to the correctly filled vector
+ * 
+ */
+TEST_F(JobTest, TestSetPostCompilationCommands)
+{
+	const std::vector<std::string> commands{"some_command"};
+	instance_.SetPostCompilationCommands(commands);
+
+	EXPECT_EQ(instance_.GetPostCompilationCommands(), commands);
+}

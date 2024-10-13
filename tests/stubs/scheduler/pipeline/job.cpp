@@ -85,4 +85,14 @@ const std::vector<std::string>& Job::GetPreCompilationCommands() const
 {
 	return pre_commands_;
 }
+
+void Job::SetPostCompilationCommands(std::vector<std::string> value)
+{
+	// noop
+}
+
+const std::vector<std::string>& Job::GetPostCompilationCommands() const
+{
+	return post_commands_;
+}
 } // namespace scheduler::pipeline

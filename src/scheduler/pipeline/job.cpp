@@ -32,6 +32,7 @@ Job::Job(Job&& other) noexcept
 	, dependencies_{std::move(other.dependencies_)}
 	, cflags_{std::move(other.cflags_)}
 	, pre_commands_{std::move(other.pre_commands_)}
+	, post_commands_{std::move(other.post_commands_)}
 {}
 
 const std::string& Job::GetProjectName() const
@@ -87,5 +88,15 @@ void Job::SetPreCompilationCommands(std::vector<std::string> value)
 const std::vector<std::string>& Job::GetPreCompilationCommands() const
 {
 	return pre_commands_;
+}
+
+void Job::SetPostCompilationCommands(std::vector<std::string> value)
+{
+	post_commands_ = std::move(value);
+}
+
+const std::vector<std::string>& Job::GetPostCompilationCommands() const
+{
+	return post_commands_;
 }
 } // namespace scheduler::pipeline
