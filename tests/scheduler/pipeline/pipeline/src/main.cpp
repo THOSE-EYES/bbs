@@ -19,12 +19,15 @@
 
 #include <gtest/gtest.h>
 
+#include <stack>
+
 #include "scheduler/exceptions/compilationerrorexception.hpp"
 #include "scheduler/exceptions/linkerrorexception.hpp"
+#include "scheduler/exceptions/nofilesspecifiedexception.hpp"
 #include "scheduler/pipeline/job.hpp"
 #include "scheduler/pipeline/pipeline.hpp"
 
-extern bool result;
+extern std::stack<bool> result;
 
 /**
  * @brief Check if the Run() method works correctly
@@ -50,7 +53,7 @@ TEST(PipelineTest, TestCompileFail)
 	job.SetProjectPath(std::filesystem::path{"test"});
 	job.AddFile(std::filesystem::path{"main.cpp"});
 
-	result = false;
+	result.push(false);
 	scheduler::pipeline::Pipeline pipeline{std::move(job)};
 	EXPECT_THROW(pipeline.Run(), scheduler::exceptions::CompilationErrorException);
 }
@@ -61,10 +64,27 @@ TEST(PipelineTest, TestCompileFail)
  */
 TEST(PipelineTest, TestLinkFail)
 {
+	// Make the compilation "succeed"
+	result.push(false);
+	result.push(true);
+
+	scheduler::pipeline::Job job{"test"};
+	job.SetProjectPath(std::filesystem::path{"test"});
+	job.AddFile(std::filesystem::path{"file"}); // Needed to do not cause NoFilesSpecifiedException
+
+	scheduler::pipeline::Pipeline pipeline{std::move(job)};
+	EXPECT_THROW(pipeline.Run(), scheduler::exceptions::LinkErrorException);
+}
+
+/**
+ * @brief Check if the Run() method throws an exception when the there are no files
+ * 
+ */
+TEST(PipelineTest, TestNoFilesFail)
+{
 	scheduler::pipeline::Job job{"test"};
 	job.SetProjectPath(std::filesystem::path{"test"});
 
-	result = false;
 	scheduler::pipeline::Pipeline pipeline{std::move(job)};
-	EXPECT_THROW(pipeline.Run(), scheduler::exceptions::LinkErrorException);
+	EXPECT_THROW(pipeline.Run(), scheduler::exceptions::NoFilesSpecifiedException);
 }

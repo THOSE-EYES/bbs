@@ -17,26 +17,14 @@
 # under the License.
 #
 
-project("pipeline")
+project("nofilesspecifiedexception")
 
 set(SOURCES 
-    ${CMAKE_SOURCE_DIR}/src/scheduler/pipeline/pipeline.cpp
-)
-
-set(STUBS
-    ${STUBS_FOLDER}/scheduler/exceptions/compilationerrorexception.cpp
-    ${STUBS_FOLDER}/scheduler/exceptions/linkerrorexception.cpp
-    ${STUBS_FOLDER}/scheduler/exceptions/nofilesspecifiedexception.cpp
-    ${STUBS_FOLDER}/scheduler/exceptions/postcompilationcommandexception.cpp
-    ${STUBS_FOLDER}/scheduler/exceptions/precompilationcommandexception.cpp
-
-    src/stubs/scheduler/pipeline/job.cpp
-    src/stubs/sys/nix/command.cpp
+    ${CMAKE_SOURCE_DIR}/src/scheduler/exceptions/nofilesspecifiedexception.cpp
 )
 
 add_executable(${PROJECT_NAME} 
     ${SOURCES}
-    ${STUBS}
 
     src/main.cpp
 )
