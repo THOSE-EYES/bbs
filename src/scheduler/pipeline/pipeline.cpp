@@ -29,6 +29,7 @@
 
 #include "scheduler/exceptions/compilationerrorexception.hpp"
 #include "scheduler/exceptions/linkerrorexception.hpp"
+#include "scheduler/exceptions/nofilesspecifiedexception.hpp"
 #include "scheduler/exceptions/postcompilationcommandexception.hpp"
 #include "scheduler/exceptions/precompilationcommandexception.hpp"
 
@@ -59,8 +60,15 @@ void Pipeline::Run() const
 		}
 	}
 
+	// Check if the project contains files
+	const auto& files = job_.GetFiles();
+	if(files.empty())
+	{
+		throw exceptions::NoFilesSpecifiedException();
+	}
+
 	std::stringstream parameters{};
-	for(const auto& file : job_.GetFiles())
+	for(const auto& file : files)
 	{
 		const auto obj = folder / file.filename().replace_extension(".o");
 

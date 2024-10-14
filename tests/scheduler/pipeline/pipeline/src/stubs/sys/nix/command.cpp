@@ -19,7 +19,9 @@
 
 #include "sys/nix/command.hpp"
 
-bool result = true;
+#include <stack>
+
+std::stack<bool> result{};
 
 namespace sys::nix
 {
@@ -35,6 +37,13 @@ Command::Command(std::string program, std::string parameters)
 
 bool Command::Execute()
 {
-	return result;
+	if(result.empty())
+	{
+		return true;
+	}
+
+	const auto data = result.top();
+	result.pop();
+	return data;
 }
 } // namespace sys::nix

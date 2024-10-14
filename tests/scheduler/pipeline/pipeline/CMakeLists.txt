@@ -26,6 +26,7 @@ set(SOURCES
 set(STUBS
     ${STUBS_FOLDER}/scheduler/exceptions/compilationerrorexception.cpp
     ${STUBS_FOLDER}/scheduler/exceptions/linkerrorexception.cpp
+    ${STUBS_FOLDER}/scheduler/exceptions/nofilesspecifiedexception.cpp
     ${STUBS_FOLDER}/scheduler/exceptions/postcompilationcommandexception.cpp
     ${STUBS_FOLDER}/scheduler/exceptions/precompilationcommandexception.cpp
 
