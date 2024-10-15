@@ -50,6 +50,7 @@ add_executable(${PROJECT_NAME}
     src/parser/states/keywords/cflags.cpp
     src/parser/states/keywords/deps.cpp
     src/parser/states/keywords/files.cpp
+    src/parser/states/keywords/let.cpp
     src/parser/states/keywords/post.cpp
     src/parser/states/keywords/pre.cpp
     src/parser/states/keywords/project.cpp
