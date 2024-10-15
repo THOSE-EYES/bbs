@@ -17,36 +17,29 @@
  * under the License.
  */
 
-#include "lexer/lexer.hpp"
-
 #include "lexer/handlers/operatorhandler.hpp"
-#include "lexer/handlers/punctuatorhandler.hpp"
-#include "lexer/handlers/separatorhandler.hpp"
-#include "lexer/handlers/wordhandler.hpp"
 
-namespace lexer
+#include "lexer/exceptions/unexpectedlexemeexception.hpp"
+
+namespace lexer::handlers
 {
-Lexer::Lexer(const std::filesystem::path& path)
-	: scanner_{path}
+std::unique_ptr<OperatorHandler::Token> OperatorHandler::Process(Scanner& scanner) const
 {
-	auto separator_handler = std::make_unique<handlers::SeparatorHandler>();
-	separator_handler->SetNext(std::make_unique<handlers::OperatorHandler>());
+	// Let the default handler do the job if the character is not available
+	const auto character = scanner.Get();
+	if(!character)
+	{
+		return Handler::Process(scanner);
+	}
 
-	auto word_handler = std::make_unique<handlers::WordHandler>();
-	word_handler->SetNext(std::move(separator_handler));
+	// Check if the character is in the map
+	const auto iterator = Operator::kOperatorToTypeMap.find(character.value());
+	if(iterator != Operator::kOperatorToTypeMap.end())
+	{
+		scanner.Move();
+		return std::make_unique<Operator>(std::string(1, character.value()), iterator->second);
+	}
 
-	// Set the main handler
-	handler_ = std::make_unique<handlers::PunctuatorHandler>();
-	handler_->SetNext(std::move(word_handler));
+	return Handler::Process(scanner);
 }
-
-const Context& Lexer::GetContext() const
-{
-	return scanner_.GetContext();
-}
-
-std::unique_ptr<Lexer::Token> Lexer::Next()
-{
-	return handler_->Process(scanner_);
-}
-} // namespace lexer
+} // namespace lexer::handlers

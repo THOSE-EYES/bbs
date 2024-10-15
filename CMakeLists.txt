@@ -35,6 +35,7 @@ add_executable(${PROJECT_NAME}
     src/lexer/exceptions/filenotfoundexception.cpp
     src/lexer/exceptions/unexpectedlexemeexception.cpp
     src/lexer/handlers/handler.cpp
+    src/lexer/handlers/operatorhandler.cpp
     src/lexer/handlers/punctuatorhandler.cpp
     src/lexer/handlers/separatorhandler.cpp
     src/lexer/handlers/wordhandler.cpp
