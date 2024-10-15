@@ -57,6 +57,7 @@ add_executable(${PROJECT_NAME}
     src/parser/states/keyword.cpp
     src/parser/states/state.cpp
     src/parser/states/statement.cpp
+    src/parser/tokens/operator.cpp
     src/parser/tokens/punctuator.cpp
     src/parser/tokens/separator.cpp
     src/parser/tokens/token.cpp

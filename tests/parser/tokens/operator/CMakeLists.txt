@@ -17,7 +17,21 @@
 # under the License.
 #
 
-add_subdirectory(operator)
-add_subdirectory(punctuator)
-add_subdirectory(separator)
-add_subdirectory(token)
+project("operator")
+
+set(SOURCES 
+    ${CMAKE_SOURCE_DIR}/src/parser/tokens/operator.cpp
+)
+
+set(STUBS
+    src/stubs/parser/tokens/token.cpp
+)
+
+add_executable(${PROJECT_NAME} 
+    ${SOURCES}
+    ${STUBS}
+
+    src/main.cpp
+)
+
+add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
