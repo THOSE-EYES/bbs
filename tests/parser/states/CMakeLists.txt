@@ -19,7 +19,7 @@
 
 add_subdirectory(keywords)
 add_subdirectory(types)
-
 add_subdirectory(keyword)
 add_subdirectory(state)
 add_subdirectory(statement)
+add_subdirectory(variable)
