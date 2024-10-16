@@ -21,11 +21,12 @@
 
 #include "parser/exceptions/unexpectedendoffileexception.hpp"
 #include "parser/exceptions/unexpectedtokenexception.hpp"
+#include "parser/states/types/string.hpp"
 
 namespace parser::states::types
 {
 Array::Array(Mediator& mediator)
-	: String{mediator}
+	: State{mediator}
 {}
 
 void Array::Process(lexer::Lexer& lexer)
@@ -36,13 +37,15 @@ void Array::Process(lexer::Lexer& lexer)
 	// Expect the bracket at the start of the string
 	Match(std::move(token), tokens::Punctuator::Type::kLeftSquareBracket);
 
+	// Process the tokens
+	String string_handler{mediator_};
 	tokens::Punctuator::Type type;
 	do
 	{
 		// Get the next string
-		String::Process(lexer);
-		value_.push_back(String::GetValue());
-		String::Clear();
+		string_handler.Process(lexer);
+		value_.push_back(string_handler.GetValue());
+		string_handler.Clear();
 
 		// Get the terminator token
 		token = lexer.Next();
@@ -57,6 +60,7 @@ void Array::Process(lexer::Lexer& lexer)
 		{
 			throw exceptions::UnexpectedTokenException(std::move(token->value));
 		}
+
 		type = ptr->type;
 
 	} while(type == tokens::Punctuator::Type::kComma);

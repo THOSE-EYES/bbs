@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 
-#include "parser/states/types/string.hpp"
+#include "parser/states/state.hpp"
 
 namespace parser::states::types
 {
@@ -30,7 +30,7 @@ namespace parser::states::types
  * @brief A "Array" state of the parser, used to parse arrays
  * 
  */
-class Array : public String
+class Array : public State
 {
 public:
 	/**
@@ -46,7 +46,7 @@ public:
      * 
      * @param lexer - the lexer which handles tokenization of the input file
      */
-	void Process(lexer::Lexer& lexer);
+	void Process(lexer::Lexer& lexer) override;
 
 	/**
       * @brief Get the array's value
