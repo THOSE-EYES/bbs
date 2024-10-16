@@ -38,7 +38,8 @@ struct Operator : public Token
 	 */
 	enum class Type : uint8_t
 	{
-		kEqualitySign
+		kEqualitySign,
+		kDollarSign
 	};
 
 	/**

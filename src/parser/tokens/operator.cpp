@@ -21,7 +21,8 @@
 
 namespace parser::tokens
 {
-const std::map<char, Operator::Type> Operator::kOperatorToTypeMap{{'=', Type::kEqualitySign}};
+const std::map<char, Operator::Type> Operator::kOperatorToTypeMap{{'=', Type::kEqualitySign},
+																  {'$', Type::kDollarSign}};
 
 Operator::Operator(std::string value_, Type type_)
 	: Token{std::move(value_)}
