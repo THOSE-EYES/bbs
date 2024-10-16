@@ -44,6 +44,7 @@ add_executable(${PROJECT_NAME}
     src/lexer/scanner.cpp
     src/parser/exceptions/existingprojectexception.cpp
     src/parser/exceptions/nonexistentprojectexception.cpp
+    src/parser/exceptions/undeclaredvariableexception.cpp
     src/parser/exceptions/unexpectedendoffileexception.cpp
     src/parser/exceptions/unexpectedkeywordexception.cpp
     src/parser/exceptions/unexpectedtokenexception.cpp

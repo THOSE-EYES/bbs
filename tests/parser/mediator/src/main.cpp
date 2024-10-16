@@ -21,6 +21,7 @@
 
 #include "parser/exceptions/existingprojectexception.hpp"
 #include "parser/exceptions/nonexistentprojectexception.hpp"
+#include "parser/exceptions/undeclaredvariableexception.hpp"
 #include "parser/mediator.hpp"
 #include "parser/states/state.hpp"
 
@@ -97,4 +98,27 @@ TEST_F(MediatorTest, TestBorrowJobNonExistentProjectException)
 {
 	instance_.SetJob({});
 	EXPECT_THROW(instance_.BorrowJob(), parser::exceptions::NonExistentProjectException);
+}
+
+/**
+ * @brief Check if the GetPostComGetVariableValuepilationCommands() method returns a proper value of the variable
+ * 
+ */
+TEST_F(MediatorTest, TestGetVariableValueExists)
+{
+	const std::string id{"some_id"};
+	const std::string value{"some_value"};
+	instance_.DeclareVariable(id, value);
+
+	EXPECT_EQ(instance_.GetVariableValue(id), value);
+}
+
+/**
+ * @brief Check if the GetPostComGetVariableValuepilationCommands() method throws an exception if the variable does not exist
+ * 
+ */
+TEST_F(MediatorTest, TestGetVariableValueNotFound)
+{
+	const std::string id{"some_id"};
+	EXPECT_THROW(instance_.GetVariableValue(id), parser::exceptions::UndeclaredVariableException);
 }

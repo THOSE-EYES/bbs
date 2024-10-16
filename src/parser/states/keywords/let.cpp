@@ -62,7 +62,8 @@ void Let::Process(lexer::Lexer& lexer)
 	// Process variable's value
 	String::Process(lexer);
 
-	// Return to the Statement state
+	// Update the data inside the mediator
+	mediator_.DeclareVariable(std::move(id), std::move(GetValue()));
 	mediator_.SetState(std::make_unique<Statement>(mediator_));
 }
 

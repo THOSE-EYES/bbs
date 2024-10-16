@@ -17,24 +17,14 @@
 # under the License.
 #
 
-project("mediator")
+project("undeclaredvariableexception")
 
 set(SOURCES 
-    ${CMAKE_SOURCE_DIR}/src/parser/mediator.cpp
-)
-
-set(STUBS
-    ${STUBS_FOLDER}/scheduler/pipeline/job.cpp
-    ${STUBS_FOLDER}/parser/exceptions/existingprojectexception.cpp
-    ${STUBS_FOLDER}/parser/exceptions/nonexistentprojectexception.cpp
-    ${STUBS_FOLDER}/parser/exceptions/undeclaredvariableexception.cpp
-    ${STUBS_FOLDER}/parser/states/statement.cpp
-    ${STUBS_FOLDER}/parser/states/state.cpp
+    ${CMAKE_SOURCE_DIR}/src/parser/exceptions/undeclaredvariableexception.cpp
 )
 
 add_executable(${PROJECT_NAME} 
     ${SOURCES}
-    ${STUBS}
 
     src/main.cpp
 )
