@@ -25,16 +25,6 @@ Job::Job(std::string name)
 	: name_{std::move(name)}
 {}
 
-Job::Job(Job&& other) noexcept
-	: name_{std::move(other.name_)}
-	, path_{std::move(other.path_)}
-	, files_{std::move(other.files_)}
-	, dependencies_{std::move(other.dependencies_)}
-	, cflags_{std::move(other.cflags_)}
-	, pre_commands_{std::move(other.pre_commands_)}
-	, post_commands_{std::move(other.post_commands_)}
-{}
-
 const std::string& Job::GetProjectName() const
 {
 	return name_;
@@ -99,4 +89,5 @@ const std::vector<std::string>& Job::GetPostCompilationCommands() const
 {
 	return post_commands_;
 }
+
 } // namespace scheduler::pipeline
