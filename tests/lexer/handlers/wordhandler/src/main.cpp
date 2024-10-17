@@ -118,5 +118,5 @@ TEST_F(WordHandlerTest, TestProcess)
 
 	// Check every punctuator from the map
 	lex::Scanner scanner{kFilePath};
-	EXPECT_EQ(instance_.Process(scanner)->value, data);
+	EXPECT_EQ(instance_.Process(scanner)->GetValue(), data);
 }

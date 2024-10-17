@@ -52,10 +52,16 @@ struct Punctuator : public Token
 	/**
 	 * @brief Construct a new Punctuator object
 	 * 
-	 * @param value_ - the string value of the token
 	 * @param type_ - punctuator's type
 	 */
-	explicit Punctuator(std::string value_, Type type_);
+	explicit Punctuator(Type type_);
+
+	/**
+	 * @brief Get string value
+	 * 
+	 * @return std::string - the value of the token
+	 */
+	std::string GetValue() const override;
 
 	/**
 	 * @brief Current punctuator's type

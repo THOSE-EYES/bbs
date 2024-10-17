@@ -29,7 +29,8 @@ set(STUBS
     ${STUBS_FOLDER}/lexer/lexer.cpp
     ${STUBS_FOLDER}/lexer/scanner.cpp
     ${STUBS_FOLDER}/parser/tokens/punctuator.cpp
-    ${STUBS_FOLDER}/parser/tokens/token.cpp
+    ${STUBS_FOLDER}/parser/tokens/separator.cpp
+    ${STUBS_FOLDER}/parser/tokens/word.cpp
     ${STUBS_FOLDER}/parser/mediator.cpp
     ${STUBS_FOLDER}/parser/parser.cpp
     ${STUBS_FOLDER}/scheduler/pipeline/job.cpp

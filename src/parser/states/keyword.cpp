@@ -45,7 +45,7 @@ void Keyword::Process(lexer::Lexer& lexer)
 	}
 
 	// Process the correct keyword
-	const auto& keyword = token->value;
+	const auto& keyword = token->GetValue();
 	if(keyword == "cflags")
 	{
 		mediator_.SetState(std::make_unique<keywords::CFlags>(mediator_));
@@ -82,6 +82,6 @@ void Keyword::Process(lexer::Lexer& lexer)
 		return;
 	}
 
-	throw exceptions::UnexpectedKeywordException(lexer.GetContext(), token->value);
+	throw exceptions::UnexpectedKeywordException(lexer.GetContext(), token->GetValue());
 }
 } // namespace parser::states

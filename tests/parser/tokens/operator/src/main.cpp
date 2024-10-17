@@ -31,9 +31,7 @@ TEST(OperatorTest, TestConstructor)
 	using Type = Operator::Type;
 
 	const auto type = Type::kEqualitySign;
-	const std::string data{" "};
 
-	Operator token{data, type};
-	EXPECT_EQ(token.value, data);
+	Operator token{type};
 	EXPECT_EQ(token.type, type);
 }

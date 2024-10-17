@@ -27,6 +27,7 @@
 #include "parser/exceptions/unexpectedtokenexception.hpp"
 #include "parser/states/keywords/let.hpp"
 #include "parser/tokens/separator.hpp"
+#include "parser/tokens/word.hpp"
 
 namespace fs = std::filesystem;
 
@@ -41,6 +42,7 @@ protected:
 	using Operator = parser::tokens::Operator;
 	using Punctuator = parser::tokens::Punctuator;
 	using Token = parser::tokens::Token;
+	using Word = parser::tokens::Word;
 
 protected:
 	/**
@@ -92,7 +94,7 @@ TEST_F(LetTest, TestProcessUnexpectedTokenExceptionNoTokens)
 TEST_F(LetTest, TestProcessRuntimeErrorNoTokenAfterID)
 {
 	std::vector<std::unique_ptr<Token>> tokens;
-	tokens.emplace_back(std::make_unique<Token>("A"));
+	tokens.emplace_back(std::make_unique<Word>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};

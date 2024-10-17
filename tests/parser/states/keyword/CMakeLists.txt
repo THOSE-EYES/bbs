@@ -40,11 +40,12 @@ set(STUBS
     ${STUBS_FOLDER}/parser/states/types/string.cpp
     ${STUBS_FOLDER}/parser/states/statement.cpp
     ${STUBS_FOLDER}/parser/tokens/punctuator.cpp
-    ${STUBS_FOLDER}/parser/tokens/token.cpp
+    ${STUBS_FOLDER}/parser/tokens/separator.cpp
     ${STUBS_FOLDER}/scheduler/pipeline/job.cpp
     
     src/stubs/lexer/lexer.cpp
     src/stubs/parser/states/state.cpp
+    src/stubs/parser/tokens/word.cpp
     src/stubs/parser/mediator.cpp
     src/stubs/parser/parser.cpp
 )

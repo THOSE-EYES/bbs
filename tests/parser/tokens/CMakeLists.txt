@@ -20,4 +20,4 @@
 add_subdirectory(operator)
 add_subdirectory(punctuator)
 add_subdirectory(separator)
-add_subdirectory(token)
+add_subdirectory(word)

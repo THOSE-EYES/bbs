@@ -150,7 +150,7 @@ TEST_F(OperatorHandlerTest, TestProcess)
 	std::unique_ptr<parser::tokens::Token> token;
 	while(token = instance_.Process(scanner))
 	{
-		const auto character = token->value.at(0);
+		const auto character = token->GetValue().at(0);
 		EXPECT_NE(parser::tokens::Operator::kOperatorToTypeMap.find(character),
 				  parser::tokens::Operator::kOperatorToTypeMap.end());
 	}

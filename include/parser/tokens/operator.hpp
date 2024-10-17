@@ -45,10 +45,16 @@ struct Operator : public Token
 	/**
 	 * @brief Construct a new Operator object
 	 * 
-	 * @param value_ - the string value of the token
 	 * @param type_ - operator's type
 	 */
-	explicit Operator(std::string value_, Type type_);
+	explicit Operator(Type type_);
+
+	/**
+	 * @brief Get string value
+	 * 
+	 * @return std::string - the value of the token
+	 */
+	std::string GetValue() const override;
 
 	/**
 	 * @brief Current operator's type

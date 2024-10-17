@@ -17,11 +17,40 @@
  * under the License.
  */
 
+#pragma once
+
+#include <string>
+
 #include "parser/tokens/token.hpp"
 
 namespace parser::tokens
 {
-Token::Token(std::string value_)
-	: value{std::move(value_)}
-{}
+/**
+ * @brief The token that represents a separator
+ * 
+ */
+class Word : public Token
+{
+public:
+	/**
+	 * @brief Construct a new Word object
+	 * 
+	 * @param value - the value of the token
+	 */
+	explicit Word(std::string value);
+
+	/**
+	 * @brief Get string value
+	 * 
+	 * @return std::string - the value of the token
+	 */
+	std::string GetValue() const override;
+
+protected:
+	/**
+	 * @brief Current punctuator's type
+	 * 
+	 */
+	const std::string value_;
+};
 } // namespace parser::tokens

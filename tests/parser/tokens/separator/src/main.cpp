@@ -31,9 +31,7 @@ TEST(SeparatorTest, TestConstructor)
 	using Type = Separator::Type;
 
 	const auto type = Type::kSpace;
-	const std::string data{" "};
 
-	Separator token{data, type};
-	EXPECT_EQ(token.value, data);
+	Separator token{type};
 	EXPECT_EQ(token.type, type);
 }

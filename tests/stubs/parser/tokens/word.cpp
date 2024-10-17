@@ -17,17 +17,18 @@
  * under the License.
  */
 
-#include <gtest/gtest.h>
+#include "parser/tokens/word.hpp"
 
-#include "parser/tokens/token.hpp"
-
-/**
- * @brief Check if the constructor initializes the fields
- * 
- */
-TEST(TokenTest, TestConstructor)
+namespace parser::tokens
 {
-	const std::string data{"Hello World!"};
-	parser::tokens::Token token{data};
-	EXPECT_EQ(token.value, data);
+Word::Word(std::string value)
+	: Token{}
+	, value_{std::move(value)}
+
+{}
+
+std::string Word::GetValue() const
+{
+	return {};
 }
+} // namespace parser::tokens

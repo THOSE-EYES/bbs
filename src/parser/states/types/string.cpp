@@ -38,16 +38,15 @@ void String::Process(lexer::Lexer& lexer)
 	// Add tokens one by one to the internal buffer
 	while((token = lexer.Next()))
 	{
-		const auto value = std::move(token->value);
 		try
 		{
 			Match(token.get(), tokens::Punctuator::Type::kDoubleQuoteMark);
 			return;
 		}
-		catch(const exceptions::UnexpectedTokenException& e)
+		catch(const exceptions::UnexpectedTokenException&)
 		{
 			// Add the token to the whole value
-			value_ += value;
+			value_ += token->GetValue();
 		}
 	}
 

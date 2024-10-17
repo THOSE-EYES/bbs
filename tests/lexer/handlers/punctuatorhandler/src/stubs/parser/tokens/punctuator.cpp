@@ -19,6 +19,8 @@
 
 #include "parser/tokens/punctuator.hpp"
 
+#include <algorithm>
+
 namespace parser::tokens
 {
 const std::map<char, Punctuator::Type> Punctuator::kPunctuatorToTypeMap{
@@ -30,10 +32,18 @@ const std::map<char, Punctuator::Type> Punctuator::kPunctuatorToTypeMap{
 	{',', Type::kComma},
 	{'/', Type::kSlash},
 	{'\\', Type::kBackslash},
-};
+	{'-', Type::kMinus}};
 
-Punctuator::Punctuator(std::string value_, Type type_)
-	: Token{std::move(value_)}
+Punctuator::Punctuator(Type type_)
+	: Token{}
 	, type{type_}
 {}
+
+std::string Punctuator::GetValue() const
+{
+	const auto iterator = std::find_if(kPunctuatorToTypeMap.begin(),
+									   kPunctuatorToTypeMap.end(),
+									   [&](const auto& pair) { return pair.second == type; });
+	return std::string(iterator->first, 1);
+}
 } // namespace parser::tokens

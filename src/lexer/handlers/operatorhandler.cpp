@@ -37,7 +37,7 @@ std::unique_ptr<OperatorHandler::Token> OperatorHandler::Process(Scanner& scanne
 	if(iterator != Operator::kOperatorToTypeMap.end())
 	{
 		scanner.Move();
-		return std::make_unique<Operator>(std::string(1, character.value()), iterator->second);
+		return std::make_unique<Operator>(iterator->second);
 	}
 
 	return Handler::Process(scanner);

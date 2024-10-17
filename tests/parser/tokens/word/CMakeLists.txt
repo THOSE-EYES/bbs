@@ -17,10 +17,10 @@
 # under the License.
 #
 
-project("token")
+project("word")
 
 set(SOURCES 
-    ${CMAKE_SOURCE_DIR}/src/parser/tokens/token.cpp
+    ${CMAKE_SOURCE_DIR}/src/parser/tokens/word.cpp
 )
 
 add_executable(${PROJECT_NAME} 

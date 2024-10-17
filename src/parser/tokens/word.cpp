@@ -17,11 +17,17 @@
  * under the License.
  */
 
-#include "parser/tokens/token.hpp"
+#include "parser/tokens/word.hpp"
 
 namespace parser::tokens
 {
-Token::Token(std::string value_)
-	: value{std::move(value_)}
+Word::Word(std::string value)
+	: Token{}
+	, value_{std::move(value)}
 {}
+
+std::string Word::GetValue() const
+{
+	return value_;
+}
 } // namespace parser::tokens

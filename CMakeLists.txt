@@ -64,7 +64,7 @@ add_executable(${PROJECT_NAME}
     src/parser/tokens/operator.cpp
     src/parser/tokens/punctuator.cpp
     src/parser/tokens/separator.cpp
-    src/parser/tokens/token.cpp
+    src/parser/tokens/word.cpp
     src/parser/mediator.cpp
     src/parser/parser.cpp
     src/scheduler/exceptions/compilationerrorexception.cpp

@@ -21,7 +21,7 @@
 
 #include "parser/exceptions/unexpectedtokenexception.hpp"
 #include "parser/states/statement.hpp"
-#include "parser/tokens/separator.hpp"
+#include "parser/tokens/word.hpp"
 
 namespace parser::states::keywords
 {
@@ -38,22 +38,15 @@ void Let::Process(lexer::Lexer& lexer)
 		throw exceptions::UnexpectedTokenException("");
 	}
 
-	// Process the variable's name (identifier)
-	std::string id{};
-	do
+	// The first element is a word
+	const auto ptr = dynamic_cast<tokens::Word*>(token.get());
+	if(!ptr)
 	{
-		const auto value = std::move(token->value);
+		// FIXME: use context
+		throw exceptions::UnexpectedTokenException("");
+	}
 
-		// If the space is met, expect a "string"
-		const auto ptr = dynamic_cast<tokens::Separator*>(token.get());
-		if(ptr && ptr->type == tokens::Separator::Type::kSpace)
-		{
-			break;
-		}
-
-		// Add the token to the whole value
-		id += value;
-	} while((token = lexer.Next()));
+	std::string id = token->GetValue();
 
 	// Check if the assignment symbol is there
 	token = State::SkipSeparators(lexer);
@@ -78,7 +71,8 @@ void Let::Match(tokens::Token* token, tokens::Operator::Type value)
 	const auto ptr = dynamic_cast<tokens::Operator*>(token);
 	if(!ptr || ptr->type != value)
 	{
-		throw exceptions::UnexpectedTokenException(std::move(token->value));
+		// FIXME: use context
+		throw exceptions::UnexpectedTokenException("");
 	}
 }
 } // namespace parser::states::keywords

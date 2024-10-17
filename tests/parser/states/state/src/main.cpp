@@ -21,6 +21,7 @@
 
 #include "parser/exceptions/unexpectedtokenexception.hpp"
 #include "parser/parser.hpp"
+#include "parser/tokens/word.hpp"
 
 #include "fakes/parser/states/state.hpp"
 
@@ -65,7 +66,7 @@ TEST_F(StateTest, TestMatchNotPunctuator)
 	using Punctuator = parser::tokens::Punctuator;
 	using Type = Punctuator::Type;
 
-	auto token = std::make_unique<parser::tokens::Token>("");
+	auto token = std::make_unique<parser::tokens::Word>("");
 	EXPECT_THROW(instance_.Match(token.get(), Type::kDoubleQuoteMark),
 				 parser::exceptions::UnexpectedTokenException);
 }

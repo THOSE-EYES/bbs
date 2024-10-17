@@ -59,7 +59,7 @@ void State::Match(tokens::Token* token, tokens::Punctuator::Type value)
 	const auto ptr = dynamic_cast<tokens::Punctuator*>(token);
 	if(!ptr || ptr->type != value)
 	{
-		throw exceptions::UnexpectedTokenException(std::move(token->value));
+		throw exceptions::UnexpectedTokenException(std::move(token->GetValue()));
 	}
 }
 } // namespace parser::states

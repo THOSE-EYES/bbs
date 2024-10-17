@@ -19,13 +19,23 @@
 
 #include "parser/tokens/operator.hpp"
 
+#include <algorithm>
+
 namespace parser::tokens
 {
 const std::map<char, Operator::Type> Operator::kOperatorToTypeMap{{'=', Type::kEqualitySign},
 																  {'$', Type::kDollarSign}};
 
-Operator::Operator(std::string value_, Type type_)
-	: Token{std::move(value_)}
+Operator::Operator(Type type_)
+	: Token{}
 	, type{type_}
 {}
+
+std::string Operator::GetValue() const
+{
+	const auto iterator = std::find_if(kOperatorToTypeMap.begin(),
+									   kOperatorToTypeMap.end(),
+									   [&](const auto& pair) { return pair.second == type; });
+	return std::string(1, iterator->first);
+}
 } // namespace parser::tokens

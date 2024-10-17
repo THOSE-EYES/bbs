@@ -19,8 +19,8 @@
 
 #include "parser/states/variable.hpp"
 
-#include "parser/exceptions/unexpectedtokenexception.hpp"
-#include "parser/tokens/separator.hpp"
+#include "parser/exceptions/unexpectedendoffileexception.hpp"
+#include "parser/tokens/word.hpp"
 
 namespace parser::states
 {
@@ -34,18 +34,18 @@ void Variable::Process(lexer::Lexer& lexer)
 	std::shared_ptr<tokens::Token> token{};
 	while((token = lexer.Next()))
 	{
-		auto ptr = dynamic_cast<tokens::Separator*>(token.get());
-		if(ptr && ptr->type == tokens::Separator::Type::kSpace)
+		auto ptr = dynamic_cast<tokens::Word*>(token.get());
+		if(!ptr)
 		{
 			value_ = mediator_.GetVariableValue(id);
 			return;
 		}
 
 		// Add the token to the whole ID
-		id += std::move(token->value);
+		id += std::move(token->GetValue());
 	}
 
-	throw exceptions::UnexpectedTokenException("");
+	throw exceptions::UnexpectedEndOfFileException(lexer.GetContext());
 }
 
 std::string Variable::GetValue() const

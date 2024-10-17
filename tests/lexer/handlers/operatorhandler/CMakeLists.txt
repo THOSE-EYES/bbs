@@ -31,7 +31,6 @@ set(STUBS
 
     src/stubs/lexer/handlers/handler.cpp
     src/stubs/lexer/scanner.cpp
-    src/stubs/parser/tokens/token.cpp
     src/stubs/parser/tokens/operator.cpp
 )
 

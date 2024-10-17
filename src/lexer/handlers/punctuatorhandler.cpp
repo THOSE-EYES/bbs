@@ -38,7 +38,7 @@ std::unique_ptr<PunctuatorHandler::Token> PunctuatorHandler::Process(Scanner& sc
 	if(iterator != Punctuator::kPunctuatorToTypeMap.end())
 	{
 		scanner.Move();
-		return std::make_unique<Punctuator>(std::string(1, character.value()), iterator->second);
+		return std::make_unique<Punctuator>(iterator->second);
 	}
 
 	return Handler::Process(scanner);

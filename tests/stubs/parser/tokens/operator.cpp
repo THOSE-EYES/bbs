@@ -23,8 +23,13 @@ namespace parser::tokens
 {
 const std::map<char, Operator::Type> Operator::kOperatorToTypeMap{};
 
-Operator::Operator(std::string value_, Type type_)
-	: Token{std::move(value_)}
+Operator::Operator(Type type_)
+	: Token{}
 	, type{type_}
 {}
+
+std::string Operator::GetValue() const
+{
+	return {};
+}
 } // namespace parser::tokens

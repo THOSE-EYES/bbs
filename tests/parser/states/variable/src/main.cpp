@@ -21,10 +21,12 @@
 
 #include <filesystem>
 
+#include "parser/exceptions/unexpectedendoffileexception.hpp"
 #include "parser/exceptions/unexpectedtokenexception.hpp"
 #include "parser/parser.hpp"
 #include "parser/states/variable.hpp"
 #include "parser/tokens/separator.hpp"
+#include "parser/tokens/word.hpp"
 
 #include "aux/handlers/dummyhandler.hpp"
 #include "fakes/lexer/lexer.hpp"
@@ -40,6 +42,7 @@ class VariableTest : public ::testing::Test
 protected:
 	using Token = parser::tokens::Token;
 	using Separator = parser::tokens::Separator;
+	using Word = parser::tokens::Word;
 
 protected:
 	/**
@@ -72,8 +75,8 @@ TEST_F(VariableTest, TestProcess)
 	mediator_.DeclareVariable("A", "B");
 
 	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Token>("A"));
-	tokens.emplace_back(std::make_unique<Separator>("", Separator::Type::kSpace));
+	tokens.emplace_back(std::make_unique<Word>("A"));
+	tokens.emplace_back(std::make_unique<Separator>(Separator::Type::kSpace));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
@@ -89,10 +92,10 @@ TEST_F(VariableTest, TestProcess)
 TEST_F(VariableTest, TestProcessEOF)
 {
 	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Token>("A"));
+	tokens.emplace_back(std::make_unique<Word>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
-	EXPECT_THROW(instance_.Process(lexer), parser::exceptions::UnexpectedTokenException);
+	EXPECT_THROW(instance_.Process(lexer), parser::exceptions::UnexpectedEndOfFileException);
 }
