@@ -66,6 +66,6 @@ TEST_F(StateTest, TestMatchNotPunctuator)
 	using Type = Punctuator::Type;
 
 	auto token = std::make_unique<parser::tokens::Token>("");
-	EXPECT_THROW(instance_.Match(std::move(token), Type::kDoubleQuoteMark),
+	EXPECT_THROW(instance_.Match(token.get(), Type::kDoubleQuoteMark),
 				 parser::exceptions::UnexpectedTokenException);
 }

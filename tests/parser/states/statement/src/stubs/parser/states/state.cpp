@@ -49,15 +49,15 @@ std::unique_ptr<tokens::Token> State::SkipSeparators(lexer::Lexer& lexer)
 	return token;
 }
 
-void State::Match(std::unique_ptr<tokens::Token> token, tokens::Punctuator::Type value)
+void State::Match(tokens::Token* token, tokens::Punctuator::Type value)
 {
-	// Token might be nullptr, handle this case
 	if(!token)
 	{
-		throw std::runtime_error("State::Match() was called with nullptr.");
+		// FIXME: replace with the UnexpectedEndOfFile exception
+		throw exceptions::UnexpectedTokenException("EOF");
 	}
 
-	const auto ptr = dynamic_cast<tokens::Punctuator*>(token.get());
+	const auto ptr = dynamic_cast<tokens::Punctuator*>(token);
 	if(!ptr || ptr->type != value)
 	{
 		throw exceptions::UnexpectedTokenException(std::move(token->value));

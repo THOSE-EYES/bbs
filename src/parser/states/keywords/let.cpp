@@ -57,7 +57,7 @@ void Let::Process(lexer::Lexer& lexer)
 
 	// Check if the assignment symbol is there
 	token = State::SkipSeparators(lexer);
-	Match(std::move(token), tokens::Operator::Type::kEqualitySign);
+	Match(token.get(), tokens::Operator::Type::kEqualitySign);
 
 	// Process variable's value
 	String::Process(lexer);
@@ -67,15 +67,15 @@ void Let::Process(lexer::Lexer& lexer)
 	mediator_.SetState(std::make_unique<Statement>(mediator_));
 }
 
-void Let::Match(std::unique_ptr<tokens::Token> token, tokens::Operator::Type value)
+void Let::Match(tokens::Token* token, tokens::Operator::Type value)
 {
-	// Token might be nullptr, handle this case
 	if(!token)
 	{
-		throw std::runtime_error("Let::Match() was called with nullptr.");
+		// FIXME: replace with the UnexpectedEndOfFile exceptions
+		throw exceptions::UnexpectedTokenException("EOF");
 	}
 
-	const auto ptr = dynamic_cast<tokens::Operator*>(token.get());
+	const auto ptr = dynamic_cast<tokens::Operator*>(token);
 	if(!ptr || ptr->type != value)
 	{
 		throw exceptions::UnexpectedTokenException(std::move(token->value));

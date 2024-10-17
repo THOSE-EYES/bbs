@@ -32,7 +32,7 @@ std::unique_ptr<tokens::Token> State::SkipSeparators(lexer::Lexer& lexer)
 	return {};
 }
 
-void State::Match(std::unique_ptr<tokens::Token> token, tokens::Punctuator::Type value)
+void State::Match(tokens::Token* token, tokens::Punctuator::Type value)
 {
 	// noop
 }

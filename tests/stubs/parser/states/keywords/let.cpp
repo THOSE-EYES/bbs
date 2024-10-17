@@ -32,7 +32,7 @@ void Let::Process(lexer::Lexer& lexer)
 	// noop
 }
 
-void Let::Match(std::unique_ptr<tokens::Token> token, tokens::Operator::Type value)
+void Let::Match(tokens::Token* token, tokens::Operator::Type value)
 {
 	// noop
 }

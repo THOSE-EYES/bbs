@@ -33,7 +33,7 @@ void String::Process(lexer::Lexer& lexer)
 	auto token = State::SkipSeparators(lexer);
 
 	// Expect the double quote mark at the start of the string
-	Match(std::move(token), ::parser::tokens::Punctuator::Type::kDoubleQuoteMark);
+	Match(token.get(), ::parser::tokens::Punctuator::Type::kDoubleQuoteMark);
 
 	// Add tokens one by one to the internal buffer
 	while((token = lexer.Next()))
@@ -41,7 +41,7 @@ void String::Process(lexer::Lexer& lexer)
 		const auto value = std::move(token->value);
 		try
 		{
-			Match(std::move(token), tokens::Punctuator::Type::kDoubleQuoteMark);
+			Match(token.get(), tokens::Punctuator::Type::kDoubleQuoteMark);
 			return;
 		}
 		catch(const exceptions::UnexpectedTokenException& e)

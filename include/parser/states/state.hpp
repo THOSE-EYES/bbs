@@ -62,7 +62,7 @@ protected:
       * @param token - the token to check
       * @param value - the value to check the token against
       */
-	void Match(std::unique_ptr<tokens::Token> token, tokens::Punctuator::Type value);
+	void Match(tokens::Token* token, tokens::Punctuator::Type value);
 
 protected:
 	/**
