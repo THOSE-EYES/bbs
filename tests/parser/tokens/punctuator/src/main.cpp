@@ -31,9 +31,7 @@ TEST(PunctuatorTest, TestConstructor)
 	using Type = Punctuator::Type;
 
 	const auto type = Type::kDoubleQuoteMark;
-	const std::string data{"Hello World!"};
 
-	Punctuator token{data, type};
-	EXPECT_EQ(token.value, data);
+	Punctuator token{type};
 	EXPECT_EQ(token.type, type);
 }

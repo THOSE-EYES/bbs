@@ -27,6 +27,7 @@ set(STUBS
     ${STUBS_FOLDER}/scheduler/pipeline/job.cpp
     ${STUBS_FOLDER}/parser/exceptions/existingprojectexception.cpp
     ${STUBS_FOLDER}/parser/exceptions/nonexistentprojectexception.cpp
+    ${STUBS_FOLDER}/parser/exceptions/undeclaredvariableexception.cpp
     ${STUBS_FOLDER}/parser/states/statement.cpp
     ${STUBS_FOLDER}/parser/states/state.cpp
 )

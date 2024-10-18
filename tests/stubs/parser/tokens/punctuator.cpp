@@ -23,8 +23,13 @@ namespace parser::tokens
 {
 const std::map<char, Punctuator::Type> Punctuator::kPunctuatorToTypeMap{};
 
-Punctuator::Punctuator(std::string value_, Type type_)
-	: Token{std::move(value_)}
+Punctuator::Punctuator(Type type_)
+	: Token{}
 	, type{type_}
 {}
+
+std::string Punctuator::GetValue() const
+{
+	return {};
+}
 } // namespace parser::tokens

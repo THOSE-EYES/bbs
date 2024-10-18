@@ -20,6 +20,8 @@
 #pragma once
 
 #include <filesystem>
+#include <map>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -44,7 +46,7 @@ public:
 	 * 
 	 * @param other - the object to move data from
 	 */
-	Job(Job&& other) noexcept;
+	Job(Job&& other) noexcept = default;
 
 	/**
 	 * @brief Deleted copy constructor of a new Job object

@@ -21,6 +21,7 @@
 
 #include "parser/exceptions/existingprojectexception.hpp"
 #include "parser/exceptions/nonexistentprojectexception.hpp"
+#include "parser/exceptions/undeclaredvariableexception.hpp"
 #include "parser/states/statement.hpp"
 
 namespace parser
@@ -66,5 +67,20 @@ scheduler::pipeline::Job Mediator::GetJob()
 	}
 
 	return std::move(*job_);
+}
+
+void Mediator::DeclareVariable(std::string id, std::string value)
+{
+	variables_.insert({id, value});
+}
+
+std::string Mediator::GetVariableValue(std::string id) const
+{
+	if(variables_.find(id) == variables_.end())
+	{
+		throw exceptions::UndeclaredVariableException(std::move(id));
+	}
+
+	return variables_.at(id);
 }
 } // namespace parser

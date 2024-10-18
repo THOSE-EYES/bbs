@@ -19,4 +19,5 @@
 
 add_subdirectory(existingprojectexception)
 add_subdirectory(nonexistentprojectexception)
+add_subdirectory(undeclaredvariableexception)
 add_subdirectory(unexpectedtokenexception)

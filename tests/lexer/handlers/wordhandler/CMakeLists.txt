@@ -30,7 +30,7 @@ set(STUBS
     src/stubs/lexer/handlers/handler.cpp
     src/stubs/lexer/context.cpp
     src/stubs/lexer/scanner.cpp
-    src/stubs/parser/tokens/token.cpp
+    src/stubs/parser/tokens/word.cpp
 )
 
 add_executable(${PROJECT_NAME} 

@@ -26,11 +26,6 @@ Job::Job(std::string name)
 	// noop
 }
 
-Job::Job(Job&& other) noexcept
-{
-	// noop
-}
-
 const std::string& Job::GetProjectName() const
 {
 	return name_;

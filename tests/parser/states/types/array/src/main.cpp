@@ -24,6 +24,7 @@
 #include "parser/exceptions/unexpectedtokenexception.hpp"
 #include "parser/parser.hpp"
 #include "parser/states/types/array.hpp"
+#include "parser/tokens/word.hpp"
 
 #include "aux/handlers/dummyhandler.hpp"
 #include "fakes/lexer/lexer.hpp"
@@ -42,6 +43,9 @@ const fs::path kFilePath{""};
  */
 class ArrayTest : public ::testing::Test
 {
+protected:
+	using Word = parser::tokens::Word;
+
 protected:
 	/**
 	 * @brief An instance of parser
@@ -71,7 +75,7 @@ TEST_F(ArrayTest, TestProcessLeadingBracketAbscence)
 	using Token = parser::tokens::Token;
 
 	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Token>("A"));
+	tokens.emplace_back(std::make_unique<Word>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
@@ -89,10 +93,10 @@ TEST_F(ArrayTest, TestProcessClosingBracketAbscence)
 	using Punctuator = parser::tokens::Punctuator;
 
 	std::vector<std::unique_ptr<Token>> tokens;
-	tokens.emplace_back(std::make_unique<Punctuator>("[", Punctuator::Type::kLeftSquareBracket));
-	tokens.emplace_back(std::make_unique<Punctuator>("\"", Punctuator::Type::kDoubleQuoteMark));
-	tokens.emplace_back(std::make_unique<Punctuator>("\"", Punctuator::Type::kDoubleQuoteMark));
-	tokens.emplace_back(std::make_unique<Token>("A"));
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kLeftSquareBracket));
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kDoubleQuoteMark));
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kDoubleQuoteMark));
+	tokens.emplace_back(std::make_unique<Word>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
@@ -110,10 +114,10 @@ TEST_F(ArrayTest, TestProcessCommaAbscence)
 	using Punctuator = parser::tokens::Punctuator;
 
 	std::vector<std::unique_ptr<Token>> tokens;
-	tokens.emplace_back(std::make_unique<Punctuator>("[", Punctuator::Type::kLeftSquareBracket));
-	tokens.emplace_back(std::make_unique<Punctuator>("\"", Punctuator::Type::kDoubleQuoteMark));
-	tokens.emplace_back(std::make_unique<Punctuator>("\"", Punctuator::Type::kDoubleQuoteMark));
-	tokens.emplace_back(std::make_unique<Token>("A"));
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kLeftSquareBracket));
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kDoubleQuoteMark));
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kDoubleQuoteMark));
+	tokens.emplace_back(std::make_unique<Word>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
@@ -131,10 +135,10 @@ TEST_F(ArrayTest, TestProcess)
 	using Punctuator = parser::tokens::Punctuator;
 
 	std::vector<std::unique_ptr<Token>> tokens;
-	tokens.emplace_back(std::make_unique<Punctuator>("[", Punctuator::Type::kLeftSquareBracket));
-	tokens.emplace_back(std::make_unique<Punctuator>("\"", Punctuator::Type::kDoubleQuoteMark));
-	tokens.emplace_back(std::make_unique<Punctuator>("\"", Punctuator::Type::kDoubleQuoteMark));
-	tokens.emplace_back(std::make_unique<Punctuator>("]", Punctuator::Type::kRightSquareBracket));
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kLeftSquareBracket));
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kDoubleQuoteMark));
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kDoubleQuoteMark));
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kRightSquareBracket));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};

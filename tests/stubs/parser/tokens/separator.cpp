@@ -23,8 +23,13 @@ namespace parser::tokens
 {
 const std::map<char, Separator::Type> Separator::kSeparatorToTypeMap{};
 
-Separator::Separator(std::string value_, Type type_)
-	: Token{std::move(value_)}
+Separator::Separator(Type type_)
+	: Token{}
 	, type{type_}
 {}
+
+std::string Separator::GetValue() const
+{
+	return {};
+}
 } // namespace parser::tokens

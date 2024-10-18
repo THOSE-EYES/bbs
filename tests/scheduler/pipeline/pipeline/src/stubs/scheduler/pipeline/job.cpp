@@ -27,13 +27,6 @@ Job::Job(std::string name)
 	//noop
 }
 
-Job::Job(Job&& other) noexcept
-	: name_{std::move(other.name_)}
-	, files_{std::move(other.files_)}
-{
-	//noop
-}
-
 const std::string& Job::GetProjectName() const
 {
 	return name_;

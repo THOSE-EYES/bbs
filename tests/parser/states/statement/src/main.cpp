@@ -24,6 +24,7 @@
 #include "parser/exceptions/unexpectedtokenexception.hpp"
 #include "parser/parser.hpp"
 #include "parser/states/keyword.hpp"
+#include "parser/tokens/word.hpp"
 
 #include "aux/handlers/dummyhandler.hpp"
 #include "fakes/lexer/lexer.hpp"
@@ -34,6 +35,7 @@ namespace fs = std::filesystem;
 
 using Token = parser::tokens::Token;
 using Punctuator = parser::tokens::Punctuator;
+using Word = parser::tokens::Word;
 
 /**
  * @brief The default file path
@@ -84,7 +86,7 @@ TEST_F(StatementTest, TestProcessNoToken)
 TEST_F(StatementTest, TestProcessLeadingExclamationMarkAbscence)
 {
 	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Token>("A"));
+	tokens.emplace_back(std::make_unique<Word>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
@@ -100,7 +102,7 @@ TEST_F(StatementTest, TestProcessLeadingExclamationMarkAbscence)
 TEST_F(StatementTest, TestProcessProjectKeyword)
 {
 	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Punctuator>("!", Punctuator::Type::kExclamationMark));
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kExclamationMark));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};

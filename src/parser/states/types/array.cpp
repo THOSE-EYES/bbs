@@ -21,11 +21,12 @@
 
 #include "parser/exceptions/unexpectedendoffileexception.hpp"
 #include "parser/exceptions/unexpectedtokenexception.hpp"
+#include "parser/states/types/string.hpp"
 
 namespace parser::states::types
 {
 Array::Array(Mediator& mediator)
-	: String{mediator}
+	: State{mediator}
 {}
 
 void Array::Process(lexer::Lexer& lexer)
@@ -34,34 +35,33 @@ void Array::Process(lexer::Lexer& lexer)
 	auto token = SkipSeparators(lexer);
 
 	// Expect the bracket at the start of the string
-	Match(std::move(token), tokens::Punctuator::Type::kLeftSquareBracket);
+	Match(token.get(), tokens::Punctuator::Type::kLeftSquareBracket);
 
-	tokens::Punctuator::Type type;
+	// Process the tokens
+	String string_handler{mediator_};
 	do
 	{
 		// Get the next string
-		String::Process(lexer);
-		value_.push_back(String::GetValue());
-		String::Clear();
+		string_handler.Process(lexer);
+		value_.push_back(string_handler.GetValue());
+		string_handler.Clear();
 
 		// Get the terminator token
-		token = lexer.Next();
-		if(!token)
+		token = SkipSeparators(lexer);
+
+		// Try to match any punctuator
+		try
 		{
-			throw exceptions::UnexpectedEndOfFileException(lexer.GetContext());
+			Match(token.get(), tokens::Punctuator::Type::kRightSquareBracket);
+			return;
 		}
-
-		// Get the type of the terminator
-		auto ptr = dynamic_cast<tokens::Punctuator*>(token.get());
-		if(!ptr)
+		catch(const exceptions::UnexpectedTokenException&)
 		{
-			throw exceptions::UnexpectedTokenException(std::move(token->value));
+			Match(token.get(), tokens::Punctuator::Type::kComma);
 		}
-		type = ptr->type;
+	} while(token);
 
-	} while(type == tokens::Punctuator::Type::kComma);
-
-	Match(std::move(token), tokens::Punctuator::Type::kRightSquareBracket);
+	throw exceptions::UnexpectedEndOfFileException(lexer.GetContext());
 }
 
 std::vector<std::string> Array::GetValue() const

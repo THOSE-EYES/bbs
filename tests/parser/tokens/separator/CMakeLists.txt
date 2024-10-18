@@ -23,13 +23,8 @@ set(SOURCES
     ${CMAKE_SOURCE_DIR}/src/parser/tokens/separator.cpp
 )
 
-set(STUBS
-    src/stubs/parser/tokens/token.cpp
-)
-
 add_executable(${PROJECT_NAME} 
     ${SOURCES}
-    ${STUBS}
 
     src/main.cpp
 )

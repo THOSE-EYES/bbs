@@ -32,7 +32,6 @@ set(STUBS
     ${STUBS_FOLDER}/parser/states/state.cpp
     ${STUBS_FOLDER}/parser/states/statement.cpp
     ${STUBS_FOLDER}/parser/tokens/punctuator.cpp
-    ${STUBS_FOLDER}/parser/tokens/token.cpp
     ${STUBS_FOLDER}/parser/mediator.cpp
     ${STUBS_FOLDER}/parser/parser.cpp
     ${STUBS_FOLDER}/scheduler/pipeline/job.cpp

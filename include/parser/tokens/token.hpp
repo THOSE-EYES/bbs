@@ -30,22 +30,16 @@ namespace parser::tokens
 struct Token
 {
 	/**
-	 * @brief Construct a new Token object
-	 * 
-	 * @param value_ - token's string representation
-	 */
-	explicit Token(std::string value_);
-
-	/**
 	 * @brief Destroy the Token object
 	 * 
 	 */
 	virtual ~Token() {}
 
 	/**
-	 * @brief Token's string representation
+	 * @brief Get string value
 	 * 
+	 * @return std::string - the value of the token
 	 */
-	const std::string value;
+	virtual std::string GetValue() const = 0;
 };
 } // namespace parser::tokens

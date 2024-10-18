@@ -24,6 +24,7 @@
 #include "parser/states/keywords/cflags.hpp"
 #include "parser/states/keywords/deps.hpp"
 #include "parser/states/keywords/files.hpp"
+#include "parser/states/keywords/let.hpp"
 #include "parser/states/keywords/post.hpp"
 #include "parser/states/keywords/pre.hpp"
 #include "parser/states/keywords/project.hpp"
@@ -44,7 +45,7 @@ void Keyword::Process(lexer::Lexer& lexer)
 	}
 
 	// Process the correct keyword
-	const auto& keyword = token->value;
+	const auto& keyword = token->GetValue();
 	if(keyword == "cflags")
 	{
 		mediator_.SetState(std::make_unique<keywords::CFlags>(mediator_));
@@ -75,7 +76,12 @@ void Keyword::Process(lexer::Lexer& lexer)
 		mediator_.SetState(std::make_unique<keywords::Post>(mediator_));
 		return;
 	}
+	else if(keyword == "let")
+	{
+		mediator_.SetState(std::make_unique<keywords::Let>(mediator_));
+		return;
+	}
 
-	throw exceptions::UnexpectedKeywordException(lexer.GetContext(), token->value);
+	throw exceptions::UnexpectedKeywordException(lexer.GetContext(), token->GetValue());
 }
 } // namespace parser::states

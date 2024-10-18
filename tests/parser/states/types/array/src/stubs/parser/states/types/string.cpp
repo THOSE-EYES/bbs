@@ -30,15 +30,19 @@ String::String(Mediator& mediator)
 
 void String::Process(lexer::Lexer& lexer)
 {
-	Match(lexer.Next(), ::parser::tokens::Punctuator::Type::kDoubleQuoteMark);
+	// Skip separators in between the keyword and the
+	auto token = State::SkipSeparators(lexer);
 
-	std::unique_ptr<tokens::Token> token;
+	// Expect the double quote mark at the start of the string
+	Match(token.get(), ::parser::tokens::Punctuator::Type::kDoubleQuoteMark);
+
+	// Add tokens one by one to the internal buffer
 	while((token = lexer.Next()))
 	{
-		const auto value = std::move(token->value);
+		const auto value = std::move(token->GetValue());
 		try
 		{
-			Match(std::move(token), tokens::Punctuator::Type::kDoubleQuoteMark);
+			Match(token.get(), tokens::Punctuator::Type::kDoubleQuoteMark);
 			return;
 		}
 		catch(const exceptions::UnexpectedTokenException& e)

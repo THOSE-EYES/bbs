@@ -19,6 +19,8 @@
 
 #include "lexer/handlers/wordhandler.hpp"
 
+#include "parser/tokens/word.hpp"
+
 namespace lexer::handlers
 {
 std::unique_ptr<WordHandler::Token> WordHandler::Process(Scanner& scanner) const
@@ -44,7 +46,7 @@ std::unique_ptr<WordHandler::Token> WordHandler::Process(Scanner& scanner) const
 	// Return the token, if it's value is not empty
 	if(!value.empty())
 	{
-		return std::make_unique<Token>(value);
+		return std::make_unique<parser::tokens::Word>(value);
 	}
 
 	return Handler::Process(scanner);

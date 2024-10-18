@@ -19,12 +19,22 @@
 
 #include "parser/tokens/separator.hpp"
 
+#include <algorithm>
+
 namespace parser::tokens
 {
 const std::map<char, Separator::Type> Separator::kSeparatorToTypeMap{{' ', Type::kSpace}};
 
-Separator::Separator(std::string value_, Type type_)
-	: Token{std::move(value_)}
+Separator::Separator(Type type_)
+	: Token{}
 	, type{type_}
 {}
+
+std::string Separator::GetValue() const
+{
+	const auto iterator = std::find_if(kSeparatorToTypeMap.begin(),
+									   kSeparatorToTypeMap.end(),
+									   [&](const auto& pair) { return pair.second == type; });
+	return std::string(1, iterator->first);
+}
 } // namespace parser::tokens

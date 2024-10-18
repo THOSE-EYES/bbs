@@ -73,6 +73,22 @@ public:
      */
 	scheduler::pipeline::Job GetJob();
 
+	/**
+	 * @brief Add a declaration of a variable to the job
+	 * 
+	 * @param id - variable's name
+	 * @param value - variable's value
+	 */
+	void DeclareVariable(std::string id, std::string value);
+
+	/**
+	 * @brief Get the variable's value
+	 * 
+	 * @param id - variable's name
+	 * @return std::string - the value of the variable, if it exists
+	 */
+	std::string GetVariableValue(std::string id) const;
+
 protected:
 	/**
      * @brief The current Parser's state
@@ -85,5 +101,11 @@ protected:
       * 
       */
 	std::unique_ptr<scheduler::pipeline::Job> job_;
+
+	/**
+	 * @brief The declared variables
+	 * 
+	 */
+	std::map<std::string, std::string> variables_;
 };
 } // namespace parser

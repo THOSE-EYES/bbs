@@ -18,6 +18,7 @@
 #
 
 add_subdirectory(handler)
+add_subdirectory(operatorhandler)
 add_subdirectory(punctuatorhandler)
 add_subdirectory(separatorhandler)
 add_subdirectory(wordhandler)

@@ -30,8 +30,14 @@ const Context& Lexer::GetContext() const
 	return scanner_.GetContext();
 }
 
-std::unique_ptr<Lexer::Token> Lexer::Next()
+std::shared_ptr<Lexer::Token> Lexer::Next()
 {
-	return handler_->Process(scanner_);
+	token_ = std::move(handler_->Process(scanner_));
+	return token_;
+}
+
+std::shared_ptr<Lexer::Token> Lexer::Get() const
+{
+	return token_;
 }
 } // namespace lexer

@@ -38,7 +38,7 @@ void Statement::Process(lexer::Lexer& lexer)
 	}
 
 	// Every statement begins with the exclamation mark
-	Match(std::move(token), tokens::Punctuator::Type::kExclamationMark);
+	Match(token.get(), tokens::Punctuator::Type::kExclamationMark);
 
 	// By default, statements start with keywords
 	mediator_.SetState(std::make_unique<Keyword>(mediator_));

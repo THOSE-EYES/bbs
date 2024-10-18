@@ -20,6 +20,8 @@
 #include "parser/states/types/string.hpp"
 
 #include "parser/exceptions/unexpectedtokenexception.hpp"
+#include "parser/states/variable.hpp"
+#include "parser/tokens/operator.hpp"
 
 namespace parser::states::types
 {
@@ -33,21 +35,32 @@ void String::Process(lexer::Lexer& lexer)
 	auto token = State::SkipSeparators(lexer);
 
 	// Expect the double quote mark at the start of the string
-	Match(std::move(token), ::parser::tokens::Punctuator::Type::kDoubleQuoteMark);
+	Match(token.get(), ::parser::tokens::Punctuator::Type::kDoubleQuoteMark);
 
 	// Add tokens one by one to the internal buffer
 	while((token = lexer.Next()))
 	{
-		const auto value = std::move(token->value);
 		try
 		{
-			Match(std::move(token), tokens::Punctuator::Type::kDoubleQuoteMark);
+			Match(token.get(), tokens::Punctuator::Type::kDoubleQuoteMark);
 			return;
 		}
-		catch(const exceptions::UnexpectedTokenException& e)
+		catch(const exceptions::UnexpectedTokenException&)
 		{
+			auto ptr = dynamic_cast<tokens::Operator*>(token.get());
+			if(ptr && ptr->type == tokens::Operator::Type::kDollarSign)
+			{
+				Variable variable{mediator_};
+				variable.Process(lexer);
+
+				// Add variable's value to the result
+				value_ += variable.GetValue();
+
+				continue;
+			}
+
 			// Add the token to the whole value
-			value_ += value;
+			value_ += token->GetValue();
 		}
 	}
 

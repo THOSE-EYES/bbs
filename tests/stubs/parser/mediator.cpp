@@ -52,4 +52,14 @@ scheduler::pipeline::Job Mediator::GetJob()
 {
 	return {""};
 }
+
+void Mediator::DeclareVariable(std::string id, std::string value)
+{
+	// noop
+}
+
+std::string Mediator::GetVariableValue(std::string id) const
+{
+	return {};
+}
 } // namespace parser

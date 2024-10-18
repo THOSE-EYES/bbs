@@ -38,7 +38,7 @@ std::unique_ptr<SeparatorHandler::Token> SeparatorHandler::Process(Scanner& scan
 	if(iterator != Separator::kSeparatorToTypeMap.end())
 	{
 		scanner.Move();
-		return std::make_unique<Separator>(std::string(1, character.value()), iterator->second);
+		return std::make_unique<Separator>(iterator->second);
 	}
 
 	return Handler::Process(scanner);

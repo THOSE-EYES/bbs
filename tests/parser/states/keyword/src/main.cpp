@@ -26,8 +26,10 @@
 #include "parser/parser.hpp"
 #include "parser/states/keywords/deps.hpp"
 #include "parser/states/keywords/files.hpp"
+#include "parser/states/keywords/let.hpp"
 #include "parser/states/keywords/pre.hpp"
 #include "parser/states/keywords/project.hpp"
+#include "parser/tokens/word.hpp"
 
 #include "aux/handlers/dummyhandler.hpp"
 #include "fakes/lexer/lexer.hpp"
@@ -37,6 +39,7 @@
 namespace fs = std::filesystem;
 
 using Token = parser::tokens::Token;
+using Word = parser::tokens::Word;
 
 /**
  * @brief The default file path
@@ -86,7 +89,7 @@ TEST_F(KeywordTest, TestProcessNoToken)
 TEST_F(KeywordTest, TestProcessUnknownKeyword)
 {
 	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Token>("A"));
+	tokens.emplace_back(std::make_unique<Word>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
@@ -101,7 +104,7 @@ TEST_F(KeywordTest, TestProcessUnknownKeyword)
 TEST_F(KeywordTest, TestProcessProjectKeyword)
 {
 	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Token>("prj"));
+	tokens.emplace_back(std::make_unique<Word>("prj"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
@@ -119,7 +122,7 @@ TEST_F(KeywordTest, TestProcessProjectKeyword)
 TEST_F(KeywordTest, TestProcessFilesKeyword)
 {
 	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Token>("files"));
+	tokens.emplace_back(std::make_unique<Word>("files"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
@@ -136,7 +139,7 @@ TEST_F(KeywordTest, TestProcessFilesKeyword)
 TEST_F(KeywordTest, TestProcessDepsKeyword)
 {
 	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Token>("deps"));
+	tokens.emplace_back(std::make_unique<Word>("deps"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
@@ -153,11 +156,27 @@ TEST_F(KeywordTest, TestProcessDepsKeyword)
 TEST_F(KeywordTest, TestProcessPreKeyword)
 {
 	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Token>("pre"));
+	tokens.emplace_back(std::make_unique<Word>("pre"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
 
 	EXPECT_NO_THROW(instance_.Process(lexer));
 	EXPECT_TRUE(dynamic_cast<parser::states::keywords::Pre*>(instance_.mediator_.GetState().get()));
+}
+
+/**
+ * @brief Check if the Process() method correctly handles the "!let" keyword
+ * 
+ */
+TEST_F(KeywordTest, TestProcessLetKeyword)
+{
+	std::vector<std::unique_ptr<Token>> tokens{};
+	tokens.emplace_back(std::make_unique<Word>("let"));
+
+	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
+	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
+
+	EXPECT_NO_THROW(instance_.Process(lexer));
+	EXPECT_TRUE(dynamic_cast<parser::states::keywords::Let*>(instance_.mediator_.GetState().get()));
 }

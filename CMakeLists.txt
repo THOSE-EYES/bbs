@@ -35,6 +35,7 @@ add_executable(${PROJECT_NAME}
     src/lexer/exceptions/filenotfoundexception.cpp
     src/lexer/exceptions/unexpectedlexemeexception.cpp
     src/lexer/handlers/handler.cpp
+    src/lexer/handlers/operatorhandler.cpp
     src/lexer/handlers/punctuatorhandler.cpp
     src/lexer/handlers/separatorhandler.cpp
     src/lexer/handlers/wordhandler.cpp
@@ -43,12 +44,14 @@ add_executable(${PROJECT_NAME}
     src/lexer/scanner.cpp
     src/parser/exceptions/existingprojectexception.cpp
     src/parser/exceptions/nonexistentprojectexception.cpp
+    src/parser/exceptions/undeclaredvariableexception.cpp
     src/parser/exceptions/unexpectedendoffileexception.cpp
     src/parser/exceptions/unexpectedkeywordexception.cpp
     src/parser/exceptions/unexpectedtokenexception.cpp
     src/parser/states/keywords/cflags.cpp
     src/parser/states/keywords/deps.cpp
     src/parser/states/keywords/files.cpp
+    src/parser/states/keywords/let.cpp
     src/parser/states/keywords/post.cpp
     src/parser/states/keywords/pre.cpp
     src/parser/states/keywords/project.cpp
@@ -57,9 +60,11 @@ add_executable(${PROJECT_NAME}
     src/parser/states/keyword.cpp
     src/parser/states/state.cpp
     src/parser/states/statement.cpp
+    src/parser/states/variable.cpp
+    src/parser/tokens/operator.cpp
     src/parser/tokens/punctuator.cpp
     src/parser/tokens/separator.cpp
-    src/parser/tokens/token.cpp
+    src/parser/tokens/word.cpp
     src/parser/mediator.cpp
     src/parser/parser.cpp
     src/scheduler/exceptions/compilationerrorexception.cpp
