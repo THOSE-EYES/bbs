@@ -20,6 +20,8 @@
 #include "parser/states/types/string.hpp"
 
 #include "parser/exceptions/unexpectedtokenexception.hpp"
+#include "parser/states/variable.hpp"
+#include "parser/tokens/operator.hpp"
 
 namespace parser::states::types
 {
@@ -45,6 +47,18 @@ void String::Process(lexer::Lexer& lexer)
 		}
 		catch(const exceptions::UnexpectedTokenException&)
 		{
+			auto ptr = dynamic_cast<tokens::Operator*>(token.get());
+			if(ptr && ptr->type == tokens::Operator::Type::kDollarSign)
+			{
+				Variable variable{mediator_};
+				variable.Process(lexer);
+
+				// Add variable's value to the result
+				value_ += variable.GetValue();
+
+				continue;
+			}
+
 			// Add the token to the whole value
 			value_ += token->GetValue();
 		}

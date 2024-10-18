@@ -24,6 +24,7 @@
 #include "parser/exceptions/unexpectedtokenexception.hpp"
 #include "parser/parser.hpp"
 #include "parser/states/types/string.hpp"
+#include "parser/tokens/operator.hpp"
 #include "parser/tokens/word.hpp"
 
 #include "aux/handlers/dummyhandler.hpp"
@@ -38,6 +39,9 @@ namespace fs = std::filesystem;
 class StringTest : public ::testing::Test
 {
 protected:
+	using Operator = parser::tokens::Operator;
+	using Punctuator = parser::tokens::Punctuator;
+	using Token = parser::tokens::Token;
 	using Word = parser::tokens::Word;
 
 protected:
@@ -68,8 +72,6 @@ const fs::path StringTest::kFilePath{""};
  */
 TEST_F(StringTest, TestProcessLeadingQuoteMarkAbscence)
 {
-	using Token = parser::tokens::Token;
-
 	std::vector<std::unique_ptr<Token>> tokens{};
 	tokens.emplace_back(std::make_unique<Word>("A"));
 
@@ -85,9 +87,6 @@ TEST_F(StringTest, TestProcessLeadingQuoteMarkAbscence)
  */
 TEST_F(StringTest, TestProcessClosingQuoteMarkAbscence)
 {
-	using Token = parser::tokens::Token;
-	using Punctuator = parser::tokens::Punctuator;
-
 	std::vector<std::unique_ptr<Token>> tokens;
 	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kDoubleQuoteMark));
 	tokens.emplace_back(std::make_unique<Word>("A"));
@@ -104,9 +103,6 @@ TEST_F(StringTest, TestProcessClosingQuoteMarkAbscence)
  */
 TEST_F(StringTest, TestProcess)
 {
-	using Token = parser::tokens::Token;
-	using Punctuator = parser::tokens::Punctuator;
-
 	std::vector<std::unique_ptr<Token>> tokens;
 	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kDoubleQuoteMark));
 	tokens.emplace_back(std::make_unique<Word>("A"));
@@ -117,4 +113,26 @@ TEST_F(StringTest, TestProcess)
 
 	EXPECT_NO_THROW(instance_.Process(lexer));
 	EXPECT_EQ(instance_.GetValue(), "A");
+}
+
+/**
+ * @brief Check if the Process() method correctly handles qoute marks-wrapped strings with variables
+ * 
+ */
+TEST_F(StringTest, TestProcessVariable)
+{
+	mediator_.DeclareVariable("A", "B");
+
+	std::vector<std::unique_ptr<Token>> tokens;
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kDoubleQuoteMark));
+	tokens.emplace_back(std::make_unique<Word>("A"));
+	tokens.emplace_back(std::make_unique<Operator>(Operator::Type::kDollarSign));
+	tokens.emplace_back(std::make_unique<Word>("A"));
+	tokens.emplace_back(std::make_unique<Punctuator>(Punctuator::Type::kDoubleQuoteMark));
+
+	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
+	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
+
+	EXPECT_NO_THROW(instance_.Process(lexer));
+	EXPECT_EQ(instance_.GetValue(), "AB");
 }
