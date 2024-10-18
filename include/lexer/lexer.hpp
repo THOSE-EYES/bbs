@@ -47,9 +47,16 @@ public:
 	/**
      * @brief Get the next available token
      * 
-     * @return std::unique_ptr<Token> - a pointer to the next token or nullptr 
+     * @return std::shared_ptr<Token> - a pointer to the next token or nullptr 
      */
-	std::unique_ptr<Token> Next();
+	std::shared_ptr<Token> Next();
+
+	/**
+     * @brief Get the available token
+     * 
+     * @return std::shared_ptr<Token> - a pointer to the next token or nullptr 
+     */
+	std::shared_ptr<Token> Get() const;
 
 	/**
       * @brief Get the current context
@@ -70,5 +77,11 @@ protected:
      * 
      */
 	std::unique_ptr<handlers::Handler> handler_;
+
+	/**
+      * @brief The newest read token
+      * 
+      */
+	std::shared_ptr<Token> token_;
 };
 } // namespace lexer

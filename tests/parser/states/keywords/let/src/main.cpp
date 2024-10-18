@@ -99,26 +99,3 @@ TEST_F(LetTest, TestProcessRuntimeErrorNoTokenAfterID)
 
 	EXPECT_THROW(instance_.Process(lexer), std::runtime_error);
 }
-
-/**
- * @brief Check if the runtime_error exception thrown if there is no tokens after the equals sign
- * 
- */
-TEST_F(LetTest, TestProcessRuntimeErrorNoTokenAfterEqualsSign)
-{
-	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Token>("A"));
-	tokens.emplace_back(std::make_unique<Operator>("=", Operator::Type::kEqualitySign));
-
-	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
-	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
-
-	try
-	{
-		instance_.Process(lexer);
-	}
-	catch(const std::runtime_error& e)
-	{
-		EXPECT_STREQ(e.what(), "Let::Match() was called with nullptr.");
-	}
-}

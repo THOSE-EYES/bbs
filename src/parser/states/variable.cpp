@@ -31,7 +31,7 @@ Variable::Variable(Mediator& mediator)
 void Variable::Process(lexer::Lexer& lexer)
 {
 	std::string id{};
-	std::unique_ptr<tokens::Token> token{};
+	std::shared_ptr<tokens::Token> token{};
 	while((token = lexer.Next()))
 	{
 		auto ptr = dynamic_cast<tokens::Separator*>(token.get());

@@ -52,9 +52,9 @@ protected:
       * @brief Skip the separator tokens
       * 
       * @param lexer - the lexer to get tokens from
-      * @return std::unique_ptr<tokens::Token> - the token next to the separator
+      * @return std::shared_ptr<tokens::Token> - the token next to the separator
       */
-	static std::unique_ptr<tokens::Token> SkipSeparators(lexer::Lexer& lexer);
+	static std::shared_ptr<tokens::Token> SkipSeparators(lexer::Lexer& lexer);
 
 	/**
       * @brief Match the token with the given punctuator type

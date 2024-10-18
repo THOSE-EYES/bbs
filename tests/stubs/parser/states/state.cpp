@@ -27,7 +27,7 @@ State::State(Mediator& mediator)
 	: mediator_{mediator}
 {}
 
-std::unique_ptr<tokens::Token> State::SkipSeparators(lexer::Lexer& lexer)
+std::shared_ptr<tokens::Token> State::SkipSeparators(lexer::Lexer& lexer)
 {
 	return {};
 }
