@@ -17,20 +17,4 @@
 # under the License.
 #
 
-project("filenotfoundexception")
-
-set(SOURCES 
-    ${CMAKE_SOURCE_DIR}/src/lexer/exceptions/filenotfoundexception.cpp
-)
-
-add_executable(${PROJECT_NAME} 
-    ${SOURCES}
-
-    src/main.cpp
-)
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-    include
-)
-
-add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
+add_subdirectory(filenotfoundexception)

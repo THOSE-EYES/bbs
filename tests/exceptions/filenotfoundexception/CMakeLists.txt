@@ -17,36 +17,20 @@
 # under the License.
 #
 
-project("wordhandler")
+project("filenotfoundexception")
 
 set(SOURCES 
-    ${CMAKE_SOURCE_DIR}/src/lexer/handlers/wordhandler.cpp
-)
-
-set(STUBS
-    ${STUBS_FOLDER}/exceptions/filenotfoundexception.cpp
-    ${STUBS_FOLDER}/lexer/exceptions/fileemptyexception.cpp
-    
-    src/stubs/lexer/handlers/handler.cpp
-    src/stubs/lexer/context.cpp
-    src/stubs/lexer/scanner.cpp
-    src/stubs/parser/tokens/word.cpp
+    ${CMAKE_SOURCE_DIR}/src/exceptions/filenotfoundexception.cpp
 )
 
 add_executable(${PROJECT_NAME} 
     ${SOURCES}
-    ${STUBS}
 
     src/main.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     include
-)
-
-target_link_libraries(${PROJECT_NAME} 
-    gmock
-    gmock_main
 )
 
 add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})

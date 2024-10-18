@@ -19,7 +19,7 @@
 
 #include <gtest/gtest.h>
 
-#include "fakes/lexer/exceptions/filenotfoundexception.hpp"
+#include "fakes/exceptions/filenotfoundexception.hpp"
 
 /**
  * @brief Check if the exception is constructed with the correct message
@@ -27,7 +27,7 @@
  */
 TEST(FileNotFoundExceptionTest, TestConstructor)
 {
-	namespace exc = fakes::lexer::exceptions;
+	namespace exc = fakes::exceptions;
 	namespace fs = std::filesystem;
 
 	const fs::path path{"path"};

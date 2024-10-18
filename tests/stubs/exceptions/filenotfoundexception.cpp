@@ -17,13 +17,13 @@
  * under the License.
  */
 
-#include "lexer/exceptions/filenotfoundexception.hpp"
+#include "exceptions/filenotfoundexception.hpp"
 
-namespace lexer::exceptions
+namespace exceptions
 {
 const std::string FileNotFoundException::kMessage{};
 
 FileNotFoundException::FileNotFoundException(const std::filesystem::path& path)
 	: std::runtime_error("")
 {}
-} // namespace lexer::exceptions
+} // namespace exceptions

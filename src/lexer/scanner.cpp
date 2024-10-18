@@ -21,8 +21,8 @@
 
 #include <cctype>
 
+#include "exceptions/filenotfoundexception.hpp"
 #include "lexer/exceptions/fileemptyexception.hpp"
-#include "lexer/exceptions/filenotfoundexception.hpp"
 
 namespace lexer
 {
@@ -39,7 +39,7 @@ Scanner::Scanner(const std::filesystem::path& path)
 	// If the file doesn't exist or it is not a regular file, throw an exception
 	if(!fs::exists(path) || !fs::is_regular_file(path))
 	{
-		throw exceptions::FileNotFoundException(path);
+		throw ::exceptions::FileNotFoundException(path);
 	}
 
 	// Throw an exception if the file is empty
@@ -51,7 +51,7 @@ Scanner::Scanner(const std::filesystem::path& path)
 	file_.open(path);
 	if(!file_.is_open())
 	{
-		throw exceptions::FileNotFoundException(path);
+		throw ::exceptions::FileNotFoundException(path);
 	}
 
 	// Get the first line from file and initialize the iterator

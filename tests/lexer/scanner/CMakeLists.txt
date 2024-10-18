@@ -21,7 +21,7 @@ project("scanner")
 
 set(SOURCES 
     ${CMAKE_SOURCE_DIR}/src/lexer/exceptions/fileemptyexception.cpp
-    ${CMAKE_SOURCE_DIR}/src/lexer/exceptions/filenotfoundexception.cpp
+    ${CMAKE_SOURCE_DIR}/src/exceptions/filenotfoundexception.cpp
     ${CMAKE_SOURCE_DIR}/src/lexer/scanner.cpp
 )
 

@@ -19,11 +19,11 @@
 
 #pragma once
 
-#include "lexer/exceptions/filenotfoundexception.hpp"
+#include "exceptions/filenotfoundexception.hpp"
 
-namespace fakes::lexer::exceptions
+namespace fakes::exceptions
 {
-namespace exc = ::lexer::exceptions;
+namespace exc = ::exceptions;
 
 /**
  * @brief An fake for the exception, used to notify that the given lexeme is unexpected
@@ -44,4 +44,4 @@ public:
 public:
 	using exc::FileNotFoundException::kMessage;
 };
-} // namespace fakes::lexer::exceptions
+} // namespace fakes::exceptions

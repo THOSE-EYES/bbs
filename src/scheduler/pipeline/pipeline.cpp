@@ -27,6 +27,7 @@
 #endif
 // clang-format on
 
+#include "exceptions/filenotfoundexception.hpp"
 #include "scheduler/exceptions/compilationerrorexception.hpp"
 #include "scheduler/exceptions/linkerrorexception.hpp"
 #include "scheduler/exceptions/nofilesspecifiedexception.hpp"
@@ -70,6 +71,12 @@ void Pipeline::Run() const
 	std::stringstream parameters{};
 	for(const auto& file : files)
 	{
+		// Check if the specified file exists
+		if(!std::filesystem::exists(file))
+		{
+			throw ::exceptions::FileNotFoundException(file);
+		}
+
 		const auto obj = folder / file.filename().replace_extension(".o");
 
 		// Add the object file name to the list of parameters

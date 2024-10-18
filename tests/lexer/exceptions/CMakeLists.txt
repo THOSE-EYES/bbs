@@ -18,5 +18,4 @@
 #
 
 add_subdirectory(fileemptyexception)
-add_subdirectory(filenotfoundexception)
 add_subdirectory(unexpectedlexemeexception)

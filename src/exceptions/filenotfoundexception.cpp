@@ -17,33 +17,13 @@
  * under the License.
  */
 
-#pragma once
+#include "exceptions/filenotfoundexception.hpp"
 
-#include <filesystem>
-#include <stdexcept>
-#include <string>
-
-namespace lexer::exceptions
+namespace exceptions
 {
-/**
- * @brief An exception, used to notify that the given file is not found
- * 
- */
-class FileNotFoundException : public std::runtime_error
-{
-public:
-	/**
-	 * @brief Construct a new FileNotFoundException object
-	 * 
-	 * @param path - the path to the file
-	 */
-	explicit FileNotFoundException(const std::filesystem::path& path);
+const std::string FileNotFoundException::kMessage{"The given file was not found: "};
 
-protected:
-	/**
-	 * @brief The message, seeing on the exception occurence
-	 * 
-	 */
-	static const std::string kMessage;
-};
-} // namespace lexer::exceptions
+FileNotFoundException::FileNotFoundException(const std::filesystem::path& path)
+	: std::runtime_error(kMessage + path.string())
+{}
+} // namespace exceptions

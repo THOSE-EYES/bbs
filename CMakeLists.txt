@@ -31,8 +31,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 add_executable(${PROJECT_NAME} 
+    src/exceptions/filenotfoundexception.cpp
     src/lexer/exceptions/fileemptyexception.cpp
-    src/lexer/exceptions/filenotfoundexception.cpp
     src/lexer/exceptions/unexpectedlexemeexception.cpp
     src/lexer/handlers/handler.cpp
     src/lexer/handlers/operatorhandler.cpp
