@@ -92,7 +92,6 @@ TEST_F(VariableTest, TestProcess)
 TEST_F(VariableTest, TestProcessEOF)
 {
 	std::vector<std::unique_ptr<Token>> tokens{};
-	tokens.emplace_back(std::make_unique<Word>("A"));
 
 	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
 	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
