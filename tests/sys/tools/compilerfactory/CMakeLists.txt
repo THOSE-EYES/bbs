@@ -17,14 +17,20 @@
 # under the License.
 #
 
-project("compilationerrorexception")
+project("compilerfactory")
 
 set(SOURCES 
-    ${CMAKE_SOURCE_DIR}/src/scheduler/exceptions/compilationerrorexception.cpp
+    ${CMAKE_SOURCE_DIR}/src/sys/tools/compilerfactory.cpp
+)
+
+set(STUBS
+    ${STUBS_FOLDER}/sys/exceptions/unsupportedcompilerexception.cpp
+    ${STUBS_FOLDER}/sys/tools/compilers/gnuplusplus.cpp
 )
 
 add_executable(${PROJECT_NAME} 
     ${SOURCES}
+    ${STUBS}
 
     src/main.cpp
 )

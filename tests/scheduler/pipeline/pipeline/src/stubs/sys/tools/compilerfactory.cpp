@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -17,13 +17,15 @@
  * under the License.
  */
 
-#include "scheduler/exceptions/compilationerrorexception.hpp"
+#include "sys/tools/compilerfactory.hpp"
 
-namespace scheduler::exceptions
+#include "sys/exceptions/unsupportedcompilerexception.hpp"
+#include "sys/tools/compilers/gnuplusplus.hpp"
+
+namespace sys::tools
 {
-const std::string CompilationErrorException::kMessage{"Compilation failed for the file: "};
-
-CompilationErrorException::CompilationErrorException(const std::filesystem::path& file)
-	: std::runtime_error(kMessage + file.string())
-{}
-} // namespace scheduler::exceptions
+std::unique_ptr<Compiler> CompilerFactory::Create(const std::string& value, std::string flags)
+{
+	return std::unique_ptr<Compiler>{new compilers::GNUPlusPlus(std::move(flags))};
+}
+} // namespace sys::tools

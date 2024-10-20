@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -19,29 +19,45 @@
 
 #pragma once
 
-#include "scheduler/exceptions/compilationerrorexception.hpp"
+#include "sys/tools/compiler.hpp"
 
-namespace fakes::scheduler::exceptions
+namespace sys::tools::compilers
 {
-namespace exc = ::scheduler::exceptions;
-
 /**
- * @brief An fake for the exception, used to notify that the compilation proces for the given file has failed
+ * @brief An interface for the compilers that are supported by the application
  * 
  */
-class CompilationErrorException : public exc::CompilationErrorException
+class GNUPlusPlus : public Compiler
 {
 public:
 	/**
-	 * @brief Construct a new CompilationErrorException object
+	 * @brief Construct a new GNUPlusPlus object
 	 * 
-	 * @param file - the file that caused the error
+	 * @param flags - compiler flags
 	 */
-	explicit CompilationErrorException(const std::filesystem::path& file)
-		: exc::CompilationErrorException{file}
-	{}
+	explicit GNUPlusPlus(std::string&& flags);
 
 public:
-	using exc::CompilationErrorException::kMessage;
+	/**
+	 * @brief Compile the given file
+	 * 
+	 * @param file - the file to compile
+	 * @param out - the file where to store the output
+	 */
+	void Compile(const std::filesystem::path& file, const std::filesystem::path& out) override;
+
+public:
+	/**
+	 * @brief The compiler program name
+	 * 
+	 */
+	static const std::string kCompiler;
+
+protected:
+	/**
+	 * @brief The flags used during the compilation process
+	 * 
+	 */
+	const std::string kFlags;
 };
-} // namespace fakes::scheduler::exceptions
+} // namespace sys::tools::compilers

@@ -27,23 +27,25 @@
 #endif
 // clang-format on
 
+#include "sys/tools/compilers/gnuplusplus.hpp" // FIXME: Will be hardcoded untill !cmplr keyword is introduced
 #include "exceptions/filenotfoundexception.hpp"
-#include "scheduler/exceptions/compilationerrorexception.hpp"
 #include "scheduler/exceptions/linkerrorexception.hpp"
 #include "scheduler/exceptions/nofilesspecifiedexception.hpp"
 #include "scheduler/exceptions/postcompilationcommandexception.hpp"
 #include "scheduler/exceptions/precompilationcommandexception.hpp"
+#include "sys/tools/compilerfactory.hpp"
 
 namespace scheduler::pipeline
 {
-namespace
-{
-const std::string kCompiler = "g++";
-}
-
 Pipeline::Pipeline(Job job)
 	: job_{std::move(job)}
-{}
+{
+	using namespace sys::tools;
+	using namespace sys::tools::compilers;
+
+	compiler_ =
+		std::move(CompilerFactory::Create(GNUPlusPlus::kCompiler, job_.GetCompilationFlags()));
+}
 
 void Pipeline::Run() const
 {
@@ -82,14 +84,14 @@ void Pipeline::Run() const
 		// Add the object file name to the list of parameters
 		parameters << std::move(obj.string()) << " ";
 
-		Compile(file, obj);
+		compiler_->Compile(job_.GetProjectPath() / file, obj);
 	}
 
 	// Set the name of the executable
 	parameters << "-o" << (folder / job_.GetProjectName()).string();
 
 	// Link all the object files into the executable
-	Command command{kCompiler, parameters.str()};
+	Command command{sys::tools::compilers::GNUPlusPlus::kCompiler, parameters.str()};
 	if(!command.Execute())
 	{
 		throw exceptions::LinkErrorException(job_.GetProjectName());
@@ -103,19 +105,6 @@ void Pipeline::Run() const
 		{
 			throw exceptions::PostCompilationCommandException(line);
 		}
-	}
-}
-
-void Pipeline::Compile(const std::filesystem::path& file, const std::filesystem::path& out) const
-{
-	std::stringstream parameters;
-	parameters << job_.GetCompilationFlags() << " -c " << (job_.GetProjectPath() / file).string()
-			   << " -o " << out.string();
-
-	Command command{kCompiler, parameters.str()};
-	if(!command.Execute())
-	{
-		throw exceptions::CompilationErrorException(file);
 	}
 }
 } // namespace scheduler::pipeline

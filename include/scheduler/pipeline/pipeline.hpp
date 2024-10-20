@@ -23,6 +23,7 @@
 #include <queue>
 
 #include "scheduler/pipeline/job.hpp"
+#include "sys/tools/compiler.hpp"
 
 namespace scheduler::pipeline
 {
@@ -82,5 +83,11 @@ protected:
 	 * 
 	 */
 	Job job_;
+
+	/**
+	 * @brief The compiler that is used in the pipeline
+	 * 
+	 */
+	std::unique_ptr<sys::tools::Compiler> compiler_;
 };
 } // namespace scheduler::pipeline

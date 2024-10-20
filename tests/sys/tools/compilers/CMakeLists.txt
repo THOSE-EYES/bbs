@@ -17,5 +17,4 @@
 # under the License.
 #
 
-add_subdirectory(compilationerrorexception)
-add_subdirectory(unsupportedcompilerexception)
+add_subdirectory(gnuplusplus)

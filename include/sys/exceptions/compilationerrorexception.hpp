@@ -17,21 +17,33 @@
  * under the License.
  */
 
-#include <gtest/gtest.h>
+#pragma once
 
-#include "fakes/scheduler/exceptions/compilationerrorexception.hpp"
+#include <filesystem>
+#include <stdexcept>
+#include <string>
 
+namespace sys::exceptions
+{
 /**
- * @brief Check if the exception is constructed with the correct message
+ * @brief An exception, used to notify that the compilation proces for the given file has failed
  * 
  */
-TEST(CompilationErrorExceptionTest, TestConstructor)
+class CompilationErrorException : public std::runtime_error
 {
-	namespace exc = fakes::scheduler::exceptions;
-	namespace fs = std::filesystem;
+public:
+	/**
+	 * @brief Construct a new CompilationErrorException object
+	 * 
+	 * @param file - the file that caused the error
+	 */
+	explicit CompilationErrorException(const std::filesystem::path& file);
 
-	const fs::path path{"path"};
-	const exc::CompilationErrorException exception{path};
-	const auto data = exc::CompilationErrorException::kMessage + path.string();
-	EXPECT_STREQ(exception.what(), data.c_str());
-}
+protected:
+	/**
+	 * @brief The message, seeing on the exception occurence
+	 * 
+	 */
+	static const std::string kMessage;
+};
+} // namespace sys::exceptions

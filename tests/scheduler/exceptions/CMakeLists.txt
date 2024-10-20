@@ -17,7 +17,6 @@
 # under the License.
 #
 
-add_subdirectory(compilationerrorexception)
 add_subdirectory(linkerrorexception)
 add_subdirectory(nofilesspecifiedexception)
 add_subdirectory(postcompilationcommandexception)

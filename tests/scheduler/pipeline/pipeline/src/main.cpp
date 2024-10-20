@@ -23,7 +23,6 @@
 #include <stack>
 
 #include "exceptions/filenotfoundexception.hpp"
-#include "scheduler/exceptions/compilationerrorexception.hpp"
 #include "scheduler/exceptions/linkerrorexception.hpp"
 #include "scheduler/exceptions/nofilesspecifiedexception.hpp"
 #include "scheduler/pipeline/job.hpp"
@@ -52,27 +51,6 @@ TEST(PipelineTest, TestRun)
 }
 
 /**
- * @brief Check if the Run() method throws an exception when the compilation fails
- * 
- */
-TEST(PipelineTest, TestCompileFail)
-{
-	const std::filesystem::path file{"main.cpp"};
-	std::ofstream file_handle{file};
-	file_handle.close();
-
-	scheduler::pipeline::Job job{"test"};
-	job.SetProjectPath(std::filesystem::path{"test"});
-	job.AddFile(std::filesystem::path{"main.cpp"});
-
-	result.push(false);
-	scheduler::pipeline::Pipeline pipeline{std::move(job)};
-	EXPECT_THROW(pipeline.Run(), scheduler::exceptions::CompilationErrorException);
-
-	std::filesystem::remove(file);
-}
-
-/**
  * @brief Check if the Run() method throws an exception when the linking fails
  * 
  */
@@ -81,10 +59,7 @@ TEST(PipelineTest, TestLinkFail)
 	const std::filesystem::path file{"main.cpp"};
 	std::ofstream file_handle{file};
 	file_handle.close();
-
-	// Make the compilation "succeed"
 	result.push(false);
-	result.push(true);
 
 	scheduler::pipeline::Job job{"test"};
 	job.SetProjectPath(std::filesystem::path{"test"});

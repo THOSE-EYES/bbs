@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -17,13 +17,28 @@
  * under the License.
  */
 
-#include "scheduler/exceptions/compilationerrorexception.hpp"
+#pragma once
 
-namespace scheduler::exceptions
+#include <memory>
+
+#include "sys/tools/compiler.hpp"
+
+namespace sys::tools
 {
-const std::string CompilationErrorException::kMessage{};
-
-CompilationErrorException::CompilationErrorException(const std::filesystem::path& file)
-	: std::runtime_error("")
-{}
-} // namespace scheduler::exceptions
+/**
+ * @brief A class with the factory method for compiler instance creation
+ * 
+ */
+class CompilerFactory
+{
+public:
+	/**
+     * @brief Create the given compiler
+     * 
+     * @param value - the compiler to create
+     * @param flags - compiler flags
+     * @return std::unique_ptr<Compiler> - a pointer to the compiler instance
+     */
+	static std::unique_ptr<Compiler> Create(const std::string& value, std::string flags);
+};
+} // namespace sys::tools

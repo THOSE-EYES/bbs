@@ -17,31 +17,20 @@
 # under the License.
 #
 
-project("pipeline")
+project("compilationerrorexception")
 
 set(SOURCES 
-    ${CMAKE_SOURCE_DIR}/src/scheduler/pipeline/pipeline.cpp
-)
-
-set(STUBS
-    ${STUBS_FOLDER}/exceptions/filenotfoundexception.cpp
-    ${STUBS_FOLDER}/scheduler/exceptions/linkerrorexception.cpp
-    ${STUBS_FOLDER}/scheduler/exceptions/nofilesspecifiedexception.cpp
-    ${STUBS_FOLDER}/scheduler/exceptions/postcompilationcommandexception.cpp
-    ${STUBS_FOLDER}/scheduler/exceptions/precompilationcommandexception.cpp
-    ${STUBS_FOLDER}/sys/exceptions/compilationerrorexception.cpp
-    ${STUBS_FOLDER}/sys/tools/compilers/gnuplusplus.cpp
-    
-    src/stubs/scheduler/pipeline/job.cpp
-    src/stubs/sys/nix/command.cpp
-    src/stubs/sys/tools/compilerfactory.cpp
+    ${CMAKE_SOURCE_DIR}/src/sys/exceptions/compilationerrorexception.cpp
 )
 
 add_executable(${PROJECT_NAME} 
     ${SOURCES}
-    ${STUBS}
 
     src/main.cpp
+)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+    include
 )
 
 add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
