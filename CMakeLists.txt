@@ -75,6 +75,7 @@ add_executable(${PROJECT_NAME}
     src/scheduler/pipeline/job.cpp
     src/scheduler/pipeline/pipeline.cpp
     src/scheduler/executor.cpp
+    src/sys/exceptions/unsupportedcompilerexception.cpp
     src/sys/nix/command.cpp
     src/utils/bufferedlogger.cpp
     src/utils/logger.cpp
