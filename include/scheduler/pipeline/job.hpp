@@ -152,8 +152,21 @@ public:
 	 * 
 	 * @return const std::string& - the value of the flags
 	 */
-
 	const std::vector<std::string>& GetPostCompilationCommands() const;
+
+	/**
+	 * @brief Add a new include directory to the job
+	 * 
+	 * @param value - the directory to include
+	 */
+	void AddIncludeDirectory(std::filesystem::path value);
+
+	/**
+	 * @brief Get the include directories
+	 * 
+	 * @return std::vector<std::filesystem::path>& - the include directories
+	 */
+	const std::vector<std::filesystem::path>& GetIncludeDirectories() const;
 
 protected:
 	/**
@@ -197,5 +210,11 @@ protected:
 	 * 
 	 */
 	std::vector<std::string> post_commands_;
+
+	/**
+	 * @brief The include directories the project has
+	 * 
+	 */
+	std::vector<std::filesystem::path> include_directories_;
 };
 } // namespace scheduler::pipeline
