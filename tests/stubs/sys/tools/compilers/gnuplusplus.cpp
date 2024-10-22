@@ -23,8 +23,10 @@ namespace sys::tools::compilers
 {
 const std::string GNUPlusPlus::kCompiler{"g++"};
 
-GNUPlusPlus::GNUPlusPlus(std::string&& flags)
+GNUPlusPlus::GNUPlusPlus(std::string&& flags,
+						 std::vector<std::filesystem::path>&& include_directories)
 	: kFlags{std::move(flags)}
+	, kDirectories{std::move(include_directories)}
 {}
 
 void GNUPlusPlus::Compile(const std::filesystem::path& file, const std::filesystem::path& out)

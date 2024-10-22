@@ -19,6 +19,9 @@
 
 #pragma once
 
+#include <filesystem>
+#include <vector>
+
 #include "sys/tools/compiler.hpp"
 
 namespace sys::tools::compilers
@@ -34,8 +37,10 @@ public:
 	 * @brief Construct a new GNUPlusPlus object
 	 * 
 	 * @param flags - compiler flags
+	 * @param include_directories - the directories to include while building the application
 	 */
-	explicit GNUPlusPlus(std::string&& flags);
+	explicit GNUPlusPlus(std::string&& flags,
+						 std::vector<std::filesystem::path>&& include_directories);
 
 public:
 	/**
@@ -59,5 +64,11 @@ protected:
 	 * 
 	 */
 	const std::string kFlags;
+
+	/**
+	 * @brief The directories to include while building the application
+	 * 
+	 */
+	const std::vector<std::filesystem::path> kDirectories;
 };
 } // namespace sys::tools::compilers

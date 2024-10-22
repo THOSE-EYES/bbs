@@ -30,7 +30,9 @@
 TEST(CompilerFactoryTest, TestCreateGnuCompiler)
 {
 	const auto compiler = "g++";
-	const auto instance = sys::tools::CompilerFactory::Create(compiler, "");
+	const std::vector<std::filesystem::path> include_directories{};
+	const auto instance =
+		sys::tools::CompilerFactory::Create(compiler, "", std::vector<std::filesystem::path>{});
 	EXPECT_TRUE(dynamic_cast<sys::tools::compilers::GNUPlusPlus*>(instance.get()));
 }
 
@@ -41,6 +43,7 @@ TEST(CompilerFactoryTest, TestCreateGnuCompiler)
 TEST(CompilerFactoryTest, TestCreateUnsupportedCompiler)
 {
 	const auto compiler = "some_unknown_compiler";
-	EXPECT_THROW(sys::tools::CompilerFactory::Create(compiler, ""),
-				 sys::exceptions::UnsupportedCompilerException);
+	EXPECT_THROW(
+		sys::tools::CompilerFactory::Create(compiler, "", std::vector<std::filesystem::path>{}),
+		sys::exceptions::UnsupportedCompilerException);
 }

@@ -37,8 +37,11 @@ public:
      * 
      * @param value - the compiler to create
      * @param flags - compiler flags
+     * @param include_directories - the directories to include while building the application
      * @return std::unique_ptr<Compiler> - a pointer to the compiler instance
      */
-	static std::unique_ptr<Compiler> Create(const std::string& value, std::string flags);
+	static std::unique_ptr<Compiler> Create(const std::string& value,
+											std::string flags,
+											std::vector<std::filesystem::path> include_directories);
 };
 } // namespace sys::tools

@@ -21,7 +21,10 @@
 
 namespace sys::tools
 {
-std::unique_ptr<Compiler> CompilerFactory::Create(const std::string& value, std::string flags)
+std::unique_ptr<Compiler>
+CompilerFactory::Create(const std::string& value,
+						std::string flags,
+						std::vector<std::filesystem::path> include_directories)
 {
 	return {};
 }

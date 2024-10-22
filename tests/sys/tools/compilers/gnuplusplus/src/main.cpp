@@ -30,7 +30,7 @@ extern bool result;
  */
 TEST(GNUPlusPlusTest, TestCompileFail)
 {
-	sys::tools::compilers::GNUPlusPlus compiler{""};
+	sys::tools::compilers::GNUPlusPlus compiler{"", std::vector<std::filesystem::path>{}};
 
 	result = false;
 	const std::filesystem::path file{"main.cpp"};
@@ -45,7 +45,7 @@ TEST(GNUPlusPlusTest, TestCompileFail)
  */
 TEST(GNUPlusPlusTest, TestCompileSuccess)
 {
-	sys::tools::compilers::GNUPlusPlus compiler{""};
+	sys::tools::compilers::GNUPlusPlus compiler{"", std::vector<std::filesystem::path>{}};
 
 	const std::filesystem::path file{"main.cpp"};
 	EXPECT_NO_THROW(compiler.Compile(file, file));

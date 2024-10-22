@@ -43,8 +43,9 @@ Pipeline::Pipeline(Job job)
 	using namespace sys::tools;
 	using namespace sys::tools::compilers;
 
-	compiler_ =
-		std::move(CompilerFactory::Create(GNUPlusPlus::kCompiler, job_.GetCompilationFlags()));
+	compiler_ = std::move(CompilerFactory::Create(GNUPlusPlus::kCompiler,
+												  job_.GetCompilationFlags(),
+												  std::move(job_.GetIncludeDirectories())));
 }
 
 void Pipeline::Run() const
