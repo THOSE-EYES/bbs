@@ -86,10 +86,39 @@ std::vector<std::filesystem::path> Pipeline::Compile(const std::filesystem::path
 		const auto obj = folder / file.filename().replace_extension(".o");
 		object_files.push_back(std::move(obj.string()));
 
+		// If the file was already built, skip the building process
+		if(IsCompiled(file, folder))
+		{
+			continue;
+		}
+
 		compiler_->Compile(job_.GetProjectPath() / file, obj);
 	}
 
 	return object_files;
+}
+
+bool Pipeline::IsCompiled(const std::filesystem::path& file,
+						  const std::filesystem::path& folder) const
+{
+	// Check if the object file is built or created after the file was updated
+	const auto obj = folder / file.filename().replace_extension(".o");
+	if(!std::filesystem::exists(obj) ||
+	   std::filesystem::last_write_time(file) > std::filesystem::last_write_time(obj))
+	{
+		return false;
+	}
+
+	const auto dependencies = compiler_->GetDependencies(file);
+	for(const auto& dependency : dependencies)
+	{
+		if(std::filesystem::last_write_time(obj) < std::filesystem::last_write_time(dependency))
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void Pipeline::Link(const std::filesystem::path& folder,

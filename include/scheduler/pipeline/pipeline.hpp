@@ -80,6 +80,16 @@ protected:
 											   std::vector<std::filesystem::path> files) const;
 
 	/**
+	 * @brief Check if the object file is already compiled
+	 * 
+	 * @param file - the file to check
+	 * @param folder - the output folder of the program
+	 * @return true if the file has the newest object file compiled for it
+	 * @return false otherwise
+	 */
+	bool IsCompiled(const std::filesystem::path& file, const std::filesystem::path& folder) const;
+
+	/**
 	 * @brief Link everything into one executable
 	 * 
 	 * @param folder - the folder where to put the executable
