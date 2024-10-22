@@ -37,4 +37,9 @@ bool Command::Execute()
 {
 	return result;
 }
+
+std::string Command::GetOutput() const
+{
+	return {};
+}
 } // namespace sys::nix

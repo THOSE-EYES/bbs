@@ -19,8 +19,9 @@
 
 #include "sys/nix/command.hpp"
 
+#include <array>
+#include <cstdio>
 #include <cstdlib>
-#include <sstream>
 
 namespace sys::nix
 {
@@ -34,6 +35,23 @@ Command::Command(std::string program, std::string parameters)
 
 bool Command::Execute()
 {
-	return std::system(command_.c_str()) == 0;
+	auto pipe = popen(command_.c_str(), "r");
+	if(!pipe)
+	{
+		return false;
+	}
+
+	std::array<char, 128> buffer;
+	while(fgets(buffer.data(), static_cast<int>(buffer.size()), pipe) != nullptr)
+	{
+		output_ += buffer.data();
+	}
+
+	return pclose(pipe) == 0;
+}
+
+std::string Command::GetOutput() const
+{
+	return output_;
 }
 } // namespace sys::nix

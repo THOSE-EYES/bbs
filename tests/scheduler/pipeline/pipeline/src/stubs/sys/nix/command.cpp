@@ -46,4 +46,9 @@ bool Command::Execute()
 	result.pop();
 	return data;
 }
+
+std::string Command::GetOutput() const
+{
+	return {};
+}
 } // namespace sys::nix
