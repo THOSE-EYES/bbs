@@ -70,6 +70,37 @@ public:
 
 protected:
 	/**
+	 * @brief Run the compilation for the given files
+	 * 
+	 * @param folder - the folder where to store the output
+	 * @param files - a vector of files
+	 * @return std::vector<std::filesystem::path> - a vector of object files names
+	 */
+	std::vector<std::filesystem::path> Compile(const std::filesystem::path& folder,
+											   std::vector<std::filesystem::path> files) const;
+
+	/**
+	 * @brief Link everything into one executable
+	 * 
+	 * @param folder - the folder where to put the executable
+	 * @param files - the files to use
+	 */
+	void Link(const std::filesystem::path& folder, std::vector<std::filesystem::path> files) const;
+
+	/**
+	 * @brief Execute preprocessing commands
+	 * 
+	 */
+	void ExecutePreprocessingCommands() const;
+
+	/**
+	 * @brief Execute postprocessing commands
+	 * 
+	 */
+	void ExecutePostprocessingCommands() const;
+
+protected:
+	/**
 	 * @brief The associated job
 	 * 
 	 */

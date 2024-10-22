@@ -50,28 +50,30 @@ Pipeline::Pipeline(Job job)
 
 void Pipeline::Run() const
 {
+	ExecutePreprocessingCommands();
+
 	// Create the directory for the output
 	const std::filesystem::path folder{job_.GetProjectName()};
 	std::filesystem::create_directory(folder);
 
-	// Execute pre-compilation commands
-	for(const auto& line : job_.GetPreCompilationCommands())
-	{
-		Command command{line};
-		if(command.Execute())
-		{
-			throw exceptions::PreCompilationCommandException(line);
-		}
-	}
-
 	// Check if the project contains files
-	const auto& files = job_.GetFiles();
+	auto files = job_.GetFiles();
 	if(files.empty())
 	{
 		throw exceptions::NoFilesSpecifiedException();
 	}
 
-	std::stringstream parameters{};
+	// Actually build the project
+	auto obj = Compile(folder, std::move(files));
+	Link(folder, std::move(obj));
+
+	ExecutePostprocessingCommands();
+}
+
+std::vector<std::filesystem::path> Pipeline::Compile(const std::filesystem::path& folder,
+													 std::vector<std::filesystem::path> files) const
+{
+	std::vector<std::filesystem::path> object_files{};
 	for(const auto& file : files)
 	{
 		// Check if the specified file exists
@@ -82,9 +84,21 @@ void Pipeline::Run() const
 
 		// Add the object file name to the list of parameters
 		const auto obj = folder / file.filename().replace_extension(".o");
-		parameters << std::move(obj.string()) << " ";
+		object_files.push_back(std::move(obj.string()));
 
 		compiler_->Compile(job_.GetProjectPath() / file, obj);
+	}
+
+	return object_files;
+}
+
+void Pipeline::Link(const std::filesystem::path& folder,
+					std::vector<std::filesystem::path> files) const
+{
+	std::stringstream parameters{};
+	for(const auto& file : files)
+	{
+		parameters << file.string() << " ";
 	}
 
 	// Set the name of the executable
@@ -96,7 +110,23 @@ void Pipeline::Run() const
 	{
 		throw exceptions::LinkErrorException(job_.GetProjectName());
 	}
+}
 
+void Pipeline::ExecutePreprocessingCommands() const
+{
+	// Execute pre-compilation commands
+	for(const auto& line : job_.GetPreCompilationCommands())
+	{
+		Command command{line};
+		if(command.Execute())
+		{
+			throw exceptions::PreCompilationCommandException(line);
+		}
+	}
+}
+
+void Pipeline::ExecutePostprocessingCommands() const
+{
 	// Execute post-compilation commands
 	for(const auto& line : job_.GetPostCompilationCommands())
 	{
