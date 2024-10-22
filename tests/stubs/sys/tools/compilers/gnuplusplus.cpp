@@ -33,4 +33,11 @@ void GNUPlusPlus::Compile(const std::filesystem::path& file, const std::filesyst
 {
 	// noop
 }
+
+std::vector<std::filesystem::path>
+GNUPlusPlus::GetDependencies(const std::filesystem::path& file) const
+{
+	return {};
+}
+
 } // namespace sys::tools::compilers

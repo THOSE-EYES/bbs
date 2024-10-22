@@ -51,12 +51,31 @@ public:
 	 */
 	void Compile(const std::filesystem::path& file, const std::filesystem::path& out) override;
 
+	/**
+	 * @brief Get the dependencies of the file
+	 * 
+	 * @param file - the file to inspect
+	 * @return std::vector<std::filesystem::path> - a vector of dependencies
+	 */
+	std::vector<std::filesystem::path>
+	GetDependencies(const std::filesystem::path& file) const override;
+
 public:
 	/**
 	 * @brief The compiler program name
 	 * 
 	 */
 	static const std::string kCompiler;
+
+protected:
+	/**
+	 * @brief Split the given string
+	 * 
+	 * @param string - the string to split
+	 * @param delimiter - the delimiter to use to split the string
+	 * @return std::vector<std::string> - a split string
+	 */
+	static std::vector<std::string> Split(std::string string, const std::string& delimiter);
 
 protected:
 	/**

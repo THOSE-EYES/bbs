@@ -38,5 +38,14 @@ struct Compiler
 	 * @param out - the file where to store the output
 	 */
 	virtual void Compile(const std::filesystem::path& file, const std::filesystem::path& out) = 0;
+
+	/**
+	 * @brief Get the dependencies of the file
+	 * 
+	 * @param file - the file to inspect
+	 * @return std::vector<std::filesystem::path> - a vector of dependencies
+	 */
+	virtual std::vector<std::filesystem::path>
+	GetDependencies(const std::filesystem::path& file) const = 0;
 };
 } // namespace sys::tools

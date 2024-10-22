@@ -27,14 +27,12 @@
 #endif
 // clang-format on
 
+#include <algorithm>
 #include <sstream>
 
-#include "sys/exceptions/compilationerrorexception.hpp"
+#include <iostream>
 
-namespace
-{
-const std::string kCompiler = "g++";
-}
+#include "sys/exceptions/compilationerrorexception.hpp"
 
 namespace sys::tools::compilers
 {
@@ -62,5 +60,63 @@ void GNUPlusPlus::Compile(const std::filesystem::path& file, const std::filesyst
 	{
 		throw exceptions::CompilationErrorException(file);
 	}
+}
+
+std::vector<std::filesystem::path>
+GNUPlusPlus::GetDependencies(const std::filesystem::path& file) const
+{
+	std::stringstream parameters;
+	parameters << kFlags << " -MM " << file.string();
+
+	// Add include directories
+	for(auto& directory : kDirectories)
+	{
+		parameters << " -I " << directory.string();
+	}
+
+	SystemCommand command{kCompiler, parameters.str()};
+	if(!command.Execute())
+	{
+		throw exceptions::CompilationErrorException(file);
+	}
+
+	// Clear the output from the unprintable symbols
+	auto output = command.GetOutput();
+	output.erase(
+		std::remove_if(output.begin(), output.end(), [](auto x) { return std::iscntrl(x); }),
+		output.end());
+
+	// Split the output into a vector of files
+	auto strings = Split(output, " ");
+	std::vector<std::filesystem::path> dependencies;
+	for(auto it = strings.begin() + 2; it != strings.end(); ++it)
+	{
+		dependencies.emplace_back(*it);
+	}
+	return dependencies;
+}
+
+std::vector<std::string> GNUPlusPlus::Split(std::string string, const std::string& delimiter)
+{
+	std::vector<std::string> tokens;
+
+	size_t pos = 0;
+	std::string token;
+	while((pos = string.find(delimiter)) != std::string::npos)
+	{
+		token = string.substr(0, pos);
+		if(!token.empty())
+		{
+			tokens.push_back(token);
+		}
+
+		string.erase(0, pos + delimiter.length());
+	}
+	if(!token.empty())
+	{
+		tokens.push_back(string);
+	}
+
+	return tokens;
 }
 } // namespace sys::tools::compilers

@@ -80,9 +80,8 @@ void Pipeline::Run() const
 			throw ::exceptions::FileNotFoundException(file);
 		}
 
-		const auto obj = folder / file.filename().replace_extension(".o");
-
 		// Add the object file name to the list of parameters
+		const auto obj = folder / file.filename().replace_extension(".o");
 		parameters << std::move(obj.string()) << " ";
 
 		compiler_->Compile(job_.GetProjectPath() / file, obj);

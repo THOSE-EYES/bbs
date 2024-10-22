@@ -70,15 +70,6 @@ public:
 
 protected:
 	/**
-	 * @brief Compile the given file
-	 * 
-	 * @param file - the source file to compile
-	 * @param out - the output
-	 */
-	void Compile(const std::filesystem::path& file, const std::filesystem::path& out) const;
-
-protected:
-	/**
 	 * @brief The associated job
 	 * 
 	 */

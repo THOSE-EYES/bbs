@@ -20,6 +20,7 @@
 #include "sys/nix/command.hpp"
 
 bool result{true};
+std::string output{};
 
 namespace sys::nix
 {
@@ -40,6 +41,6 @@ bool Command::Execute()
 
 std::string Command::GetOutput() const
 {
-	return {};
+	return output;
 }
 } // namespace sys::nix

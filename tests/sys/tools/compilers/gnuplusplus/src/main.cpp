@@ -23,6 +23,7 @@
 #include "sys/tools/compilers/gnuplusplus.hpp"
 
 extern bool result;
+extern std::string output;
 
 /**
  * @brief Check if the compilation fails and throws an exception, if the system command returns false
@@ -45,8 +46,27 @@ TEST(GNUPlusPlusTest, TestCompileFail)
  */
 TEST(GNUPlusPlusTest, TestCompileSuccess)
 {
+	const std::string dependency = "c.cpp";
+	output = "main.o: main.cpp " + dependency;
+
 	sys::tools::compilers::GNUPlusPlus compiler{"", std::vector<std::filesystem::path>{}};
 
 	const std::filesystem::path file{"main.cpp"};
 	EXPECT_NO_THROW(compiler.Compile(file, file));
+}
+
+/**
+ * @brief Check if the GetDependencies() method return the expected dependencies
+ * 
+ */
+TEST(GNUPlusPlusTest, TestGetDependencies)
+{
+	const std::string dependency = "c.cpp";
+	output = "main.o: main.cpp " + dependency;
+
+	sys::tools::compilers::GNUPlusPlus compiler{"", std::vector<std::filesystem::path>{}};
+
+	const std::filesystem::path file{"main.cpp"};
+	const auto dependencies = compiler.GetDependencies(file);
+	EXPECT_EQ(dependencies.at(0), std::filesystem::path{"c.cpp"});
 }
