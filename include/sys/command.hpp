@@ -34,5 +34,12 @@ public:
      * @return true if the command was run successfully, false otherwise
      */
 	virtual bool Execute() = 0;
+
+	/**
+      * @brief Get the output of the command
+      * 
+      * @return std::string - the output from the command
+      */
+	virtual std::string GetOutput() const = 0;
 };
 } // namespace sys

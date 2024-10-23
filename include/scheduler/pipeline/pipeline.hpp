@@ -23,6 +23,7 @@
 #include <queue>
 
 #include "scheduler/pipeline/job.hpp"
+#include "sys/tools/compiler.hpp"
 
 namespace scheduler::pipeline
 {
@@ -69,12 +70,44 @@ public:
 
 protected:
 	/**
-	 * @brief Compile the given file
+	 * @brief Run the compilation for the given files
 	 * 
-	 * @param file - the source file to compile
-	 * @param out - the output
+	 * @param folder - the folder where to store the output
+	 * @param files - a vector of files
+	 * @return std::vector<std::filesystem::path> - a vector of object files names
 	 */
-	void Compile(const std::filesystem::path& file, const std::filesystem::path& out) const;
+	std::vector<std::filesystem::path> Compile(const std::filesystem::path& folder,
+											   std::vector<std::filesystem::path> files) const;
+
+	/**
+	 * @brief Check if the object file is already compiled
+	 * 
+	 * @param file - the file to check
+	 * @param folder - the output folder of the program
+	 * @return true if the file has the newest object file compiled for it
+	 * @return false otherwise
+	 */
+	bool IsCompiled(const std::filesystem::path& file, const std::filesystem::path& folder) const;
+
+	/**
+	 * @brief Link everything into one executable
+	 * 
+	 * @param folder - the folder where to put the executable
+	 * @param files - the files to use
+	 */
+	void Link(const std::filesystem::path& folder, std::vector<std::filesystem::path> files) const;
+
+	/**
+	 * @brief Execute preprocessing commands
+	 * 
+	 */
+	void ExecutePreprocessingCommands() const;
+
+	/**
+	 * @brief Execute postprocessing commands
+	 * 
+	 */
+	void ExecutePostprocessingCommands() const;
 
 protected:
 	/**
@@ -82,5 +115,11 @@ protected:
 	 * 
 	 */
 	Job job_;
+
+	/**
+	 * @brief The compiler that is used in the pipeline
+	 * 
+	 */
+	std::unique_ptr<sys::tools::Compiler> compiler_;
 };
 } // namespace scheduler::pipeline

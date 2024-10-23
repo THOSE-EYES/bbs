@@ -31,8 +31,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 add_executable(${PROJECT_NAME} 
+    src/exceptions/filenotfoundexception.cpp
     src/lexer/exceptions/fileemptyexception.cpp
-    src/lexer/exceptions/filenotfoundexception.cpp
     src/lexer/exceptions/unexpectedlexemeexception.cpp
     src/lexer/handlers/handler.cpp
     src/lexer/handlers/operatorhandler.cpp
@@ -51,6 +51,7 @@ add_executable(${PROJECT_NAME}
     src/parser/states/keywords/cflags.cpp
     src/parser/states/keywords/deps.cpp
     src/parser/states/keywords/files.cpp
+    src/parser/states/keywords/inc.cpp
     src/parser/states/keywords/let.cpp
     src/parser/states/keywords/post.cpp
     src/parser/states/keywords/pre.cpp
@@ -67,7 +68,6 @@ add_executable(${PROJECT_NAME}
     src/parser/tokens/word.cpp
     src/parser/mediator.cpp
     src/parser/parser.cpp
-    src/scheduler/exceptions/compilationerrorexception.cpp
     src/scheduler/exceptions/linkerrorexception.cpp
     src/scheduler/exceptions/nofilesspecifiedexception.cpp
     src/scheduler/exceptions/postcompilationcommandexception.cpp
@@ -75,7 +75,11 @@ add_executable(${PROJECT_NAME}
     src/scheduler/pipeline/job.cpp
     src/scheduler/pipeline/pipeline.cpp
     src/scheduler/executor.cpp
+    src/sys/exceptions/compilationerrorexception.cpp
+    src/sys/exceptions/unsupportedcompilerexception.cpp
     src/sys/nix/command.cpp
+    src/sys/tools/compilers/gnuplusplus.cpp
+    src/sys/tools/compilerfactory.cpp
     src/utils/bufferedlogger.cpp
     src/utils/logger.cpp
     src/application.cpp

@@ -24,8 +24,8 @@ set(SOURCES
 )
 
 set(STUBS
+    ${STUBS_FOLDER}/exceptions/filenotfoundexception.cpp
     ${STUBS_FOLDER}/lexer/exceptions/fileemptyexception.cpp
-    ${STUBS_FOLDER}/lexer/exceptions/filenotfoundexception.cpp
     
     src/stubs/lexer/handlers/handler.cpp
     src/stubs/lexer/context.cpp

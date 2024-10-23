@@ -121,3 +121,15 @@ TEST_F(JobTest, TestSetPostCompilationCommands)
 
 	EXPECT_EQ(instance_.GetPostCompilationCommands(), commands);
 }
+
+/**
+ * @brief Check if the GetIncludeDirectories() method returns a reference to the correctly filled vector
+ * 
+ */
+TEST_F(JobTest, TestAddIncludeDirectory)
+{
+	const std::filesystem::path path{"some_path"};
+	instance_.AddIncludeDirectory(path);
+
+	EXPECT_EQ(instance_.GetIncludeDirectories().at(0), path);
+}

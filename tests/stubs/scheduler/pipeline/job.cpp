@@ -90,4 +90,14 @@ const std::vector<std::string>& Job::GetPostCompilationCommands() const
 {
 	return post_commands_;
 }
+
+void Job::AddIncludeDirectory(std::filesystem::path value)
+{
+	// noop
+}
+
+const std::vector<std::filesystem::path>& Job::GetIncludeDirectories() const
+{
+	return include_directories_;
+}
 } // namespace scheduler::pipeline

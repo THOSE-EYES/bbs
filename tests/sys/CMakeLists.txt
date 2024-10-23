@@ -17,4 +17,6 @@
 # under the License.
 #
 
+add_subdirectory(exceptions)
 add_subdirectory(nix)
+add_subdirectory(tools)

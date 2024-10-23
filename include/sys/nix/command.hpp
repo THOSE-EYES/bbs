@@ -55,11 +55,24 @@ public:
      */
 	bool Execute() override;
 
+	/**
+      * @brief Get the output of the command
+      * 
+      * @return std::string - the output from the command
+      */
+	std::string GetOutput() const override;
+
 protected:
 	/**
      * @brief The command
      * 
      */
 	const std::string command_;
+
+	/**
+      * @brief Command's output
+      * 
+      */
+	std::string output_;
 };
 } // namespace sys::nix

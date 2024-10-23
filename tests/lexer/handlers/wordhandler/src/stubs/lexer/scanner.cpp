@@ -19,7 +19,7 @@
 
 #include "lexer/scanner.hpp"
 
-#include "lexer/exceptions/filenotfoundexception.hpp"
+#include "exceptions/filenotfoundexception.hpp"
 
 namespace lexer
 {
@@ -28,7 +28,7 @@ Scanner::Scanner(const std::filesystem::path& path)
 	file_.open(path);
 	if(!file_.is_open())
 	{
-		throw exceptions::FileNotFoundException(path);
+		throw ::exceptions::FileNotFoundException(path);
 	}
 
 	// Get the first line from file and initialize the iterator

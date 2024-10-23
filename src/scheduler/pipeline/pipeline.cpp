@@ -27,29 +27,122 @@
 #endif
 // clang-format on
 
-#include "scheduler/exceptions/compilationerrorexception.hpp"
+#include "sys/tools/compilers/gnuplusplus.hpp" // FIXME: Will be hardcoded untill !cmplr keyword is introduced
+#include "exceptions/filenotfoundexception.hpp"
 #include "scheduler/exceptions/linkerrorexception.hpp"
 #include "scheduler/exceptions/nofilesspecifiedexception.hpp"
 #include "scheduler/exceptions/postcompilationcommandexception.hpp"
 #include "scheduler/exceptions/precompilationcommandexception.hpp"
+#include "sys/tools/compilerfactory.hpp"
 
 namespace scheduler::pipeline
 {
-namespace
-{
-const std::string kCompiler = "g++";
-}
-
 Pipeline::Pipeline(Job job)
 	: job_{std::move(job)}
-{}
+{
+	using namespace sys::tools;
+	using namespace sys::tools::compilers;
+
+	compiler_ = std::move(CompilerFactory::Create(GNUPlusPlus::kCompiler,
+												  job_.GetCompilationFlags(),
+												  std::move(job_.GetIncludeDirectories())));
+}
 
 void Pipeline::Run() const
 {
+	ExecutePreprocessingCommands();
+
 	// Create the directory for the output
 	const std::filesystem::path folder{job_.GetProjectName()};
 	std::filesystem::create_directory(folder);
 
+	// Check if the project contains files
+	auto files = job_.GetFiles();
+	if(files.empty())
+	{
+		throw exceptions::NoFilesSpecifiedException();
+	}
+
+	// Actually build the project
+	auto obj = Compile(folder, std::move(files));
+	Link(folder, std::move(obj));
+
+	ExecutePostprocessingCommands();
+}
+
+std::vector<std::filesystem::path> Pipeline::Compile(const std::filesystem::path& folder,
+													 std::vector<std::filesystem::path> files) const
+{
+	std::vector<std::filesystem::path> object_files{};
+	for(const auto& file : files)
+	{
+		// Check if the specified file exists
+		if(!std::filesystem::exists(file))
+		{
+			throw ::exceptions::FileNotFoundException(file);
+		}
+
+		// Add the object file name to the list of parameters
+		const auto obj = folder / file.filename().replace_extension(".o");
+		object_files.push_back(std::move(obj.string()));
+
+		// If the file was already built, skip the building process
+		if(IsCompiled(file, folder))
+		{
+			continue;
+		}
+
+		compiler_->Compile(job_.GetProjectPath() / file, obj);
+	}
+
+	return object_files;
+}
+
+bool Pipeline::IsCompiled(const std::filesystem::path& file,
+						  const std::filesystem::path& folder) const
+{
+	// Check if the object file is built or created after the file was updated
+	const auto obj = folder / file.filename().replace_extension(".o");
+	if(!std::filesystem::exists(obj) ||
+	   std::filesystem::last_write_time(file) > std::filesystem::last_write_time(obj))
+	{
+		return false;
+	}
+
+	const auto dependencies = compiler_->GetDependencies(file);
+	for(const auto& dependency : dependencies)
+	{
+		if(std::filesystem::last_write_time(obj) < std::filesystem::last_write_time(dependency))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void Pipeline::Link(const std::filesystem::path& folder,
+					std::vector<std::filesystem::path> files) const
+{
+	std::stringstream parameters{};
+	for(const auto& file : files)
+	{
+		parameters << file.string() << " ";
+	}
+
+	// Set the name of the executable
+	parameters << "-o" << (folder / job_.GetProjectName()).string();
+
+	// Link all the object files into the executable
+	Command command{sys::tools::compilers::GNUPlusPlus::kCompiler, parameters.str()};
+	if(!command.Execute())
+	{
+		throw exceptions::LinkErrorException(job_.GetProjectName());
+	}
+}
+
+void Pipeline::ExecutePreprocessingCommands() const
+{
 	// Execute pre-compilation commands
 	for(const auto& line : job_.GetPreCompilationCommands())
 	{
@@ -59,35 +152,10 @@ void Pipeline::Run() const
 			throw exceptions::PreCompilationCommandException(line);
 		}
 	}
+}
 
-	// Check if the project contains files
-	const auto& files = job_.GetFiles();
-	if(files.empty())
-	{
-		throw exceptions::NoFilesSpecifiedException();
-	}
-
-	std::stringstream parameters{};
-	for(const auto& file : files)
-	{
-		const auto obj = folder / file.filename().replace_extension(".o");
-
-		// Add the object file name to the list of parameters
-		parameters << std::move(obj.string()) << " ";
-
-		Compile(file, obj);
-	}
-
-	// Set the name of the executable
-	parameters << "-o" << (folder / job_.GetProjectName()).string();
-
-	// Link all the object files into the executable
-	Command command{kCompiler, parameters.str()};
-	if(!command.Execute())
-	{
-		throw exceptions::LinkErrorException(job_.GetProjectName());
-	}
-
+void Pipeline::ExecutePostprocessingCommands() const
+{
 	// Execute post-compilation commands
 	for(const auto& line : job_.GetPostCompilationCommands())
 	{
@@ -96,19 +164,6 @@ void Pipeline::Run() const
 		{
 			throw exceptions::PostCompilationCommandException(line);
 		}
-	}
-}
-
-void Pipeline::Compile(const std::filesystem::path& file, const std::filesystem::path& out) const
-{
-	std::stringstream parameters;
-	parameters << job_.GetCompilationFlags() << " -c " << (job_.GetProjectPath() / file).string()
-			   << " -o " << out.string();
-
-	Command command{kCompiler, parameters.str()};
-	if(!command.Execute())
-	{
-		throw exceptions::CompilationErrorException(file);
 	}
 }
 } // namespace scheduler::pipeline

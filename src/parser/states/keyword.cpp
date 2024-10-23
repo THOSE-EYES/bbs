@@ -24,6 +24,7 @@
 #include "parser/states/keywords/cflags.hpp"
 #include "parser/states/keywords/deps.hpp"
 #include "parser/states/keywords/files.hpp"
+#include "parser/states/keywords/inc.hpp"
 #include "parser/states/keywords/let.hpp"
 #include "parser/states/keywords/post.hpp"
 #include "parser/states/keywords/pre.hpp"
@@ -79,6 +80,11 @@ void Keyword::Process(lexer::Lexer& lexer)
 	else if(keyword == "let")
 	{
 		mediator_.SetState(std::make_unique<keywords::Let>(mediator_));
+		return;
+	}
+	else if(keyword == "inc")
+	{
+		mediator_.SetState(std::make_unique<keywords::Inc>(mediator_));
 		return;
 	}
 

@@ -21,9 +21,9 @@
 
 #include <gtest/gtest.h>
 
+#include "exceptions/filenotfoundexception.hpp"
 #include "fakes/lexer/scanner.hpp"
 #include "lexer/exceptions/fileemptyexception.hpp"
-#include "lexer/exceptions/filenotfoundexception.hpp"
 
 namespace original = lexer;
 namespace fake = fakes::lexer;
@@ -86,7 +86,7 @@ const fs::path ScannerTest::kFilePath{"build.bbs"};
 TEST(ScannerTestNoFixture, TestConstructorFileNotFound)
 {
 	const std::string filename{""};
-	EXPECT_THROW(fake::Scanner instance{filename}, original::exceptions::FileNotFoundException);
+	EXPECT_THROW(fake::Scanner instance{filename}, ::exceptions::FileNotFoundException);
 }
 
 /**
@@ -100,7 +100,7 @@ TEST(ScannerTestNoFixture, TestConstructorDirectory)
 	// Create a new directory
 	fs::create_directory(name);
 
-	EXPECT_THROW(fake::Scanner instance{name}, original::exceptions::FileNotFoundException);
+	EXPECT_THROW(fake::Scanner instance{name}, ::exceptions::FileNotFoundException);
 
 	// Remove the directory
 	fs::remove(name);

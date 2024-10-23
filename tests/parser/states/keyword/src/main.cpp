@@ -26,6 +26,7 @@
 #include "parser/parser.hpp"
 #include "parser/states/keywords/deps.hpp"
 #include "parser/states/keywords/files.hpp"
+#include "parser/states/keywords/inc.hpp"
 #include "parser/states/keywords/let.hpp"
 #include "parser/states/keywords/pre.hpp"
 #include "parser/states/keywords/project.hpp"
@@ -179,4 +180,20 @@ TEST_F(KeywordTest, TestProcessLetKeyword)
 
 	EXPECT_NO_THROW(instance_.Process(lexer));
 	EXPECT_TRUE(dynamic_cast<parser::states::keywords::Let*>(instance_.mediator_.GetState().get()));
+}
+
+/**
+ * @brief Check if the Process() method correctly handles the "!inc" keyword
+ * 
+ */
+TEST_F(KeywordTest, TestProcessIncKeyword)
+{
+	std::vector<std::unique_ptr<Token>> tokens{};
+	tokens.emplace_back(std::make_unique<Word>("inc"));
+
+	auto handler = std::make_unique<handlers::DummyHandler>(std::move(tokens));
+	fakes::lexer::Lexer lexer{kFilePath, std::move(handler)};
+
+	EXPECT_NO_THROW(instance_.Process(lexer));
+	EXPECT_TRUE(dynamic_cast<parser::states::keywords::Inc*>(instance_.mediator_.GetState().get()));
 }

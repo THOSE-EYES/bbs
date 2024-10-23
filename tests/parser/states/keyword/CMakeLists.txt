@@ -32,6 +32,7 @@ set(STUBS
     ${STUBS_FOLDER}/parser/states/keywords/cflags.cpp
     ${STUBS_FOLDER}/parser/states/keywords/deps.cpp
     ${STUBS_FOLDER}/parser/states/keywords/files.cpp
+    ${STUBS_FOLDER}/parser/states/keywords/inc.cpp
     ${STUBS_FOLDER}/parser/states/keywords/let.cpp
     ${STUBS_FOLDER}/parser/states/keywords/pre.cpp
     ${STUBS_FOLDER}/parser/states/keywords/post.cpp

@@ -36,9 +36,4 @@ void Pipeline::Run() const
 		throw exceptions::LinkErrorException("");
 	}
 }
-
-void Pipeline::Compile(const std::filesystem::path& file, const std::filesystem::path& out) const
-{
-	// noop
-}
 } // namespace scheduler::pipeline
