@@ -85,3 +85,5 @@ add_executable(${PROJECT_NAME}
     src/application.cpp
     src/main.cpp
 )
+
+install(TARGETS ${PROJECT_NAME})
