@@ -28,7 +28,7 @@
 #include "parser/tokens/separator.hpp"
 #include "parser/tokens/word.hpp"
 
-#include "aux/handlers/dummyhandler.hpp"
+#include "auxillary/handlers/dummyhandler.hpp"
 #include "fakes/lexer/lexer.hpp"
 
 namespace fs = std::filesystem;

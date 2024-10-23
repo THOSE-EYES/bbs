@@ -26,7 +26,7 @@
 #include "parser/states/keyword.hpp"
 #include "parser/tokens/word.hpp"
 
-#include "aux/handlers/dummyhandler.hpp"
+#include "auxillary/handlers/dummyhandler.hpp"
 #include "fakes/lexer/lexer.hpp"
 #include "fakes/parser/parser.hpp"
 #include "fakes/parser/states/statement.hpp"
