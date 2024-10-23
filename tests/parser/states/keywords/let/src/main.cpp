@@ -21,7 +21,7 @@
 
 #include <filesystem>
 
-#include "aux/handlers/dummyhandler.hpp"
+#include "auxillary/handlers/dummyhandler.hpp"
 #include "fakes/lexer/lexer.hpp"
 #include "lexer/lexer.hpp"
 #include "parser/exceptions/unexpectedtokenexception.hpp"
